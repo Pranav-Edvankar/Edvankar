@@ -6,6 +6,7 @@ import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, ChevronDown, X } from "lucide-react";
 import { PROJECTS_DATA, CLUSTERS, CaseStudy } from "@/data/projects";
+import { ExtrudedHeroHeading } from "@/components/ExtrudedHeroHeading";
 
 /* ─── Paperclip SVG ─── */
 function Paperclip({ className = "" }: { className?: string }) {
@@ -239,9 +240,7 @@ export default function HomePage() {
               className="pt-20 pb-16 md:pt-32 md:pb-24"
             >
               <div className="space-y-6 max-w-5xl">
-                <h1 className="font-display text-6xl sm:text-8xl md:text-[9rem] lg:text-[11rem] leading-[0.88] uppercase tracking-tight text-light">
-                  PRANAV EDVANKAR
-                </h1>
+                <ExtrudedHeroHeading />
                 <p className="font-serif text-lg md:text-2xl text-muted leading-relaxed max-w-3xl italic">
                   A project exploring end-to-end product design, enterprise UX research, and scalable design systems — bridging Figma craft with Flutter & React development reality.
                 </p>
