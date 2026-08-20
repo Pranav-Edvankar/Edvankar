@@ -18,6 +18,8 @@ export interface CaseStudy {
   subtitle: string;
   cluster: "product" | "brand" | "freelance" | "research";
   clusterLabel: string;
+  categoryColor: string;
+  textColor?: string;
   dossierNumber: string;
   year: string;
   role: string;
@@ -37,6 +39,13 @@ export interface CaseStudy {
   prevTitle?: string;
 }
 
+export const CATEGORY_COLORS = {
+  product: "#2E5EFF",   // Blue
+  brand: "#E63946",     // Red
+  freelance: "#F4C430", // Yellow
+  research: "#7B2CBF",  // Purple
+};
+
 export const PROJECTS_DATA: Record<string, CaseStudy> = {
   qwikamp: {
     slug: "qwikamp",
@@ -44,6 +53,7 @@ export const PROJECTS_DATA: Record<string, CaseStudy> = {
     subtitle: "Doorstep Bicycle Servicing & Retail Mobile Application",
     cluster: "product",
     clusterLabel: "Product Design & UX Systems",
+    categoryColor: "#2E5EFF",
     dossierNumber: "DOSSIER-01",
     year: "2026",
     role: "Lead UI/UX Designer & Systems Specialist",
@@ -136,6 +146,7 @@ export const PROJECTS_DATA: Record<string, CaseStudy> = {
     subtitle: "Next-Generation Wealth & Retail Banking Dashboard",
     cluster: "product",
     clusterLabel: "Product Design & UX Systems",
+    categoryColor: "#2E5EFF",
     dossierNumber: "DOSSIER-02",
     year: "2025",
     role: "Product Designer & UX Architect",
@@ -207,6 +218,7 @@ export const PROJECTS_DATA: Record<string, CaseStudy> = {
     subtitle: "Brand Identity & Urban Outdoor Exploration Platform",
     cluster: "brand",
     clusterLabel: "Brand & Visual Identity",
+    categoryColor: "#E63946",
     dossierNumber: "DOSSIER-03",
     year: "2025",
     role: "Brand & UX Designer",
@@ -277,6 +289,7 @@ export const PROJECTS_DATA: Record<string, CaseStudy> = {
     subtitle: "Visual Identity & Design System (Lekeamp Internship)",
     cluster: "brand",
     clusterLabel: "Brand & Visual Identity",
+    categoryColor: "#E63946",
     dossierNumber: "DOSSIER-04",
     year: "2025",
     role: "Visual Identity & Design System Intern",
@@ -332,6 +345,7 @@ export const PROJECTS_DATA: Record<string, CaseStudy> = {
     subtitle: "Luxury E-Commerce Shopify Homepage & Brand Storefront",
     cluster: "freelance",
     clusterLabel: "Client & Freelance Work",
+    categoryColor: "#F4C430",
     dossierNumber: "DOSSIER-05",
     year: "2025–2026",
     role: "Lead E-Commerce UI/UX Designer",
@@ -402,6 +416,7 @@ export const PROJECTS_DATA: Record<string, CaseStudy> = {
     subtitle: "Neo-Brutalist & Monochrome Brand Identities",
     cluster: "freelance",
     clusterLabel: "Client & Freelance Work",
+    categoryColor: "#F4C430",
     dossierNumber: "DOSSIER-06",
     year: "2024–2026",
     role: "Freelance UI/UX & Brand Specialist",
@@ -457,6 +472,7 @@ export const PROJECTS_DATA: Record<string, CaseStudy> = {
     subtitle: "Competitor Research, 50-Respondent Survey & Ethnographic Study",
     cluster: "research",
     clusterLabel: "Research & Enterprise UX",
+    categoryColor: "#7B2CBF",
     dossierNumber: "DOSSIER-07",
     year: "2025",
     role: "Enterprise UX Researcher & Product Strategist",
@@ -526,32 +542,36 @@ export const PROJECTS_DATA: Record<string, CaseStudy> = {
 export const CLUSTERS = [
   {
     id: "product",
-    tag: "FILED UNDER: 01 / PRODUCT DESIGN & UX SYSTEMS",
+    tag: "PRODUCT DESIGN & UX SYSTEMS",
     title: "Product Design & UX Systems",
+    color: "#2E5EFF",
     description:
       "Structuring end-to-end mobile applications and multi-platform service ecosystems. Grounded in user mental models, task flow efficiency, and scalable design component architectures.",
     projectSlugs: ["qwikamp", "fintech-banking"]
   },
   {
     id: "brand",
-    tag: "FILED UNDER: 02 / BRAND & VISUAL IDENTITY",
+    tag: "BRAND & VISUAL IDENTITY",
     title: "Brand & Visual Identity",
+    color: "#E63946",
     description:
       "Constructing cohesive visual identities, typographic systems, and brand toolkits that bridge digital interfaces with physical and strategic brand presence.",
     projectSlugs: ["step-out", "nivora"]
   },
   {
     id: "freelance",
-    tag: "FILED UNDER: 03 / CLIENT & FREELANCE WORK",
+    tag: "CLIENT & FREELANCE WORK",
     title: "Client & Freelance Work",
+    color: "#F4C430",
     description:
       "Direct client engagement, rapid prototyping, e-commerce storefront optimization, and neo-brutalist digital design solutions tailored for commercial impact.",
     projectSlugs: ["aurelle", "fiverr-freelance"]
   },
   {
     id: "research",
-    tag: "FILED UNDER: 04 / RESEARCH & ENTERPRISE UX",
+    tag: "RESEARCH & ENTERPRISE UX",
     title: "Research & Enterprise UX",
+    color: "#7B2CBF",
     description:
       "Methodical UX research, qualitative inquiry, quantitative survey synthesis, and ethnographic observation applied to complex financial and enterprise workflows.",
     projectSlugs: ["lloyds-ux"]

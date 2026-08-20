@@ -1,19 +1,20 @@
 import type { Metadata } from "next";
-import { Newsreader, Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
+import { Anton, Lora, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { ArchiveHeader } from "@/components/ArchiveHeader";
 import { ArchiveFooter } from "@/components/ArchiveFooter";
 
-const newsreader = Newsreader({
+const anton = Anton({
+  weight: "400",
   subsets: ["latin"],
-  style: ["normal", "italic"],
-  variable: "--font-serif",
+  variable: "--font-anton",
   display: "swap",
 });
 
-const plusJakarta = Plus_Jakarta_Sans({
+const lora = Lora({
   subsets: ["latin"],
-  variable: "--font-sans",
+  style: ["normal", "italic"],
+  variable: "--font-lora",
   display: "swap",
 });
 
@@ -24,27 +25,9 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Pranav Edvankar — UI/UX Designer & Research Archive",
+  title: "PRANAV EDVANKAR — UI/UX Designer Scrapbook & Dossier",
   description:
-    "Personal design archive and portfolio of Pranav Edvankar. End-to-end product design, research-driven UX systems, and Flutter/React implementation.",
-  keywords: [
-    "Pranav Edvankar",
-    "UI UX Designer",
-    "Product Design Portfolio",
-    "UX Research Archive",
-    "Flutter Developer",
-    "Design Systems",
-    "Mumbai UX Designer"
-  ],
-  authors: [{ name: "Pranav Edvankar" }],
-  openGraph: {
-    title: "Pranav Edvankar — Research Archive & Dossier",
-    description:
-      "Quiet, intentional product design & research archive. Specializing in mobile apps, design systems, and financial interfaces.",
-    type: "website",
-    locale: "en_US",
-    siteName: "Pranav Edvankar Archive"
-  }
+    "Dark-themed research archive & scrapbook dossier of Pranav Edvankar. Product design, enterprise research, and Flutter/React development.",
 };
 
 export default function RootLayout({
@@ -55,11 +38,11 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${newsreader.variable} ${plusJakarta.variable} ${jetbrainsMono.variable} h-full antialiased`}
+      className={`${anton.variable} ${lora.variable} ${jetbrainsMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-[#F5F3EE] text-[#1A1A18]">
+      <body className="min-h-full flex flex-col bg-dark text-light font-serif selection:bg-catYellow selection:text-dark">
         <ArchiveHeader />
-        <main className="flex-1 pt-24 md:pt-32">{children}</main>
+        <main className="flex-1 pt-20 md:pt-24">{children}</main>
         <ArchiveFooter />
       </body>
     </html>
