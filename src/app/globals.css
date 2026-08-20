@@ -1,0 +1,107 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --bg-paper: #F5F3EE;
+    --bg-paper-card: #EFECE4;
+    --bg-paper-dark: #1A1A18;
+    --text-ink: #1A1A18;
+    --text-ink-muted: #5E5D57;
+    --text-paper-light: #F0ECE1;
+    --border-paper: #DCD7C9;
+    --border-paper-light: #E7E3D7;
+    --accent-rust: #8C3A27;
+    --accent-rust-hover: #A8452F;
+    --accent-ochre: #B87228;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    background-color: var(--bg-paper);
+    color: var(--text-ink);
+  }
+
+  body {
+    background-color: var(--bg-paper);
+    color: var(--text-ink);
+    font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    selection-background-color: #8C3A27;
+    selection-color: #FFFFFF;
+  }
+
+  ::selection {
+    background: #8C3A27;
+    color: #FFFFFF;
+  }
+}
+
+/* Archival Grid & Background Lines Pattern */
+.bg-archive-grid {
+  background-size: 40px 40px;
+  background-image: 
+    linear-gradient(to right, rgba(220, 215, 201, 0.35) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(220, 215, 201, 0.35) 1px, transparent 1px);
+}
+
+.bg-archive-dots {
+  background-image: radial-gradient(rgba(26, 26, 24, 0.12) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* Serif Display Utility */
+.font-editorial {
+  font-family: var(--font-serif), Georgia, serif;
+}
+
+.font-archive-mono {
+  font-family: var(--font-mono), monospace;
+}
+
+/* Archival Stamp & Tag Badges */
+.archive-tag {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-ink-muted);
+}
+
+.archive-stamp {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.6rem;
+  border: 1px solid var(--border-paper);
+  background-color: rgba(239, 236, 228, 0.6);
+  font-family: var(--font-mono), monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.archive-stamp-rust {
+  border-color: rgba(140, 58, 39, 0.3);
+  color: var(--accent-rust);
+  background-color: rgba(140, 58, 39, 0.05);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: #F5F3EE;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #D4CEBC;
+  border-radius: 0px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #8C3A27;
+}
