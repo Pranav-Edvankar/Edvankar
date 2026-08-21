@@ -329,6 +329,13 @@ export default function HomePage() {
 
                   const projectPreview = PROJECTS_DATA[activeSlug];
 
+                  const isLastCluster = clusterIdx === CLUSTERS.length - 1;
+                  const folderHeight = isExpanded
+                    ? isLastCluster
+                      ? "680px"
+                      : "450px"
+                    : "44px";
+
                   return (
                     <motion.div
                       key={cluster.id}
@@ -379,12 +386,12 @@ export default function HomePage() {
                       <motion.div
                         onClick={() => setOpenProject(cluster.projectSlugs[0])}
                         animate={{
-                          height: isExpanded ? "280px" : "44px",
+                          height: folderHeight,
                           paddingTop: isExpanded ? 24 : 10,
                           paddingBottom: isExpanded ? 28 : 10,
                         }}
                         transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-                        className="w-full relative overflow-hidden px-6 md:px-12 flex flex-col justify-between"
+                        className="w-full relative overflow-hidden px-6 md:px-12 flex flex-col justify-start"
                         style={{
                           backgroundColor: cluster.color,
                           color: "#0A0A0A",
@@ -394,7 +401,7 @@ export default function HomePage() {
                         }}
                       >
                         {/* Right-aligned category label header */}
-                        <div className="flex items-center justify-end gap-2 font-mono text-xs md:text-sm font-bold uppercase tracking-widest opacity-90 h-6">
+                        <div className="flex items-center justify-end gap-2 font-mono text-xs md:text-sm font-bold uppercase tracking-widest opacity-90 h-6 shrink-0">
                           <span>{cluster.tag}</span>
                           <span className="text-sm font-extrabold">{isExpanded ? "∨" : "<"}</span>
                         </div>
@@ -407,7 +414,7 @@ export default function HomePage() {
                               animate={{ opacity: 1, y: 0 }}
                               exit={{ opacity: 0, y: -6 }}
                               transition={{ duration: 0.25 }}
-                              className="mt-6 max-w-3xl flex-1 flex flex-col justify-center"
+                              className="mt-3 max-w-3xl flex flex-col justify-start"
                             >
                               <p className="font-mono text-sm md:text-base leading-relaxed opacity-90 font-medium">
                                 {cluster.description}
