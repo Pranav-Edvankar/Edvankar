@@ -15,15 +15,64 @@ function Paperclip({ className = "" }: { className?: string }) {
   );
 }
 
+/* ─── Dossier Technical Stamps / Compass SVGs ─── */
+function DossierStamps() {
+  return (
+    <div className="flex items-center gap-6 md:gap-10 opacity-75 pt-10 select-none">
+      {/* North Compass Arrow 1 */}
+      <svg className="w-7 h-7 md:w-9 md:h-9 text-current" viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.5">
+        <circle cx="16" cy="16" r="13" />
+        <path d="M16 5 L20 16 L16 13 L12 16 Z" fill="currentColor" />
+        <text x="14" y="9" fontSize="5" fontWeight="bold" fill="currentColor">N</text>
+      </svg>
+      {/* Stamp Dial 2 */}
+      <svg className="w-7 h-7 md:w-9 md:h-9 text-current" viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.5">
+        <circle cx="16" cy="16" r="12" strokeDasharray="2 2" />
+        <polygon points="16,6 24,24 8,24" />
+      </svg>
+      {/* North Arrow 3 */}
+      <svg className="w-7 h-7 md:w-9 md:h-9 text-current" viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.5">
+        <path d="M6 26 L26 6" />
+        <path d="M18 6 L26 6 L26 14" />
+        <text x="8" y="14" fontSize="6" fontWeight="bold" fill="currentColor">N</text>
+      </svg>
+      {/* Grid Globe 4 */}
+      <svg className="w-7 h-7 md:w-9 md:h-9 text-current" viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.5">
+        <circle cx="16" cy="16" r="13" />
+        <ellipse cx="16" cy="16" rx="6" ry="13" />
+        <line x1="3" y1="16" x2="29" y2="16" />
+      </svg>
+      {/* Dial Wheel 5 */}
+      <svg className="w-7 h-7 md:w-9 md:h-9 text-current" viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.5">
+        <circle cx="16" cy="16" r="12" />
+        <line x1="4" y1="16" x2="28" y2="16" />
+      </svg>
+      {/* Drafting Compass 6 */}
+      <svg className="w-7 h-7 md:w-9 md:h-9 text-current" viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.5">
+        <path d="M16 4 L6 28 M16 4 L26 28" />
+        <line x1="9" y1="20" x2="23" y2="20" />
+        <circle cx="16" cy="4" r="2" fill="currentColor" />
+      </svg>
+      {/* Technical Stamp 7 */}
+      <svg className="w-7 h-7 md:w-9 md:h-9 text-current" viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.5">
+        <rect x="5" y="5" width="22" height="22" strokeDasharray="3 2" />
+        <circle cx="16" cy="16" r="7" />
+      </svg>
+    </div>
+  );
+}
+
 /* ─── Scalloped Folder Tab (Horizontal) ─── */
 function FolderTabH({
   title,
   color,
   onClick,
+  onMouseEnter,
 }: {
   title: string;
   color: string;
   onClick: () => void;
+  onMouseEnter?: () => void;
 }) {
   return (
     <button
@@ -31,6 +80,7 @@ function FolderTabH({
         e.stopPropagation();
         onClick();
       }}
+      onMouseEnter={onMouseEnter}
       className="relative cursor-pointer focus:outline-none block group"
     >
       <svg
@@ -192,6 +242,7 @@ function ProjectPaperCard({ project }: { project: CaseStudy }) {
 export default function HomePage() {
   const [openProject, setOpenProject] = useState<string | null>(null);
   const [hoveredCluster, setHoveredCluster] = useState<string | null>(null);
+  const [hoveredProjectSlug, setHoveredProjectSlug] = useState<string | null>(null);
   const folderRef = useRef<HTMLDivElement>(null);
 
   const activeProject = openProject ? PROJECTS_DATA[openProject] : null;
@@ -264,16 +315,38 @@ export default function HomePage() {
               >
                 {CLUSTERS.map((cluster, clusterIdx) => {
                   const isHovered = hoveredCluster === cluster.id;
-                  const zIndex = (CLUSTERS.length - clusterIdx) * 10;
+                  const isExpanded =
+                    hoveredCluster !== null
+                      ? isHovered
+                      : clusterIdx === CLUSTERS.length - 1;
+                  const zIndex = (clusterIdx + 1) * 10;
+
+                  // Determine active project preview for expanded view
+                  const activeSlug =
+                    hoveredProjectSlug && cluster.projectSlugs.includes(hoveredProjectSlug)
+                      ? hoveredProjectSlug
+                      : cluster.projectSlugs[0];
+
+                  const projectPreview = PROJECTS_DATA[activeSlug];
 
                   return (
                     <motion.div
                       key={cluster.id}
-                      onMouseEnter={() => setHoveredCluster(cluster.id)}
-                      onMouseLeave={() => setHoveredCluster(null)}
+                      onMouseEnter={() => {
+                        setHoveredCluster(cluster.id);
+                        if (!hoveredProjectSlug || !cluster.projectSlugs.includes(hoveredProjectSlug)) {
+                          setHoveredProjectSlug(cluster.projectSlugs[0]);
+                        }
+                      }}
+                      onMouseLeave={() => {
+                        setHoveredCluster(null);
+                        setHoveredProjectSlug(null);
+                      }}
                       animate={{ y: isHovered ? -3 : 0 }}
                       transition={{ duration: 0.2, ease: "easeOut" }}
-                      className="relative cursor-pointer"
+                      className={`relative cursor-pointer ${
+                        clusterIdx > 0 ? "-mt-[44px] md:-mt-[52px]" : ""
+                      }`}
                       style={{ zIndex }}
                     >
                       {/* Folder tabs sitting seamlessly on top edge with clean spacing */}
@@ -292,59 +365,56 @@ export default function HomePage() {
                                 title={project.title}
                                 color={cluster.color}
                                 onClick={() => setOpenProject(slug)}
+                                onMouseEnter={() => {
+                                  setHoveredCluster(cluster.id);
+                                  setHoveredProjectSlug(slug);
+                                }}
                               />
                             </div>
                           );
                         })}
                       </div>
 
-                      {/* Folder Body (Substantial Height & Dossier Cover Layout) */}
+                      {/* Folder Body (Mosby Dossier Layout) */}
                       <motion.div
                         onClick={() => setOpenProject(cluster.projectSlugs[0])}
                         animate={{
-                          height: isHovered ? "auto" : "115px",
-                          paddingTop: isHovered ? 24 : 20,
-                          paddingBottom: isHovered ? 24 : 20,
+                          height: isExpanded ? "280px" : "44px",
+                          paddingTop: isExpanded ? 24 : 10,
+                          paddingBottom: isExpanded ? 28 : 10,
                         }}
-                        transition={{ duration: 0.35, ease: "easeOut" }}
-                        className="w-full relative overflow-hidden px-6 md:px-10 flex flex-col justify-between"
+                        transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                        className="w-full relative overflow-hidden px-6 md:px-12 flex flex-col justify-between"
                         style={{
                           backgroundColor: cluster.color,
                           color: "#0A0A0A",
-                          boxShadow: isHovered
+                          boxShadow: isExpanded
                             ? "0 14px 40px rgba(0,0,0,0.45)"
-                            : "0 4px 15px rgba(0,0,0,0.25)",
+                            : "0 2px 10px rgba(0,0,0,0.2)",
                         }}
                       >
-                        {/* Header Row: Dossier Tag + Project Count + Category Title + Chevron */}
-                        <div className="flex items-center justify-between font-mono text-xs md:text-sm font-bold uppercase tracking-widest opacity-90">
-                          <div className="flex items-center gap-3">
-                            <span className="bg-black/10 px-2.5 py-0.5 rounded text-[0.65rem] md:text-xs">
-                              CAT-0{clusterIdx + 1}
-                            </span>
-                            <span className="hidden sm:inline opacity-70 text-[0.65rem] md:text-xs">
-                              {cluster.projectSlugs.length}{" "}
-                              {cluster.projectSlugs.length === 1
-                                ? "PROJECT"
-                                : "PROJECTS"}
-                            </span>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <span>{cluster.tag}</span>
-                            <ChevronDown
-                              className={`w-4 h-4 transition-transform duration-300 ${
-                                isHovered ? "rotate-0" : "-rotate-90"
-                              }`}
-                            />
-                          </div>
+                        {/* Right-aligned category label header */}
+                        <div className="flex items-center justify-end gap-2 font-mono text-xs md:text-sm font-bold uppercase tracking-widest opacity-90 h-6">
+                          <span>{cluster.tag}</span>
+                          <span className="text-sm font-extrabold">{isExpanded ? "∨" : "<"}</span>
                         </div>
 
-                        {/* Folder Overview Content */}
-                        <div className="mt-3">
-                          <p className="font-mono text-xs md:text-sm leading-relaxed max-w-2xl opacity-80">
-                            {cluster.description}
-                          </p>
-                        </div>
+                        {/* Category Overview Description on expansion */}
+                        <AnimatePresence>
+                          {isExpanded && (
+                            <motion.div
+                              initial={{ opacity: 0, y: -6 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              exit={{ opacity: 0, y: -6 }}
+                              transition={{ duration: 0.25 }}
+                              className="mt-6 max-w-3xl flex-1 flex flex-col justify-center"
+                            >
+                              <p className="font-mono text-sm md:text-base leading-relaxed opacity-90 font-medium">
+                                {cluster.description}
+                              </p>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
                       </motion.div>
                     </motion.div>
                   );
