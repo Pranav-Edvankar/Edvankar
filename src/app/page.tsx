@@ -298,48 +298,53 @@ export default function HomePage() {
                         })}
                       </div>
 
-                      {/* Ribbon band */}
+                      {/* Folder Body (Substantial Height & Dossier Cover Layout) */}
                       <motion.div
                         onClick={() => setOpenProject(cluster.projectSlugs[0])}
                         animate={{
-                          height: isHovered ? "auto" : "56px",
-                          paddingTop: isHovered ? 24 : 16,
-                          paddingBottom: isHovered ? 24 : 16,
+                          height: isHovered ? "auto" : "115px",
+                          paddingTop: isHovered ? 24 : 20,
+                          paddingBottom: isHovered ? 24 : 20,
                         }}
                         transition={{ duration: 0.35, ease: "easeOut" }}
-                        className="w-full relative overflow-hidden px-6 md:px-10"
+                        className="w-full relative overflow-hidden px-6 md:px-10 flex flex-col justify-between"
                         style={{
                           backgroundColor: cluster.color,
                           color: "#0A0A0A",
                           boxShadow: isHovered
-                            ? "0 10px 30px rgba(0,0,0,0.4)"
-                            : "0 2px 10px rgba(0,0,0,0.2)",
+                            ? "0 14px 40px rgba(0,0,0,0.45)"
+                            : "0 4px 15px rgba(0,0,0,0.25)",
                         }}
                       >
-                        {/* Right-aligned category label */}
-                        <div className="flex items-center justify-end gap-2 font-mono text-xs md:text-sm font-bold uppercase tracking-widest opacity-80">
-                          <span>{cluster.tag}</span>
-                          <ChevronDown
-                            className={`w-4 h-4 transition-transform duration-300 ${
-                              isHovered ? "rotate-0" : "-rotate-90"
-                            }`}
-                          />
+                        {/* Header Row: Dossier Tag + Project Count + Category Title + Chevron */}
+                        <div className="flex items-center justify-between font-mono text-xs md:text-sm font-bold uppercase tracking-widest opacity-90">
+                          <div className="flex items-center gap-3">
+                            <span className="bg-black/10 px-2.5 py-0.5 rounded text-[0.65rem] md:text-xs">
+                              CAT-0{clusterIdx + 1}
+                            </span>
+                            <span className="hidden sm:inline opacity-70 text-[0.65rem] md:text-xs">
+                              {cluster.projectSlugs.length}{" "}
+                              {cluster.projectSlugs.length === 1
+                                ? "PROJECT"
+                                : "PROJECTS"}
+                            </span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <span>{cluster.tag}</span>
+                            <ChevronDown
+                              className={`w-4 h-4 transition-transform duration-300 ${
+                                isHovered ? "rotate-0" : "-rotate-90"
+                              }`}
+                            />
+                          </div>
                         </div>
 
-                        {/* Description on hover expand */}
-                        <AnimatePresence>
-                          {isHovered && (
-                            <motion.p
-                              initial={{ opacity: 0, y: -10 }}
-                              animate={{ opacity: 1, y: 0 }}
-                              exit={{ opacity: 0, y: -10 }}
-                              transition={{ duration: 0.25 }}
-                              className="font-mono text-xs md:text-sm leading-relaxed max-w-xl mt-4 opacity-80"
-                            >
-                              {cluster.description}
-                            </motion.p>
-                          )}
-                        </AnimatePresence>
+                        {/* Folder Overview Content */}
+                        <div className="mt-3">
+                          <p className="font-mono text-xs md:text-sm leading-relaxed max-w-2xl opacity-80">
+                            {cluster.description}
+                          </p>
+                        </div>
                       </motion.div>
                     </motion.div>
                   );
