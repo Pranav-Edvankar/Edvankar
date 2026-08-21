@@ -8,7 +8,7 @@ interface ExtrudedHeroHeadingProps {
   className?: string;
 }
 
-// 7 distinct physical extrusion layers with deeper, stretched base depths (up to 44px).
+// 7 distinct physical extrusion layers with progressive base depths (up to 44px).
 const LAYER_CONFIGS = [
   { depth: 4.0,  color: "#ECE8DF", stroke: "rgba(0,0,0,0.15)" },
   { depth: 9.0,  color: "#D7D2C3", stroke: "rgba(0,0,0,0.18)" },
@@ -28,7 +28,7 @@ export function ExtrudedHeroHeading({
   const charRefs = useRef<{ [key: number]: HTMLSpanElement | null }>({});
   const shouldReduceMotion = useReducedMotion();
 
-  // Track global cursor position
+  // Track cursor position
   const handleMouseMove = useCallback((e: React.MouseEvent) => {
     setMousePos({ x: e.clientX, y: e.clientY });
   }, []);
@@ -44,7 +44,7 @@ export function ExtrudedHeroHeading({
   return (
     <div
       ref={containerRef}
-      className="relative inline-block cursor-pointer select-none group focus:outline-none"
+      className="relative inline-block cursor-pointer select-none group focus:outline-none p-12 -m-12"
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       tabIndex={0}
@@ -81,19 +81,21 @@ export function ExtrudedHeroHeading({
                   dirX = dx / dist;
                   dirY = dy / dist;
 
-                  // Continuous spatial proximity curve with wide 160px influence radius:
-                  // 1.0 at hovered letter center, smoothly 0.5 at adjacent letter (~80px), 0 at >160px
-                  const radius = 160;
+                  // Wide magnetic attraction field (300px radius around each letter)
+                  // Magnetizes letters even when cursor is in the empty space surrounding the text
+                  const radius = 300;
                   if (dist < radius) {
                     const norm = dist / radius;
                     influence = 0.5 * (1 + Math.cos(norm * Math.PI));
                   }
 
-                  // Enhanced magnetic pull vector pulling letter towards cursor
-                  const maxMagneticDist = 24;
-                  magX = dirX * Math.min(dist, maxMagneticDist) * influence * 0.75;
-                  magY = dirY * Math.min(dist, maxMagneticDist) * influence * 0.75;
+                  // Amplified magnetic pull vector reaching toward cursor (up to 48px displacement)
+                  const maxMagneticDist = 48;
+                  magX = dirX * Math.min(dist, maxMagneticDist) * influence * 0.95;
+                  magY = dirY * Math.min(dist, maxMagneticDist) * influence * 0.95;
                 }
+
+                const isLetterActive = mousePos !== null && influence > 0.001;
 
                 return (
                   <span
@@ -103,17 +105,17 @@ export function ExtrudedHeroHeading({
                     }}
                     className="relative inline-block"
                   >
-                    {/* ── 7 Extrusion Layers (Deeper Stretched Extrusion) ── */}
+                    {/* ── 7 Extrusion Layers (Wide Field Magnetic Extrusion) ── */}
                     {!shouldReduceMotion &&
                       LAYER_CONFIGS.map((layer, layerIndex) => {
                         const effectiveDepth = layer.depth * influence;
-                        const layerOffsetX = magX + dirX * effectiveDepth;
-                        const layerOffsetY = magY + dirY * effectiveDepth;
+                        const layerOffsetX = isLetterActive ? magX + dirX * effectiveDepth : 0;
+                        const layerOffsetY = isLetterActive ? magY + dirY * effectiveDepth : 0;
 
-                        // Fluid elastic spring physics for stretched layer trailing
-                        const springStiffness = 220 - layerIndex * 12;
-                        const springDamping = 20 + layerIndex * 1.0;
-                        const springMass = 0.55 + layerIndex * 0.08;
+                        // Fast tracking when active, slow motion spring when settling back (~700ms)
+                        const springStiffness = isLetterActive ? (220 - layerIndex * 12) : (55 - layerIndex * 3);
+                        const springDamping = isLetterActive ? (20 + layerIndex * 1.0) : (14 + layerIndex * 0.8);
+                        const springMass = isLetterActive ? (0.55 + layerIndex * 0.08) : (0.95 + layerIndex * 0.12);
 
                         return (
                           <motion.span
@@ -131,29 +133,21 @@ export function ExtrudedHeroHeading({
                             animate={{
                               x: layerOffsetX,
                               y: layerOffsetY,
-                              opacity: influence > 0.01 ? 1 : 0,
+                              opacity: isLetterActive ? 1 : 0,
                             }}
-                            transition={
-                              influence > 0.01
-                                ? {
-                                    type: "spring",
-                                    stiffness: springStiffness,
-                                    damping: springDamping,
-                                    mass: springMass,
-                                  }
-                                : {
-                                    type: "tween",
-                                    ease: [0.4, 0.0, 0.2, 1],
-                                    duration: 0.18,
-                                  }
-                            }
+                            transition={{
+                              type: "spring",
+                              stiffness: springStiffness,
+                              damping: springDamping,
+                              mass: springMass,
+                            }}
                           >
                             {char}
                           </motion.span>
                         );
                       })}
 
-                    {/* ── Primary Front Letter (Magnetic Pull to Cursor) ── */}
+                    {/* ── Primary Front Letter (Amplified Magnetic Pull) ── */}
                     <motion.span
                       className={`${className} relative z-30 inline-block`}
                       style={{
@@ -161,14 +155,14 @@ export function ExtrudedHeroHeading({
                         MozOsxFontSmoothing: "grayscale",
                       }}
                       animate={{
-                        x: magX,
-                        y: magY,
+                        x: isLetterActive ? magX : 0,
+                        y: isLetterActive ? magY : 0,
                       }}
                       transition={{
                         type: "spring",
-                        stiffness: 260,
-                        damping: 20,
-                        mass: 0.5,
+                        stiffness: isLetterActive ? 260 : 65,
+                        damping: isLetterActive ? 20 : 15,
+                        mass: isLetterActive ? 0.5 : 0.9,
                       }}
                     >
                       {char}
