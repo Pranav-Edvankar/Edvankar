@@ -19,36 +19,36 @@ function Paperclip({ className = "" }: { className?: string }) {
 function FolderTabH({
   title,
   color,
-  isActive,
   onClick,
-  className = "",
 }: {
   title: string;
   color: string;
-  isActive?: boolean;
   onClick: () => void;
-  className?: string;
 }) {
   return (
-    <motion.button
-      onClick={onClick}
-      whileHover={{ y: -5 }}
-      transition={{ type: "spring", stiffness: 500, damping: 25 }}
-      className={`relative cursor-pointer focus:outline-none ${className}`}
-      style={{ zIndex: isActive ? 10 : 1 }}
+    <button
+      onClick={(e) => {
+        e.stopPropagation();
+        onClick();
+      }}
+      className="relative cursor-pointer focus:outline-none block group"
     >
-      <svg className="w-[220px] h-[48px] md:w-[280px] md:h-[56px] drop-shadow-md" viewBox="0 0 280 56" preserveAspectRatio="none">
+      <svg
+        className="w-[200px] h-[46px] md:w-[270px] md:h-[54px] drop-shadow-none block"
+        viewBox="0 0 270 54"
+        preserveAspectRatio="none"
+      >
         <path
-          d="M 0,56 L 0,22 Q 0,8 14,8 L 22,8 Q 30,8 30,0 L 250,0 Q 250,8 258,8 L 266,8 Q 280,8 280,22 L 280,56 Z"
+          d="M 0,54 L 0,20 Q 0,6 14,6 L 20,6 Q 28,6 28,0 L 242,0 Q 242,6 250,6 L 256,6 Q 270,6 270,20 L 270,54"
           fill={color}
           stroke="rgba(0,0,0,0.15)"
-          strokeWidth="1"
+          strokeWidth="1.5"
         />
       </svg>
-      <span className="absolute inset-0 flex items-center justify-center pt-1 font-serif text-base md:text-xl font-bold text-dark tracking-tight select-none">
+      <span className="absolute inset-0 flex items-center justify-center px-4 pt-1 font-serif text-xs sm:text-sm md:text-base font-bold text-dark tracking-tight text-center select-none group-hover:underline decoration-dark/40 underline-offset-4 leading-tight">
         {title}
       </span>
-    </motion.button>
+    </button>
   );
 }
 
@@ -262,23 +262,32 @@ export default function HomePage() {
                 transition={{ duration: 0.3 }}
                 className="space-y-0 pb-32"
               >
-                {CLUSTERS.map((cluster) => {
+                {CLUSTERS.map((cluster, clusterIdx) => {
                   const isHovered = hoveredCluster === cluster.id;
+                  const zIndex = (CLUSTERS.length - clusterIdx) * 10;
 
                   return (
-                    <div
+                    <motion.div
                       key={cluster.id}
                       onMouseEnter={() => setHoveredCluster(cluster.id)}
                       onMouseLeave={() => setHoveredCluster(null)}
-                      className="relative"
+                      animate={{ y: isHovered ? -3 : 0 }}
+                      transition={{ duration: 0.2, ease: "easeOut" }}
+                      className="relative cursor-pointer"
+                      style={{ zIndex }}
                     >
-                      {/* Folder tabs sitting on top edge */}
-                      <div className="flex items-end pl-4 md:pl-10 -mb-[1px] relative z-10">
+                      {/* Folder tabs sitting seamlessly on top edge with clean spacing */}
+                      <div className="flex items-end pl-4 md:pl-10 -mb-[2px] relative z-10 gap-3 md:gap-5">
                         {cluster.projectSlugs.map((slug, idx) => {
                           const project = PROJECTS_DATA[slug];
                           if (!project) return null;
                           return (
-                            <div key={slug} style={{ marginLeft: idx > 0 ? "-16px" : "0", zIndex: cluster.projectSlugs.length - idx }}>
+                            <div
+                              key={slug}
+                              style={{
+                                zIndex: cluster.projectSlugs.length - idx + 10,
+                              }}
+                            >
                               <FolderTabH
                                 title={project.title}
                                 color={cluster.color}
@@ -291,6 +300,7 @@ export default function HomePage() {
 
                       {/* Ribbon band */}
                       <motion.div
+                        onClick={() => setOpenProject(cluster.projectSlugs[0])}
                         animate={{
                           height: isHovered ? "auto" : "56px",
                           paddingTop: isHovered ? 24 : 16,
@@ -298,12 +308,22 @@ export default function HomePage() {
                         }}
                         transition={{ duration: 0.35, ease: "easeOut" }}
                         className="w-full relative overflow-hidden px-6 md:px-10"
-                        style={{ backgroundColor: cluster.color, color: "#0A0A0A" }}
+                        style={{
+                          backgroundColor: cluster.color,
+                          color: "#0A0A0A",
+                          boxShadow: isHovered
+                            ? "0 10px 30px rgba(0,0,0,0.4)"
+                            : "0 2px 10px rgba(0,0,0,0.2)",
+                        }}
                       >
                         {/* Right-aligned category label */}
                         <div className="flex items-center justify-end gap-2 font-mono text-xs md:text-sm font-bold uppercase tracking-widest opacity-80">
                           <span>{cluster.tag}</span>
-                          <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${isHovered ? "rotate-0" : "-rotate-90"}`} />
+                          <ChevronDown
+                            className={`w-4 h-4 transition-transform duration-300 ${
+                              isHovered ? "rotate-0" : "-rotate-90"
+                            }`}
+                          />
                         </div>
 
                         {/* Description on hover expand */}
@@ -321,7 +341,7 @@ export default function HomePage() {
                           )}
                         </AnimatePresence>
                       </motion.div>
-                    </div>
+                    </motion.div>
                   );
                 })}
               </motion.div>
