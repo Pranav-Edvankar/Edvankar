@@ -60,7 +60,7 @@ export const PROJECTS_DATA: Record<string, CaseStudy> = {
     type: "Mobile Application (iOS & Android)",
     timeline: "Early 2026 (4 Weeks)",
     tools: ["Figma", "Flutter", "Firebase", "Adobe XD"],
-    coverImage: "/images/qwikamp.png",
+    coverImage: "/images/qwikamp/Dark-home-page.png",
     overview: [
       "Qwikamp was conceived to address a critical void in urban cycling maintenance: the friction of transporting damaged or untuned bicycles to brick-and-mortar repair shops. Existing servicing platforms lacked transparent pricing, real-time mechanic tracking, and specialized component cataloging.",
       "As lead designer, I led the end-to-end product design lifecycle—from initial ethnographic user interviews with suburban cyclists to crafting an intuitive mobile dispatch interface and Flutter-ready design system.",
@@ -83,53 +83,190 @@ export const PROJECTS_DATA: Record<string, CaseStudy> = {
     ],
     flows: [
       {
-        title: "01. Onboarding & Virtual Bike Garage",
-        subtitle: "Registration & Asset Digitization",
-        caption: "Riders register their bicycles by selecting brand, drivetrain, and frame specs to enable predictive maintenance alerts.",
+        title: "01. Onboarding & Authentication",
+        subtitle: "First Launch Experience & Secure Access",
+        caption: "An immersive onboarding carousel introducing core features—doorstep repairs, transparent quotes, and GPS tracking—followed by OTP-secured authentication.",
         description:
-          "The garage screen acts as the central hub. Users can inspect component lifespan indicators (chain stretch, brake pad wear, tire tread) derived from logged ride mileage or simple time intervals.",
+          "The onboarding flow uses bold illustration-driven slides to communicate each key value proposition before funneling into a streamlined OTP verification screen. The neon-lime accent palette carries through from onboarding into the main application, establishing immediate brand recognition.",
+        imageAspect: "portrait",
         images: [
           {
-            src: "/images/qwikamp.png",
-            alt: "Qwikamp Virtual Garage & Bike Profile Screen",
-            caption: "FIG 1.1 — Garage Dashboard displaying component wear meters and quick service triggers.",
-            size: "full"
-          }
-        ]
-      },
-      {
-        title: "02. Doorstep Service Booking & Scheduler",
-        subtitle: "Frictionless Diagnostics & Slot Reservation",
-        caption: "A 3-step wizard allowing users to select standard tune-up packages or pin-point specific component issues.",
-        description:
-          "Instead of vague text boxes, users select issues via interactive 3D bike node diagrams. The system automatically calculates total cost, estimated labor duration, and nearest available certified mechanic slots.",
-        images: [
+            src: "/images/qwikamp/Onboarding-Screen.png",
+            alt: "Qwikamp Onboarding — Schedule Diagnostic Repairs",
+            caption: "FIG 1.1 — Onboarding slide introducing doorstep diagnostic repair booking.",
+            size: "third"
+          },
           {
-            src: "/images/qwikamp.png",
-            alt: "Qwikamp Interactive Service Scheduler",
-            caption: "FIG 2.1 — Step-by-step diagnostic selector with transparent price breakdowns.",
+            src: "/images/qwikamp/Onboarding-Screen-1.png",
+            alt: "Qwikamp Onboarding — GPS Mechanic Tracking",
+            caption: "FIG 1.2 — Live GPS mechanic dispatch tracking introduction slide.",
+            size: "third"
+          },
+          {
+            src: "/images/qwikamp/Onboarding-Screen-2.png",
+            alt: "Qwikamp Onboarding — Transparent Quote Approvals",
+            caption: "FIG 1.3 — Transparent itemized quote approval feature walkthrough.",
+            size: "third"
+          },
+          {
+            src: "/images/qwikamp/OPT-Screen.png",
+            alt: "Qwikamp OTP Verification Screen",
+            caption: "FIG 1.4 — Secure 4-digit OTP verification with illustrated branding.",
             size: "half"
           },
           {
-            src: "/images/qwikamp.png",
-            alt: "Qwikamp Mechanic Slot Chooser",
-            caption: "FIG 2.2 — Real-time slot reservation matrix filtered by mechanic proximity.",
+            src: "/images/qwikamp/OPT-Screen-1.png",
+            alt: "Qwikamp OTP Entry Screen",
+            caption: "FIG 1.5 — OTP code entry with resend and end-to-end encryption badge.",
             size: "half"
           }
         ]
       },
       {
-        title: "03. Real-Time Dispatch & Inspection Report",
-        subtitle: "Order Tracking & Digital Approval",
-        caption: "Live GPS tracking of mobile service vans and real-time digital inspection sign-offs.",
+        title: "02. Home Dashboard & Ecosystem Hub",
+        subtitle: "Light & Dark Mode — Service Ecosystem Entry Point",
+        caption: "The central hub surfaces featured bike offerings, ecosystem service shortcuts, and quick-access repair triggers across both light and dark visual modes.",
         description:
-          "Once the mechanic arrives, they perform a 12-point diagnostic check and push a digital photo-verified report directly to the rider's phone. Riders approve additional recommended repairs with a single swipe.",
+          "The home screen balances product discovery carousels with service action cards (Repair, Service, Shop, Doorstep) in a 2×2 grid. The dark mode variant shifts to a deep navy palette with neon-lime accents, ensuring full accessibility parity. Both themes share identical information architecture while adapting contrast, elevation shadows, and iconography for optimal readability.",
+        imageAspect: "portrait",
         images: [
           {
-            src: "/images/qwikamp.png",
-            alt: "Qwikamp Live Mechanic Dispatch Map & Inspection Sign-off",
-            caption: "FIG 3.1 — GPS tracking view alongside photo-verified mechanic inspection cards.",
-            size: "full"
+            src: "/images/qwikamp/Home-page-6.png",
+            alt: "Qwikamp Home Dashboard — Light Mode",
+            caption: "FIG 2.1 — Light mode home screen with featured offerings carousel and service grid.",
+            size: "half"
+          },
+          {
+            src: "/images/qwikamp/Dark-home-page.png",
+            alt: "Qwikamp Home Dashboard — Dark Mode",
+            caption: "FIG 2.2 — Dark mode home screen with neon-lime accents and elevated card surfaces.",
+            size: "half"
+          },
+          {
+            src: "/images/qwikamp/Dark-Profile-page.png",
+            alt: "Qwikamp User Profile & Connected Garage",
+            caption: "FIG 2.3 — Profile hub displaying connected EV garage, battery health, and account management.",
+            size: "half"
+          },
+          {
+            src: "/images/qwikamp/Dark-home-page-1.png",
+            alt: "Qwikamp Dark Mode — Service Plans",
+            caption: "FIG 2.4 — Service plan comparison matrix with Basic, Standard, and Premium tiers.",
+            size: "half"
+          }
+        ]
+      },
+      {
+        title: "03. Doorstep Service Booking & Scheduler",
+        subtitle: "Frictionless Diagnostics, Slot Reservation & Transparent Pricing",
+        caption: "A guided multi-step wizard allowing users to select service center, choose time slots, upload diagnostic photos, and receive upfront itemized repair estimates.",
+        description:
+          "Instead of vague text boxes, users locate nearby service centers via an interactive map with real-time hub availability. The fill-details form captures cycle characteristics, pickup time slots (morning/afternoon/evening), optional issue photos, and saved addresses. The repair estimate modal breaks down every charge—parts, labor, pickup, GST—before confirmation, eliminating surprise fees.",
+        imageAspect: "portrait",
+        images: [
+          {
+            src: "/images/qwikamp/Service-center-page.png",
+            alt: "Qwikamp Service Center Map Selector",
+            caption: "FIG 3.1 — GPS-powered service center locator with nearest/top-rated/open-now filters.",
+            size: "third"
+          },
+          {
+            src: "/images/qwikamp/extended-serivce-center-page.png",
+            alt: "Qwikamp Extended Service Center Selection",
+            caption: "FIG 3.2 — Extended hub list view with multiple service centers and ratings.",
+            size: "third"
+          },
+          {
+            src: "/images/qwikamp/Service-center-page-1.png",
+            alt: "Qwikamp Fill Details — Cycle Characteristics & Time Slots",
+            caption: "FIG 3.3 — Step-by-step service request form with cycle specs and pickup slot selection.",
+            size: "third"
+          },
+          {
+            src: "/images/qwikamp/Service-center-page-2.png",
+            alt: "Qwikamp Component Selection & Issue Upload",
+            caption: "FIG 3.4 — Component diagnostic selector with optional photo upload for accurate estimates.",
+            size: "half"
+          },
+          {
+            src: "/images/qwikamp/bill-view.png",
+            alt: "Qwikamp Transparent Repair Estimate Breakdown",
+            caption: "FIG 3.5 — Itemized repair estimate with delivery charge slabs and GST tax summary.",
+            size: "half"
+          }
+        ]
+      },
+      {
+        title: "04. Shop & Product Catalog",
+        subtitle: "EV Bicycle Marketplace & Component Specifications",
+        caption: "A curated retail experience for browsing flagship electric bicycles, spare components, and accessories with detailed specifications and warranty info.",
+        description:
+          "The shop experience employs product carousels with high-resolution imagery, real-time pricing, and verified ratings. Product detail pages surface comprehensive EV specs—battery capacity, power range, frame material, top speed—alongside color/size selectors and a QWIKAMP Certified Warranty badge for purchase confidence.",
+        imageAspect: "portrait",
+        images: [
+          {
+            src: "/images/qwikamp/Shop-page.png",
+            alt: "Qwikamp Shop — Product Browsing Interface",
+            caption: "FIG 4.1 — Shop browsing view with featured offerings and category filters.",
+            size: "third"
+          },
+          {
+            src: "/images/qwikamp/Shop-page-1.png",
+            alt: "Qwikamp Shop — Dark Mode Catalog",
+            caption: "FIG 4.2 — Dark mode catalog with ecosystem upgrade tags and essential spares.",
+            size: "third"
+          },
+          {
+            src: "/images/qwikamp/product-details-page.png",
+            alt: "Qwikamp Product Details — QWIK-VOLT Carbon R",
+            caption: "FIG 4.3 — Product specification page with EV specs, color selector, and secure checkout.",
+            size: "third"
+          },
+          {
+            src: "/images/qwikamp/Shop-page-2.png",
+            alt: "Qwikamp Shop — Extended Product Grid",
+            caption: "FIG 4.4 — Extended product listings with ratings and hub availability.",
+            size: "half"
+          },
+          {
+            src: "/images/qwikamp/Shop-page-3.png",
+            alt: "Qwikamp Shop — Cart & Checkout Flow",
+            caption: "FIG 4.5 — Cart management and streamlined checkout experience.",
+            size: "half"
+          }
+        ]
+      },
+      {
+        title: "05. Real-Time Dispatch & Booking Management",
+        subtitle: "Order Tracking, Mechanic Assignment & Digital Handoff",
+        caption: "Live booking management with active schedule tracking, verified delivery partner assignment, and secure PIN-based bicycle handoff verification.",
+        description:
+          "The booking management hub displays all active service schedules with real-time status updates—from partner assignment through transit tracking to doorstep arrival. Each booking card surfaces maintenance IDs, cost breakdowns, and pickup windows. The delivery detail sheet introduces the assigned courier with verification status, and a secure 6-digit PIN handshake ensures safe bicycle transfer.",
+        imageAspect: "portrait",
+        images: [
+          {
+            src: "/images/qwikamp/Home-page.png",
+            alt: "Qwikamp Active Booking Schedules — Light Mode",
+            caption: "FIG 5.1 — Active schedules list with maintenance IDs and pickup PIN triggers.",
+            size: "half"
+          },
+          {
+            src: "/images/qwikamp/Home-page-2.png",
+            alt: "Qwikamp Booking Details — Delivery Partner & Verification",
+            caption: "FIG 5.2 — Booking detail with verified courier assignment and secure PIN handoff.",
+            size: "half"
+          },
+          {
+            src: "/images/qwikamp/Home-page-1.png",
+            alt: "Qwikamp Active Booking — In-Transit Status",
+            caption: "FIG 5.3 — In-transit service tracking with step progress and multiple bookings view.",
+            size: "half"
+          },
+          {
+            src: "/images/qwikamp/booking-in-details.png",
+            alt: "Qwikamp Dark Mode — Booking with Delivery Assignment",
+            caption: "FIG 5.4 — Dark mode booking view with verified package details and courier info.",
+            size: "half"
           }
         ]
       }
