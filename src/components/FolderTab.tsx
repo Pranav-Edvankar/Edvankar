@@ -111,14 +111,14 @@ export function FolderTab({
       <div className="relative group">
         {/* SVG Tab Background */}
         <svg
-          className="w-full h-12 md:h-14 drop-shadow-md"
+          className="w-full h-12 md:h-14 drop-shadow-sm"
           viewBox="0 0 240 48"
           preserveAspectRatio="none"
         >
           <path
-            d="M 0,48 L 0,18 C 6,18 12,0 24,0 L 216,0 C 228,0 234,18 240,18 L 240,48 Z"
+            d="M 0,48 L 0,18 C 6,18 12,0 24,0 L 216,0 C 228,0 234,18 240,18 L 240,48"
             fill={color}
-            stroke="rgba(0,0,0,0.25)"
+            stroke="rgba(0,0,0,0.12)"
             strokeWidth="1.5"
           />
         </svg>

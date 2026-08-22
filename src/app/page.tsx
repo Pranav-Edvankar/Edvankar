@@ -685,36 +685,37 @@ export default function HomePage() {
                 {CLUSTERS.map((cluster, clusterIdx) => {
                   const isHovered = hoveredCluster === cluster.id;
                   const isLastCluster = clusterIdx === CLUSTERS.length - 1;
+                  const isShowOverview = hoveredOverviewCluster === cluster.id;
+                  const isHoveredTab = hoveredCluster === cluster.id && hoveredOverviewCluster === null;
+                  const showOverviewText = isShowOverview || (hoveredCluster === null && isLastCluster);
+
+                  const hoveredClusterIndex = CLUSTERS.findIndex((c) => c.id === hoveredCluster);
+                  const isBelowHovered = hoveredClusterIndex !== -1 && clusterIdx > hoveredClusterIndex;
 
                   const isExpanded =
                     hoveredCluster !== null
                       ? isHovered
                       : isLastCluster;
 
-                  const folderHeight = isExpanded
-                    ? isLastCluster
-                      ? "680px"
-                      : "450px"
-                    : "44px";
+                  const folderHeight = isShowOverview
+                    ? (isLastCluster ? "680px" : "450px")
+                    : (isLastCluster ? "680px" : "44px");
 
                   const zIndex = (clusterIdx + 1) * 10;
 
                   return (
                     <motion.div
                       key={cluster.id}
-                      onMouseEnter={() => {
-                        setHoveredCluster(cluster.id);
-                        setHoveredOverviewCluster(cluster.id);
-                        if (!hoveredProjectSlug || !cluster.projectSlugs.includes(hoveredProjectSlug)) {
-                          setHoveredProjectSlug(cluster.projectSlugs[0]);
-                        }
+                      animate={{
+                        y: isHovered ? -3 : 0,
                       }}
-                      animate={{ y: isHovered ? -3 : 0 }}
-                      transition={{ duration: 0.2, ease: "easeOut" }}
+                      transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
                       className={`relative ${
-                        clusterIdx > 0 ? "-mt-[44px] md:-mt-[52px]" : ""
+                        clusterIdx > 0 ? "-mt-[48px] md:-mt-[56px]" : ""
                       }`}
-                      style={{ zIndex }}
+                      style={{
+                        zIndex,
+                      }}
                     >
                       {/* Folder tabs sitting seamlessly on top edge with clean spacing */}
                       <div className="flex items-end pl-4 md:pl-10 -mb-[2px] relative z-10 gap-3 md:gap-5">
@@ -734,8 +735,8 @@ export default function HomePage() {
                                 onClick={() => setOpenProject(slug)}
                                 onMouseEnter={() => {
                                   setHoveredCluster(cluster.id);
-                                  setHoveredOverviewCluster(cluster.id);
                                   setHoveredProjectSlug(slug);
+                                  setHoveredOverviewCluster(null);
                                 }}
                               />
                             </div>
@@ -743,8 +744,15 @@ export default function HomePage() {
                         })}
                       </div>
 
-                      {/* Folder Body (Mosby Dossier Layout) */}
+                      {/* Folder Body (Mosby Dossier Layout with 3D Tilt) */}
                       <motion.div
+                        onMouseEnter={() => {
+                          setHoveredCluster(cluster.id);
+                          setHoveredOverviewCluster(cluster.id);
+                          if (!hoveredProjectSlug || !cluster.projectSlugs.includes(hoveredProjectSlug)) {
+                            setHoveredProjectSlug(cluster.projectSlugs[0]);
+                          }
+                        }}
                         onClick={() => setOpenProject(cluster.projectSlugs[0])}
                         animate={{
                           height: folderHeight,
@@ -752,32 +760,63 @@ export default function HomePage() {
                           paddingBottom: isExpanded ? 28 : 10,
                         }}
                         transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-                        className="w-full relative overflow-hidden px-6 md:px-12 flex flex-col justify-start cursor-pointer"
+                        className="w-full relative overflow-hidden px-6 md:px-12 flex flex-col justify-start cursor-pointer rounded-t-sm"
                         style={{
                           backgroundColor: cluster.color,
                           color: "#0A0A0A",
                           boxShadow: isExpanded
-                            ? "0 14px 40px rgba(0,0,0,0.45)"
-                            : "0 2px 10px rgba(0,0,0,0.2)",
+                            ? "0 20px 45px rgba(0,0,0,0.4)"
+                            : "none",
                         }}
                       >
+                        {/* 2-Layer Folder Opening Illusion (Front Lip & Subtle Inner Crease) */}
+                        <div className="absolute top-0 inset-x-0 h-full pointer-events-none overflow-hidden">
+                          {/* Inner Folder Crease Shadow (Slightly Darker Tint of Folder Color) */}
+                          <motion.div
+                            initial={false}
+                            animate={{
+                              opacity: isHoveredTab ? 1 : 0,
+                            }}
+                            transition={{ duration: 0.2 }}
+                            className="absolute top-0 inset-x-0 h-4 z-0"
+                            style={{
+                              backgroundColor: cluster.color,
+                              filter: "brightness(0.82)",
+                            }}
+                          />
+
+                          {/* Layer 2: Front Folder Lip Layer (Sliding Down Seamlessly) */}
+                          <motion.div
+                            initial={false}
+                            animate={{
+                              y: isHoveredTab ? 10 : 0,
+                            }}
+                            transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+                            className="absolute top-0 inset-x-0 h-11 z-10"
+                            style={{
+                              backgroundColor: cluster.color,
+                              filter: "brightness(0.96)",
+                            }}
+                          />
+                        </div>
+
                         {/* Right-aligned category label header */}
-                        <div className="flex items-center justify-end gap-2 font-mono text-xs md:text-sm font-bold uppercase tracking-widest opacity-90 h-6 shrink-0 group">
+                        <div className="flex items-center justify-end gap-2 font-mono text-xs md:text-sm font-bold uppercase tracking-widest opacity-90 h-6 shrink-0 group relative z-20">
                           <span>{cluster.tag}</span>
                           <span className="text-sm font-extrabold transition-transform group-hover:scale-125">
-                            {isExpanded ? "∨" : "<"}
+                            {showOverviewText ? "∨" : "<"}
                           </span>
                         </div>
 
                         {/* Category Overview Description on expansion */}
                         <AnimatePresence>
-                          {isExpanded && (
+                          {showOverviewText && (
                             <motion.div
                               initial={{ opacity: 0, y: -6 }}
                               animate={{ opacity: 1, y: 0 }}
                               exit={{ opacity: 0, y: -6 }}
                               transition={{ duration: 0.25 }}
-                              className="mt-3 max-w-3xl flex flex-col justify-start"
+                              className="mt-3 max-w-3xl flex flex-col justify-start relative z-20"
                             >
                               <p className="font-mono text-sm md:text-base leading-relaxed opacity-90 font-medium">
                                 {cluster.description}
