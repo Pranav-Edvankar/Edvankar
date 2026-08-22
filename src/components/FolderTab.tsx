@@ -101,9 +101,10 @@ export function FolderTab({
 
   return (
     <motion.div
-      whileHover={{ y: -6 }}
+      whileHover={{ scaleY: 1.14, scaleX: 1.02 }}
       transition={{ type: "spring", stiffness: 400, damping: 25 }}
-      className={`relative inline-block cursor-pointer ${className}`}
+      style={{ transformOrigin: "bottom center" }}
+      className={`relative inline-block cursor-pointer origin-bottom ${className}`}
       onClick={onClick}
     >
       {/* Folder Tab Scalloped SVG Outer Container */}

@@ -75,13 +75,16 @@ function FolderTabH({
   onMouseEnter?: () => void;
 }) {
   return (
-    <button
+    <motion.button
+      whileHover={{ scaleY: 1.14, scaleX: 1.02 }}
+      transition={{ type: "spring", stiffness: 400, damping: 25 }}
+      style={{ transformOrigin: "bottom center" }}
       onClick={(e) => {
         e.stopPropagation();
         onClick();
       }}
       onMouseEnter={onMouseEnter}
-      className="relative cursor-pointer focus:outline-none block group"
+      className="relative cursor-pointer focus:outline-none block group origin-bottom"
     >
       <svg
         className="w-[200px] h-[46px] md:w-[270px] md:h-[54px] drop-shadow-none block"
@@ -95,10 +98,10 @@ function FolderTabH({
           strokeWidth="1.5"
         />
       </svg>
-      <span className="absolute inset-0 flex items-center justify-center px-4 pt-1 font-serif text-xs sm:text-sm md:text-base font-bold text-dark tracking-tight text-center select-none group-hover:underline decoration-dark/40 underline-offset-4 leading-tight">
+      <span className="absolute inset-0 flex items-center justify-center px-4 pt-1 font-serif text-xs sm:text-sm md:text-base font-bold text-dark tracking-tight text-center select-none leading-tight">
         {title}
       </span>
-    </button>
+    </motion.button>
   );
 }
 
