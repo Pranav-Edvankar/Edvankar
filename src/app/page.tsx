@@ -142,112 +142,30 @@ function VerticalTab({
   );
 }
 
-/* ─── Scrapbook Phone Screen — renders a single phone mockup ─── */
-function PhoneScreen({
-  src, alt, caption, rotate, delay, className = "", zIndex = 1,
-}: {
-  src: string; alt: string; caption: string; rotate: number; delay: number; className?: string; zIndex?: number;
-}) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 40, rotate: 0 }}
-      whileInView={{ opacity: 1, y: 0, rotate }}
-      viewport={{ once: true, margin: "-40px" }}
-      transition={{ duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] }}
-      className={`relative ${className}`}
-      style={{ zIndex }}
-    >
-      {/* Phone bezel frame */}
-      <div className="rounded-[2rem] bg-[#1a1a1a] p-[6px] shadow-2xl" style={{ boxShadow: "0 25px 60px rgba(0,0,0,0.35), 0 8px 20px rgba(0,0,0,0.2)" }}>
-        {/* Notch */}
-        <div className="absolute top-[10px] left-1/2 -translate-x-1/2 w-[60px] h-[18px] bg-[#1a1a1a] rounded-b-xl z-20" />
-        <div className="rounded-[1.7rem] overflow-hidden bg-[#0B1120]">
-          <div className="relative aspect-[9/19.5] w-full">
-            <Image src={src} alt={alt} fill className="object-cover object-top" />
-          </div>
-        </div>
-      </div>
-      {/* Caption label */}
-      <p className="font-mono text-[0.6rem] text-neutral-500 mt-3 text-center leading-tight px-2">{caption}</p>
-    </motion.div>
-  );
-}
-
-/* ─── Colored Scrapbook Info Card (Mosby style) ─── */
-function ScrapbookInfoCard({
-  title, caption, color, rotate, delay, className = "", hasClip = false,
-}: {
-  title: string; caption: string; color: string; rotate: number; delay: number; className?: string; hasClip?: boolean;
-}) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 30, rotate: 0 }}
-      whileInView={{ opacity: 1, y: 0, rotate }}
-      viewport={{ once: true, margin: "-60px" }}
-      transition={{ duration: 0.6, delay }}
-      className={`p-5 md:p-6 shadow-xl border border-black/10 relative ${className}`}
-      style={{ backgroundColor: color, color: "#0A0A0A" }}
-    >
-      {hasClip && <div className="absolute -top-5 -right-2 z-30"><Paperclip /></div>}
-      <h4 className="font-display text-lg md:text-2xl uppercase tracking-tight leading-tight">{title}</h4>
-      <p className="font-serif text-xs md:text-sm mt-2 leading-relaxed opacity-85">{caption}</p>
-    </motion.div>
-  );
-}
-
-/* ─── Project Detail Paper Card (Mosby Scrapbook Aesthetic) ─── */
+/* ─── Project Detail Paper Card ─── */
 function ProjectPaperCard({ project }: { project: CaseStudy }) {
-  const isAppProject = project.flows.some((f) => f.imageAspect === "portrait");
-  const color = project.categoryColor;
-
   return (
-    <div className="bg-[#F5F3EE] text-dark relative shadow-2xl overflow-hidden">
+    <div className="bg-[#F5F3EE] text-dark relative shadow-2xl">
+      {/* Paperclip decoration */}
       <div className="absolute -top-5 left-[12%] z-30"><Paperclip /></div>
 
-      <div className="p-6 md:p-12 space-y-0">
+      <div className="p-8 md:p-14 space-y-12">
+        {/* Cover Image */}
+        <div className={`relative w-full overflow-hidden border border-black/20 shadow-lg -rotate-1 ${project.coverImage.includes('qwikamp')
+            ? 'aspect-[16/9] bg-[#0B1120] flex items-center justify-center'
+            : 'aspect-[16/9]'
+          }`}>
+          <Image
+            src={project.coverImage}
+            alt={project.title}
+            fill
+            className={project.coverImage.includes('qwikamp') ? 'object-contain' : 'object-cover'}
+            priority
+          />
+        </div>
 
-        {/* ═══ HERO COVER — scattered phone collage for app projects ═══ */}
-        {isAppProject ? (
-          <div className="relative w-full mb-10" style={{ minHeight: "520px" }}>
-            {/* Background bleed — category color wash */}
-            <div className="absolute inset-x-0 top-8 bottom-20 -mx-12 rounded-sm" style={{ backgroundColor: color, opacity: 0.12 }} />
-
-            {/* Scattered hero phones */}
-            <div className="relative flex items-center justify-center gap-0 pt-4 pb-6">
-              {project.flows[0]?.images.slice(0, 3).map((img, i) => {
-                const rots = [-8, 0, 7];
-                const offsets = ["-translate-x-6 translate-y-4", "z-10 scale-105", "translate-x-6 translate-y-6"];
-                return (
-                  <div key={i} className={`w-[140px] md:w-[185px] ${offsets[i] || ""}`}>
-                    <PhoneScreen
-                      src={img.src} alt={img.alt} caption="" rotate={rots[i] || 0} delay={0.15 * i}
-                      zIndex={i === 1 ? 10 : 5}
-                    />
-                  </div>
-                );
-              })}
-            </div>
-
-            {/* Floating subtitle card */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.5 }}
-              className="absolute bottom-0 right-4 md:right-10 max-w-xs bg-white/90 backdrop-blur-sm p-4 shadow-lg border border-black/10 rotate-1"
-            >
-              <p className="font-mono text-[0.6rem] uppercase tracking-widest opacity-50 mb-1">{project.dossierNumber}</p>
-              <p className="font-serif text-sm text-neutral-800 leading-relaxed">{project.subtitle}</p>
-            </motion.div>
-          </div>
-        ) : (
-          <div className="relative aspect-[16/9] w-full overflow-hidden border border-black/20 shadow-lg -rotate-1 mb-10">
-            <Image src={project.coverImage} alt={project.title} fill className="object-cover" priority />
-          </div>
-        )}
-
-        {/* ═══ OVERVIEW PROSE ═══ */}
-        <div className="font-serif text-lg md:text-xl leading-relaxed text-neutral-900 max-w-3xl mx-auto space-y-6 mb-12">
+        {/* Opening serif prose with a drop cap */}
+        <div className="font-serif text-lg md:text-xl leading-relaxed text-neutral-900 max-w-3xl mx-auto space-y-6">
           {project.overview.map((para, i) => (
             <p key={i} className={i === 0 ? "first-letter:text-6xl first-letter:font-display first-letter:leading-none first-letter:float-left first-letter:mr-3 first-letter:mt-1" : ""}>
               {para}
@@ -255,216 +173,83 @@ function ProjectPaperCard({ project }: { project: CaseStudy }) {
           ))}
         </div>
 
-        {/* ═══ METADATA ═══ */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-5 border border-black/15 bg-black/5 font-mono text-xs mb-14">
+        {/* Metadata Box */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-5 border border-black/15 bg-black/5 font-mono text-xs">
           <div><span className="font-bold block opacity-60">Role:</span><span className="font-serif text-sm font-semibold">{project.role}</span></div>
           <div><span className="font-bold block opacity-60">Type:</span><span className="font-serif text-sm font-semibold">{project.type}</span></div>
           <div><span className="font-bold block opacity-60">Timeline:</span><span className="font-serif text-sm font-semibold">{project.timeline}</span></div>
           <div><span className="font-bold block opacity-60">Tools:</span><span className="font-serif text-sm font-semibold">{project.tools.join(", ")}</span></div>
         </div>
 
-        {/* ═══ FLOW SECTIONS — Mosby scrapbook collage layouts ═══ */}
+        {/* Scattered Flow Cards */}
         {project.flows.map((flow, idx) => {
+          const rotations = [-2, 3, -3, 2, -1, 4];
+          const rot = rotations[idx % rotations.length];
           const isPortrait = flow.imageAspect === "portrait";
-          const imgs = flow.images;
-          // Alternating layout patterns for variety
-          const pattern = idx % 5;
+          const hasThirds = flow.images.some((img) => img.size === "third");
+          return (
+            <div key={idx} className="relative mt-8">
+              {/* Color info card */}
+              <motion.div
+                initial={{ opacity: 0, y: 30, rotate: 0 }}
+                whileInView={{ opacity: 1, y: 0, rotate: rot }}
+                viewport={{ once: true, margin: "-60px" }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+                className="p-6 shadow-xl border border-black/15 relative inline-block max-w-md mb-6"
+                style={{ backgroundColor: project.categoryColor, color: "#0A0A0A" }}
+              >
+                {idx === 0 && <div className="absolute -top-5 -right-2 z-30"><Paperclip /></div>}
+                <h4 className="font-display text-xl md:text-2xl uppercase tracking-tight">{flow.title}</h4>
+                <p className="font-serif text-sm mt-2 leading-relaxed opacity-90">{flow.caption}</p>
+              </motion.div>
 
-          if (!isPortrait) {
-            // Non-portrait (landscape images) — original tilted card layout
-            const rot = [-2, 3, -3, 2, -1][idx % 5];
-            return (
-              <div key={idx} className="relative mt-10 mb-16">
-                <ScrapbookInfoCard title={flow.title} caption={flow.caption} color={color} rotate={rot} delay={0.1} className="max-w-md mb-6" hasClip={idx === 0} />
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {imgs.map((img, i) => (
-                    <motion.div key={i} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0, rotate: i % 2 === 0 ? 2 : -3 }} viewport={{ once: true, margin: "-60px" }} transition={{ duration: 0.6, delay: 0.15 * (i + 1) }} className="bg-white p-3 shadow-xl border border-black/20">
-                      <div className="relative aspect-[4/3] w-full overflow-hidden border border-black/10">
-                        <Image src={img.src} alt={img.alt} fill className="object-cover" />
+              {/* Tilted photo cards — dynamic grid based on image sizes */}
+              <div className={`grid gap-6 ${hasThirds
+                  ? 'grid-cols-2 md:grid-cols-3'
+                  : 'grid-cols-1 md:grid-cols-2'
+                }`}>
+                {flow.images.map((img, imgIdx) => {
+                  const imgRot = isPortrait
+                    ? (imgIdx % 2 === 0 ? 1 : -1.5)
+                    : (imgIdx % 2 === 0 ? 2 : -3);
+                  return (
+                    <motion.div
+                      key={imgIdx}
+                      initial={{ opacity: 0, y: 30, rotate: 0 }}
+                      whileInView={{ opacity: 1, y: 0, rotate: imgRot }}
+                      viewport={{ once: true, margin: "-60px" }}
+                      transition={{ duration: 0.6, delay: 0.15 * (imgIdx + 1) }}
+                      className={`bg-white p-3 shadow-xl border border-black/20 ${isPortrait ? 'bg-gradient-to-b from-white to-neutral-50' : ''
+                        }`}
+                    >
+                      <div className={`relative w-full overflow-hidden border border-black/10 ${isPortrait
+                          ? 'aspect-[9/19]'
+                          : 'aspect-[4/3]'
+                        }`}>
+                        <Image src={img.src} alt={img.alt} fill className={isPortrait ? 'object-contain' : 'object-cover'} />
                       </div>
                       <p className="font-mono text-[0.65rem] text-neutral-600 mt-2 px-1">{img.caption}</p>
                     </motion.div>
-                  ))}
-                </div>
-                <p className="font-serif text-base text-neutral-800 leading-relaxed max-w-2xl mt-6">{flow.description}</p>
+                  );
+                })}
               </div>
-            );
-          }
 
-          /* ─── PORTRAIT / APP SCREEN LAYOUTS — 5 unique collage patterns ─── */
-          return (
-            <div key={idx} className="relative mt-6 mb-20">
-
-              {pattern === 0 && (
-                /* Pattern A: Info card left + staggered phone trio right, text below */
-                <>
-                  <div className="flex flex-col md:flex-row gap-6 items-start">
-                    <ScrapbookInfoCard title={flow.title} caption={flow.caption} color={color} rotate={-3} delay={0.1} className="md:w-[280px] shrink-0 md:mt-16 md:sticky md:top-20" hasClip />
-                    <div className="flex-1 flex items-end justify-center gap-0 md:gap-2 flex-wrap relative" style={{ minHeight: "400px" }}>
-                      {imgs.slice(0, 3).map((img, i) => {
-                        const rots = [-6, 2, -4];
-                        const yOff = [20, -10, 30];
-                        return (
-                          <div key={i} className="w-[120px] md:w-[160px]" style={{ transform: `translateY(${yOff[i]}px)` }}>
-                            <PhoneScreen src={img.src} alt={img.alt} caption={img.caption} rotate={rots[i]} delay={0.2 + i * 0.12} zIndex={3 - i} />
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                  {/* Remaining images as small pair below */}
-                  {imgs.length > 3 && (
-                    <div className="flex justify-end gap-4 mt-6 -mr-4 md:mr-0">
-                      {imgs.slice(3).map((img, i) => (
-                        <div key={i} className="w-[110px] md:w-[140px]">
-                          <PhoneScreen src={img.src} alt={img.alt} caption={img.caption} rotate={i % 2 === 0 ? 3 : -2} delay={0.5 + i * 0.1} />
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                  <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.4 }} className="font-serif text-base text-neutral-800 leading-relaxed max-w-xl mt-8">
-                    {flow.description}
-                  </motion.p>
-                </>
-              )}
-
-              {pattern === 1 && (
-                /* Pattern B: Full-width 4-phone spread with info card overlapping from bottom-left */
-                <>
-                  <div className="relative">
-                    <div className="flex items-end justify-center gap-2 md:gap-4">
-                      {imgs.slice(0, 4).map((img, i) => {
-                        const rots = [4, -2, 3, -5];
-                        const yOff = [10, -15, 5, 20];
-                        return (
-                          <div key={i} className="w-[100px] md:w-[150px]" style={{ transform: `translateY(${yOff[i]}px)` }}>
-                            <PhoneScreen src={img.src} alt={img.alt} caption={img.caption} rotate={rots[i]} delay={0.1 + i * 0.1} zIndex={4 - i} />
-                          </div>
-                        );
-                      })}
-                    </div>
-                    {/* Overlapping info card */}
-                    <ScrapbookInfoCard title={flow.title} caption={flow.caption} color={color} rotate={2} delay={0.5} className="md:absolute md:-bottom-10 md:left-0 max-w-sm mt-6 md:mt-0 z-20" />
-                  </div>
-                  <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.6 }} className="font-serif text-base text-neutral-800 leading-relaxed max-w-xl mt-16 md:ml-auto md:mr-8">
-                    {flow.description}
-                  </motion.p>
-                </>
-              )}
-
-              {pattern === 2 && (
-                /* Pattern C: Editorial — text left, stacked phones right with overlap */
-                <>
-                  <div className="flex flex-col-reverse md:flex-row gap-8 items-start">
-                    <div className="md:w-[45%] space-y-6">
-                      <ScrapbookInfoCard title={flow.title} caption={flow.caption} color={color} rotate={-2} delay={0.1} hasClip className="max-w-sm" />
-                      <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.3 }} className="font-serif text-base text-neutral-800 leading-relaxed">
-                        {flow.description}
-                      </motion.p>
-                    </div>
-                    <div className="md:w-[55%] relative flex items-start justify-center" style={{ minHeight: "450px" }}>
-                      {imgs.slice(0, 3).map((img, i) => {
-                        const positions = [
-                          "absolute top-0 left-[5%]",
-                          "absolute top-12 left-[30%]",
-                          "absolute top-4 right-[5%]",
-                        ];
-                        const rots = [-5, 3, -3];
-                        return (
-                          <div key={i} className={`w-[130px] md:w-[155px] ${positions[i]}`}>
-                            <PhoneScreen src={img.src} alt={img.alt} caption={img.caption} rotate={rots[i]} delay={0.15 + i * 0.12} zIndex={3 - i} />
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                  {imgs.length > 3 && (
-                    <div className="flex gap-4 mt-8 justify-start ml-4">
-                      {imgs.slice(3).map((img, i) => (
-                        <div key={i} className="w-[110px] md:w-[140px]">
-                          <PhoneScreen src={img.src} alt={img.alt} caption={img.caption} rotate={i % 2 === 0 ? 4 : -3} delay={0.5 + i * 0.1} />
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </>
-              )}
-
-              {pattern === 3 && (
-                /* Pattern D: Wide scattered spread — 3 top + info card bottom-right + 2 smaller bottom-left */
-                <>
-                  <ScrapbookInfoCard title={flow.title} caption={flow.caption} color={color} rotate={3} delay={0.1} className="max-w-md mb-4" hasClip />
-                  <div className="relative" style={{ minHeight: "480px" }}>
-                    {imgs.slice(0, 3).map((img, i) => {
-                      const positions = [
-                        "absolute top-0 left-0",
-                        "absolute top-6 left-[35%]",
-                        "absolute top-0 right-0",
-                      ];
-                      const rots = [3, -4, 5];
-                      return (
-                        <div key={i} className={`w-[125px] md:w-[165px] ${positions[i]}`}>
-                          <PhoneScreen src={img.src} alt={img.alt} caption={img.caption} rotate={rots[i]} delay={0.15 + i * 0.1} zIndex={3 - i} />
-                        </div>
-                      );
-                    })}
-                    {imgs.length > 3 && (
-                      <div className="absolute bottom-0 left-[10%] flex gap-3">
-                        {imgs.slice(3).map((img, i) => (
-                          <div key={i} className="w-[100px] md:w-[130px]">
-                            <PhoneScreen src={img.src} alt={img.alt} caption={img.caption} rotate={i % 2 === 0 ? -3 : 4} delay={0.5 + i * 0.1} />
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                  <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.5 }} className="font-serif text-base text-neutral-800 leading-relaxed max-w-2xl mt-6">
-                    {flow.description}
-                  </motion.p>
-                </>
-              )}
-
-              {pattern === 4 && (
-                /* Pattern E: Centered duo with info card sandwiched between, remaining below */
-                <>
-                  <div className="flex flex-col md:flex-row items-center gap-4 md:gap-0">
-                    <div className="w-[130px] md:w-[170px]">
-                      <PhoneScreen src={imgs[0]?.src || ""} alt={imgs[0]?.alt || ""} caption={imgs[0]?.caption || ""} rotate={-5} delay={0.1} zIndex={5} />
-                    </div>
-                    <ScrapbookInfoCard title={flow.title} caption={flow.caption} color={color} rotate={1} delay={0.25} className="max-w-xs md:-mx-4 z-10" hasClip />
-                    <div className="w-[130px] md:w-[170px]">
-                      <PhoneScreen src={imgs[1]?.src || ""} alt={imgs[1]?.alt || ""} caption={imgs[1]?.caption || ""} rotate={4} delay={0.2} zIndex={5} />
-                    </div>
-                  </div>
-                  {imgs.length > 2 && (
-                    <div className="flex justify-center gap-3 md:gap-5 mt-8">
-                      {imgs.slice(2).map((img, i) => (
-                        <div key={i} className="w-[105px] md:w-[140px]">
-                          <PhoneScreen src={img.src} alt={img.alt} caption={img.caption} rotate={[3, -2, 4, -3][i % 4]} delay={0.4 + i * 0.1} />
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                  <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.5 }} className="font-serif text-base text-neutral-800 leading-relaxed max-w-xl mx-auto mt-8 text-center">
-                    {flow.description}
-                  </motion.p>
-                </>
-              )}
-
+              {/* Description */}
+              <p className="font-serif text-base text-neutral-800 leading-relaxed max-w-2xl mt-6">{flow.description}</p>
             </div>
           );
         })}
 
-        {/* ═══ KEY INSIGHTS ═══ */}
+        {/* Key Insights */}
         {project.keyInsights && project.keyInsights.length > 0 && (
           <div className="border-t border-black/15 pt-8 space-y-4">
             <h4 className="font-display text-xl uppercase tracking-wider text-dark">KEY FINDINGS</h4>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {project.keyInsights.map((insight, i) => (
-                <motion.div key={i} initial={{ opacity: 0, y: 20, rotate: 0 }} whileInView={{ opacity: 1, y: 0, rotate: [-1, 1.5, -0.5][i % 3] }} viewport={{ once: true }} transition={{ delay: i * 0.1 }} className="p-4 border border-black/10 bg-black/5 shadow-md">
+                <div key={i} className="p-4 border border-black/10 bg-black/5">
                   <span className="font-display text-lg text-dark">0{i + 1}.</span>
                   <p className="font-serif text-sm leading-relaxed mt-1 text-neutral-800">{insight}</p>
-                </motion.div>
+                </div>
               ))}
             </div>
           </div>
@@ -589,9 +374,8 @@ export default function HomePage() {
                       }}
                       animate={{ y: isHovered ? -3 : 0 }}
                       transition={{ duration: 0.2, ease: "easeOut" }}
-                      className={`relative cursor-pointer ${
-                        clusterIdx > 0 ? "-mt-[44px] md:-mt-[52px]" : ""
-                      }`}
+                      className={`relative cursor-pointer ${clusterIdx > 0 ? "-mt-[44px] md:-mt-[52px]" : ""
+                        }`}
                       style={{ zIndex }}
                     >
                       {/* Folder tabs sitting seamlessly on top edge with clean spacing */}
@@ -703,7 +487,7 @@ export default function HomePage() {
 
                 {/* Folder body: colored background + paper card + vertical tabs */}
                 <div className="relative flex">
-                  
+
                   {/* Left: Dot markers / side rail */}
                   <div className="hidden md:flex flex-col items-center gap-10 pt-20 pr-4 relative z-10">
                     {[1, 2, 3, 4, 5].map((n) => (
