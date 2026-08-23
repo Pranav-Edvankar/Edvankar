@@ -8,6 +8,18 @@ import { ArrowRight, ChevronDown, X } from "lucide-react";
 import { PROJECTS_DATA, CLUSTERS, CaseStudy } from "@/data/projects";
 import { ExtrudedHeroHeading } from "@/components/ExtrudedHeroHeading";
 
+/** Darkens a hex colour by a given factor (0–1). Zero-dependency, runs in JS. */
+function darkenHex(hex: string, amount = 0.18): string {
+  const h = hex.replace("#", "");
+  const r = parseInt(h.slice(0, 2), 16);
+  const g = parseInt(h.slice(2, 4), 16);
+  const b = parseInt(h.slice(4, 6), 16);
+  const dr = Math.max(0, Math.round(r * (1 - amount)));
+  const dg = Math.max(0, Math.round(g * (1 - amount)));
+  const db = Math.max(0, Math.round(b * (1 - amount)));
+  return `#${dr.toString(16).padStart(2, "0")}${dg.toString(16).padStart(2, "0")}${db.toString(16).padStart(2, "0")}`;
+}
+
 /* ─── Paperclip SVG ─── */
 function Paperclip({ className = "" }: { className?: string }) {
   return (
@@ -62,7 +74,9 @@ function DossierStamps() {
   );
 }
 
-/* ─── Scalloped Folder Tab (Horizontal) ─── */
+/* ─── Scalloped Folder Tab (Horizontal) — 2D Fake-3D Peek ─── */
+const PEEK_TRANSITION_H = { duration: 0.28, ease: [0.25, 1, 0.5, 1] } as const;
+
 function FolderTabH({
   title,
   color,
@@ -74,38 +88,85 @@ function FolderTabH({
   onClick: () => void;
   onMouseEnter?: () => void;
 }) {
+  const darkColor = darkenHex(color, 0.22);
+  const SVG_PATH = "M 0,54 L 0,20 Q 0,6 14,6 L 20,6 Q 28,6 28,0 L 242,0 Q 242,6 250,6 L 256,6 Q 270,6 270,20 L 270,54";
+
   return (
-    <motion.button
-      whileHover={{ scaleY: 1.14, scaleX: 1.02 }}
-      transition={{ type: "spring", stiffness: 400, damping: 25 }}
-      style={{ transformOrigin: "bottom center" }}
+    <div
+      className="relative cursor-pointer focus:outline-none block group"
       onClick={(e) => {
         e.stopPropagation();
         onClick();
       }}
       onMouseEnter={onMouseEnter}
-      className="relative cursor-pointer focus:outline-none block group origin-bottom"
+      style={{ isolation: "isolate" }}
     >
-      <svg
-        className="w-[200px] h-[46px] md:w-[270px] md:h-[54px] drop-shadow-none block"
-        viewBox="0 0 270 54"
-        preserveAspectRatio="none"
-      >
-        <path
-          d="M 0,54 L 0,20 Q 0,6 14,6 L 20,6 Q 28,6 28,0 L 242,0 Q 242,6 250,6 L 256,6 Q 270,6 270,20 L 270,54"
-          fill={color}
-          stroke="rgba(0,0,0,0.15)"
-          strokeWidth="1.5"
-        />
-      </svg>
-      <span className="absolute inset-0 flex items-center justify-center px-4 pt-1 font-serif text-xs sm:text-sm md:text-base font-bold text-dark tracking-tight text-center select-none leading-tight">
-        {title}
-      </span>
-    </motion.button>
+      {/* Flap Stage */}
+      <div className="relative w-[200px] h-[46px] md:w-[270px] md:h-[54px]">
+        {/* InsideFace — static dark underside, fully hidden at rest */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{ zIndex: 0 }}
+          aria-hidden
+        >
+          <svg
+            className="w-full h-full block"
+            viewBox="0 0 270 54"
+            preserveAspectRatio="none"
+          >
+            <path
+              d={SVG_PATH}
+              fill={darkColor}
+              stroke="rgba(0,0,0,0.22)"
+              strokeWidth="1.5"
+            />
+          </svg>
+        </div>
+
+        {/* FrontFace — animates scaleY + skewX to fake top-edge hinge tilt */}
+        <motion.div
+          initial={false}
+          whileHover={{ scaleY: 0.94, skewX: -2 }}
+          transition={PEEK_TRANSITION_H}
+          className="absolute inset-0"
+          style={{
+            transformOrigin: "top center",
+            zIndex: 1,
+          }}
+        >
+          <svg
+            className="w-full h-full block"
+            viewBox="0 0 270 54"
+            preserveAspectRatio="none"
+          >
+            <path
+              d={SVG_PATH}
+              fill={color}
+              stroke="rgba(0,0,0,0.15)"
+              strokeWidth="1.5"
+            />
+          </svg>
+          <span className="absolute inset-0 flex items-center justify-center px-4 pt-1 font-serif text-xs sm:text-sm md:text-base font-bold text-dark tracking-tight text-center select-none leading-tight">
+            {title}
+          </span>
+          {/* Light-catching gradient overlay */}
+          <motion.div
+            className="absolute inset-0 pointer-events-none"
+            initial={{ opacity: 0 }}
+            whileHover={{ opacity: 0.16 }}
+            transition={PEEK_TRANSITION_H}
+            style={{
+              background: "linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.7) 100%)",
+            }}
+            aria-hidden
+          />
+        </motion.div>
+      </div>
+    </div>
   );
 }
 
-/* ─── Vertical Tab (Right Edge) ─── */
+/* ─── Vertical Tab (Right Edge) — 2D Fake-3D Peek ─── */
 function VerticalTab({
   title,
   color,
@@ -119,26 +180,61 @@ function VerticalTab({
   isActive?: boolean;
   onClick: () => void;
 }) {
+  const darkColor = darkenHex(color, 0.22);
+  const sharedRounded = { borderTopLeftRadius: "12px", borderBottomLeftRadius: "12px" };
+
   return (
-    <motion.button
+    <div
+      className="relative cursor-pointer block w-16 md:w-20"
+      style={{ writingMode: "vertical-rl", isolation: "isolate" }}
       onClick={onClick}
-      whileHover={{ x: -8 }}
-      transition={{ type: "spring", stiffness: 500, damping: 25 }}
-      className="relative cursor-pointer focus:outline-none block w-16 md:w-20"
-      style={{
-        writingMode: "vertical-rl",
-        backgroundColor: color,
-        borderTopLeftRadius: "12px",
-        borderBottomLeftRadius: "12px",
-        borderRight: isActive ? "3px solid rgba(0,0,0,0.2)" : "none",
-        boxShadow: isActive ? "-4px 0 20px rgba(0,0,0,0.3)" : "-2px 0 10px rgba(0,0,0,0.15)",
-      }}
     >
-      <div className="py-6 px-3 flex flex-col items-center gap-2 text-dark font-serif">
-        <span className="text-sm md:text-base font-bold tracking-tight whitespace-nowrap">{title}</span>
-        <span className="text-[0.6rem] font-mono uppercase tracking-widest opacity-60 whitespace-nowrap">{categoryLabel}</span>
+      {/* Flap Stage */}
+      <div className="relative w-full h-full">
+        {/* InsideFace — static dark underside, fully hidden at rest */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            ...sharedRounded,
+            backgroundColor: darkColor,
+            zIndex: 0,
+          }}
+          aria-hidden
+        />
+
+        {/* FrontFace — animates scaleX + skewY to fake left-edge hinge tilt */}
+        <motion.div
+          initial={false}
+          whileHover={{ scaleX: 0.94, skewY: -2 }}
+          transition={PEEK_TRANSITION_H}
+          style={{
+            ...sharedRounded,
+            backgroundColor: color,
+            borderRight: isActive ? "3px solid rgba(0,0,0,0.2)" : "none",
+            transformOrigin: "left center",
+            position: "relative",
+            zIndex: 1,
+          }}
+        >
+          <div className="py-6 px-3 flex flex-col items-center gap-2 text-dark font-serif">
+            <span className="text-sm md:text-base font-bold tracking-tight whitespace-nowrap">{title}</span>
+            <span className="text-[0.6rem] font-mono uppercase tracking-widest opacity-60 whitespace-nowrap">{categoryLabel}</span>
+          </div>
+          {/* Light-catching gradient overlay */}
+          <motion.div
+            className="absolute inset-0 pointer-events-none"
+            initial={{ opacity: 0 }}
+            whileHover={{ opacity: 0.16 }}
+            transition={PEEK_TRANSITION_H}
+            style={{
+              ...sharedRounded,
+              background: "linear-gradient(to left, transparent 0%, rgba(0,0,0,0.7) 100%)",
+            }}
+            aria-hidden
+          />
+        </motion.div>
       </div>
-    </motion.button>
+    </div>
   );
 }
 
