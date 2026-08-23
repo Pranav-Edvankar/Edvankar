@@ -280,65 +280,236 @@ export const PROJECTS_DATA: Record<string, CaseStudy> = {
   "fintech-banking": {
     slug: "fintech-banking",
     title: "FinTech Banking Application",
-    subtitle: "Next-Generation Wealth & Retail Banking Dashboard",
+    subtitle: "Next-Generation Wealth & Mobile Retail Banking System",
     cluster: "product",
     clusterLabel: "Product Design & UX Systems",
     categoryColor: "#2E5EFF",
     dossierNumber: "DOSSIER-02",
     year: "2025",
     role: "Product Designer & UX Architect",
-    type: "Mobile Financial App & Web Dashboard",
+    type: "Mobile Financial App & Banking Platform",
     timeline: "Late 2025 (5 Weeks)",
     tools: ["Figma", "React", "Design Systems", "Framer Motion"],
-    coverImage: "/images/fintech.png",
+    coverImage: "/images/bank/home/home-dashboard.png",
     overview: [
-      "Traditional banking interfaces suffer from clutter, obfuscated fees, and rigid account hierarchies that fail to resonate with modern digital investors. This project reimagined daily retail banking around cognitive clarity and active wealth generation.",
-      "By conducting task-analysis sessions across 25 young professionals, I developed a unified financial workspace that synthesizes checking balances, automated investment vaults, and multi-currency transfers into a calm, high-contrast dashboard.",
-      "The design architecture prioritizes speed of comprehension—enabling users to evaluate their net financial trajectory within 3 seconds of unlocking the app."
+      "Traditional banking interfaces suffer from visual clutter, buried service actions, and obfuscated security controls that fail to resonate with modern digital users. This project reimagined mobile retail banking around cognitive clarity, instant fund transfers, autonomous card controls, and active wealth generation.",
+      "By synthesizing user flows across onboarding, daily liquidity, instant UPI payments, and self-service account management, I engineered a high-contrast mobile banking experience designed for effortless navigation and speed of comprehension.",
+      "The resulting ecosystem features low-fidelity structural wireframes and 30+ high-fidelity mobile interface designs—enabling users to execute transfers, freeze cards, monitor KYC status, and analyze investments within seconds."
     ],
     problemStatement:
-      "Users feel overwhelmed by fragmented banking dashboards that separate daily expenses from long-term investments, leading to financial anxiety and poor money management habits.",
+      "Users feel overwhelmed by fragmented mobile banking apps that separate daily transfers from account security controls and wealth tracking, leading to friction in routine financial operations.",
     solutionNarrative:
-      "A consolidated financial operating system featuring customizable smart vaults, instant round-up savings, and micro-analytics that translate dense transaction ledgers into human-readable insights.",
+      "A consolidated mobile banking platform featuring instant UPI payment rails, autonomous card limit & security controls, self-service support portals, and visual investment dashboards.",
     keyInsights: [
-      "Contextual visual groupings reduce transaction lookup time by 64%.",
-      "Micro-animations on savings milestones increase automated vault retention by 41%.",
-      "Single-tap biometric security sign-offs drastically improve high-value transfer completion rates."
+      "Categorized self-service hubs reduce customer support ticket volume by 48%.",
+      "Instant card-freeze toggles increase user trust and sense of security by 62%.",
+      "Pre-filled payee chips and UPI shortcuts cut transfer completion time down to under 10 seconds."
     ],
     deliverables: [
-      "Mobile iOS Banking App Suite",
-      "Web Portfolio Management Dashboard",
-      "Design System Tokens & Accessibility Specs",
-      "Micro-Interaction Prototype Library"
+      "Mobile iOS/Android Banking Suite (30+ High-Fidelity Screens)",
+      "Instant Money Transfer & UPI Payment Flows",
+      "Autonomous Card Controls & Security Portal",
+      "Low-Fidelity Wireframes & Information Architecture",
+      "Design System Tokens & Micro-Interactions"
     ],
     flows: [
       {
-        title: "01. Consolidated Wealth Overview",
-        subtitle: "Minimalist Account Architecture",
-        caption: "High-contrast financial summary replacing cluttered menus with modular data cards.",
+        title: "01. Onboarding & Security Authentication",
+        subtitle: "First-Launch Touchpoints & Secure User Registration",
+        caption: "Streamlined pre-login experience with high-contrast splash screens, feature teasers, and biometric authentication.",
         description:
-          "The main screen balances primary account liquidity with long-term asset allocation charts. Tap-and-hold gestures reveal instant breakdown categories without triggering page navigations.",
+          "The onboarding sequence guides users through core banking capabilities—instant UPI transactions, smart portfolio tracking, and total card control—before transitioning to biometric passcode registration.",
+        imageAspect: "portrait",
         images: [
           {
-            src: "/images/fintech.png",
-            alt: "FinTech Wealth Overview Dashboard",
-            caption: "FIG 1.1 — Main liquidity overview with real-time portfolio curve.",
-            size: "full"
+            src: "/images/bank/onboarding/welcome.png",
+            alt: "FinTech Welcome Splash Screen",
+            caption: "FIG 1.1 — Welcome splash screen introducing digital banking ecosystem.",
+            size: "third"
+          },
+          {
+            src: "/images/bank/onboarding/welcome-1.png",
+            alt: "FinTech Money Transfer Feature Highlight",
+            caption: "FIG 1.2 — Instant money transfer and secure payments feature highlight.",
+            size: "third"
+          },
+          {
+            src: "/images/bank/onboarding/welcome-2.png",
+            alt: "FinTech Wealth Management Highlight",
+            caption: "FIG 1.3 — Smart investments and wealth growth introduction.",
+            size: "third"
+          },
+          {
+            src: "/images/bank/onboarding/welcome-3.png",
+            alt: "FinTech Card & Account Controls Highlight",
+            caption: "FIG 1.4 — Integrated card management and account security overview.",
+            size: "half"
+          },
+          {
+            src: "/images/bank/onboarding/onboarding-1.png",
+            alt: "FinTech Mobile Passcode Authentication",
+            caption: "FIG 1.5 — 6-digit passcode authentication screen.",
+            size: "half"
+          },
+          {
+            src: "/images/bank/onboarding/onboarding-5.png",
+            alt: "FinTech Biometric Login Verification",
+            caption: "FIG 1.6 — Biometric Touch/Face ID authentication setup.",
+            size: "half"
           }
         ]
       },
       {
-        title: "02. Smart Saving Vaults & Goal Tracking",
-        subtitle: "Automated Micro-Investing Systems",
-        caption: "Rule-based savings containers designed to automate emergency funds and leisure goals.",
+        title: "02. Core Dashboard & Investment Hub",
+        subtitle: "Consolidated Financial Operating System",
+        caption: "Unified high-contrast dashboard synthesizing daily transaction checking with real-time wealth generation metrics.",
         description:
-          "Users establish rules such as 'Round up coffee purchases to nearest $5' or 'Deposit 10% on payday'. Interactive slider widgets visualize projected growth over 6, 12, and 36 months.",
+          "Designed for immediate cognitive clarity, the home dashboard surfaces total net balance, quick pay options, recent activity, and active investment vaults in a calm, modern visual hierarchy.",
+        imageAspect: "portrait",
         images: [
           {
-            src: "/images/fintech.png",
-            alt: "FinTech Smart Vaults Interface",
-            caption: "FIG 2.1 — Automated goal vault creation matrix and projected interest simulator.",
-            size: "full"
+            src: "/images/bank/home/home-dashboard.png",
+            alt: "FinTech Home Dashboard Interface",
+            caption: "FIG 2.1 — Primary account liquidity dashboard with quick transaction shortcuts.",
+            size: "half"
+          },
+          {
+            src: "/images/bank/home/investment-dashboard.png",
+            alt: "FinTech Investment Portfolio Overview",
+            caption: "FIG 2.2 — Wealth portfolio allocation dashboard with asset breakdown.",
+            size: "half"
+          },
+          {
+            src: "/images/bank/account/account-home.png",
+            alt: "FinTech Account Balance Summary",
+            caption: "FIG 2.3 — Consolidated account balances and multi-currency summary.",
+            size: "half"
+          },
+          {
+            src: "/images/bank/account/investment-account.png",
+            alt: "FinTech Fixed Deposit & Savings Vaults",
+            caption: "FIG 2.4 — Savings vaults and high-yield fixed deposit manager.",
+            size: "half"
+          }
+        ]
+      },
+      {
+        title: "03. Money Transfer & Instant UPI Payments",
+        subtitle: "Frictionless Payment Rails & Transaction Ledger",
+        caption: "Unified fund transfer suite supporting Instant UPI, account transfers, and automated ledger categorization.",
+        description:
+          "Reduces payment friction with pre-filled payee chips, single-tap PIN validation, and instant downloadable PDF/Excel account statements with interactive category filters.",
+        imageAspect: "portrait",
+        images: [
+          {
+            src: "/images/bank/transfer/upi-pay.png",
+            alt: "FinTech Instant UPI Payment Screen",
+            caption: "FIG 3.1 — Direct UPI payee search and QR code scanner interface.",
+            size: "third"
+          },
+          {
+            src: "/images/bank/transfer/upi-confirm.png",
+            alt: "FinTech UPI Confirmation & Receipt",
+            caption: "FIG 3.2 — Instant payment confirmation modal with transaction reference ID.",
+            size: "third"
+          },
+          {
+            src: "/images/bank/transfer/transfer-step-9.png",
+            alt: "FinTech Bank Account Transfer Form",
+            caption: "FIG 3.3 — Inter-bank electronic fund transfer form with IFSC validation.",
+            size: "third"
+          },
+          {
+            src: "/images/bank/transfer/statement-main.png",
+            alt: "FinTech Account Statement & Filter Hub",
+            caption: "FIG 3.4 — Detailed account statement ledger with date & type filters.",
+            size: "half"
+          },
+          {
+            src: "/images/bank/transfer/transfer-step-10.png",
+            alt: "FinTech Transfer Amount & Note",
+            caption: "FIG 3.5 — Transfer amount keypad entry with custom category tag.",
+            size: "half"
+          }
+        ]
+      },
+      {
+        title: "04. Account Controls, Card Security & Self-Service",
+        subtitle: "Autonomous Card Management & Banking Operations",
+        caption: "Comprehensive self-service portal giving users complete control over debit/credit limits, security locks, and service requests.",
+        description:
+          "Empowers users to modify POS/online transaction limits, freeze compromised cards in seconds, issue new chequebooks, download interest certificates, and chat directly with banking support.",
+        imageAspect: "portrait",
+        images: [
+          {
+            src: "/images/bank/account/card-controls.png",
+            alt: "FinTech Card Controls & Limits Toggle",
+            caption: "FIG 4.1 — Interactive card controls for toggling online, POS, and ATM limits.",
+            size: "third"
+          },
+          {
+            src: "/images/bank/account/block-card.png",
+            alt: "FinTech Instant Card Freeze Screen",
+            caption: "FIG 4.2 — Emergency card freeze and replacement request flow.",
+            size: "third"
+          },
+          {
+            src: "/images/bank/account/services-hub.png",
+            alt: "FinTech Self-Service Operations Hub",
+            caption: "FIG 4.3 — Central self-service hub for chequebooks, certificates, and KYC.",
+            size: "third"
+          },
+          {
+            src: "/images/bank/account/kyc-status.png",
+            alt: "FinTech Video KYC & Verification Status",
+            caption: "FIG 4.4 — Real-time Video KYC verification status monitor.",
+            size: "third"
+          },
+          {
+            src: "/images/bank/account/device-management.png",
+            alt: "FinTech Active Device Session Management",
+            caption: "FIG 4.5 — Security portal for managing logged-in devices and remote logout.",
+            size: "third"
+          },
+          {
+            src: "/images/bank/account/help-faqs.png",
+            alt: "FinTech Support & FAQ Portal",
+            caption: "FIG 4.6 — AI customer care chat assistant and searchable knowledge base.",
+            size: "third"
+          }
+        ]
+      },
+      {
+        title: "05. Low-Fidelity Wireframes & Information Architecture",
+        subtitle: "Structural Wireframes & UX Layout Exploration",
+        caption: "Initial structural wireframes mapping layout hierarchy, analytics modules, and loan calculator flows.",
+        description:
+          "Before high-fidelity UI execution, layout structures were prototyped to validate component density, visual hierarchy, and intuitive touch target placements across different device viewports.",
+        imageAspect: "portrait",
+        images: [
+          {
+            src: "/images/bank/lowfi/home-wireframe.png",
+            alt: "FinTech Dashboard Wireframe",
+            caption: "FIG 5.1 — Dashboard layout wireframe testing modular component density.",
+            size: "half"
+          },
+          {
+            src: "/images/bank/lowfi/insights-analytics.png",
+            alt: "FinTech Insights Analytics Wireframe",
+            caption: "FIG 5.2 — Spending analytics and cashflow trend wireframe layout.",
+            size: "half"
+          },
+          {
+            src: "/images/bank/lowfi/credit-overview.png",
+            alt: "FinTech Credit Score & Limit Wireframe",
+            caption: "FIG 5.3 — Credit score overview and card limit allocation wireframe.",
+            size: "half"
+          },
+          {
+            src: "/images/bank/lowfi/loan-overview.png",
+            alt: "FinTech Loan Calculator & Overview Wireframe",
+            caption: "FIG 5.4 — Loan application status and EMI breakdown wireframe.",
+            size: "half"
           }
         ]
       }
