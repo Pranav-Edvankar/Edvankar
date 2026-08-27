@@ -1,15 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { ArrowUpRight, Copy, Check, Send } from "lucide-react";
+import { ArrowUpRight, Copy, Check, Send, Loader2, AlertCircle } from "lucide-react";
 
 export default function ContactPage() {
   const [copiedEmail, setCopiedEmail] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    projectType: "Product Design (UI/UX)",
     message: "",
   });
 
@@ -19,9 +20,41 @@ export default function ContactPage() {
     setTimeout(() => setCopiedEmail(false), 2000);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setFormSubmitted(true);
+    setLoading(true);
+    setErrorMessage(null);
+
+    try {
+      const response = await fetch("https://formsubmit.co/ajax/pranavedvankar3@gmail.com", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          message: formData.message,
+          _subject: `New Transmission from ${formData.name} [Portfolio Contact]`,
+          _template: "table",
+          _captcha: "false",
+        }),
+      });
+
+      const data = await response.json();
+      if (response.ok && (data.success === "true" || data.success === true || data.message)) {
+        setFormSubmitted(true);
+        setFormData({ name: "", email: "", message: "" });
+      } else {
+        throw new Error(data.message || "Failed to dispatch transmission. Please try again.");
+      }
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "Failed to dispatch transmission. Please try again.";
+      setErrorMessage(msg);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -57,7 +90,9 @@ export default function ContactPage() {
                   </a>
                   <button
                     onClick={handleCopyEmail}
-                    className="p-1.5 border border-black/30 hover:bg-black/10 transition-colors shrink-0"
+                    type="button"
+                    title="Copy Email"
+                    className="p-1.5 border border-black/30 hover:bg-black/10 transition-colors shrink-0 cursor-pointer"
                   >
                     {copiedEmail ? <Check className="w-4 h-4 text-green-800" /> : <Copy className="w-4 h-4" />}
                   </button>
@@ -91,28 +126,56 @@ export default function ContactPage() {
           {/* Form */}
           <div className="md:col-span-7">
             <div className="p-8 bg-neutral-900 border border-neutral-800 space-y-6">
-              <h3 className="font-display text-3xl uppercase tracking-tight text-light">
-                DIRECT TRANSMISSION FORM
-              </h3>
+              <div className="flex items-center justify-between">
+                <h3 className="font-display text-3xl uppercase tracking-tight text-light">
+                  DIRECT TRANSMISSION FORM
+                </h3>
+                <span className="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse" title="Live Transmission Channel" />
+              </div>
 
               {formSubmitted ? (
-                <div className="p-6 bg-catYellow text-dark space-y-2">
-                  <h4 className="font-display text-2xl uppercase">TRANSMISSION RECEIVED</h4>
-                  <p className="font-serif text-sm">
-                    Thank you. I will review your requirements and respond within 24 hours.
-                  </p>
+                <div className="p-6 bg-catYellow text-dark space-y-4">
+                  <div className="space-y-1">
+                    <h4 className="font-display text-2xl uppercase tracking-tight">TRANSMISSION DISPATCHED</h4>
+                    <p className="font-serif text-sm">
+                      Your message has been delivered directly to <strong className="font-mono font-bold">pranavedvankar3@gmail.com</strong>. I will review your requirements and respond promptly.
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setFormSubmitted(false)}
+                    className="px-4 py-2 bg-dark text-light hover:bg-neutral-800 font-mono text-xs uppercase tracking-wider transition-colors cursor-pointer"
+                  >
+                    SEND ANOTHER TRANSMISSION
+                  </button>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-4 font-mono text-xs">
+                  {errorMessage && (
+                    <div className="p-3 bg-red-950/60 border border-red-800 text-red-200 flex items-start gap-2">
+                      <AlertCircle className="w-4 h-4 mt-0.5 shrink-0 text-red-400" />
+                      <div className="space-y-1">
+                        <p>{errorMessage}</p>
+                        <a
+                          href={`mailto:pranavedvankar3@gmail.com?subject=Direct Inquiry from ${encodeURIComponent(formData.name || "Portfolio Visitor")}&body=${encodeURIComponent(formData.message)}`}
+                          className="underline text-red-300 hover:text-white inline-block mt-1"
+                        >
+                          Click here to send via your email client instead &rarr;
+                        </a>
+                      </div>
+                    </div>
+                  )}
+
                   <div className="space-y-1">
                     <label className="text-muted block uppercase">01. YOUR NAME / ORGANIZATION *</label>
                     <input
                       type="text"
                       required
+                      disabled={loading}
                       placeholder="e.g. Studio Apex"
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      className="w-full px-4 py-3 bg-dark border border-neutral-700 text-light focus:outline-none focus:border-catYellow"
+                      className="w-full px-4 py-3 bg-dark border border-neutral-700 text-light focus:outline-none focus:border-catYellow disabled:opacity-50 transition-colors"
                     />
                   </div>
 
@@ -121,10 +184,11 @@ export default function ContactPage() {
                     <input
                       type="email"
                       required
+                      disabled={loading}
                       placeholder="e.g. contact@studioapex.com"
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="w-full px-4 py-3 bg-dark border border-neutral-700 text-light focus:outline-none focus:border-catYellow"
+                      className="w-full px-4 py-3 bg-dark border border-neutral-700 text-light focus:outline-none focus:border-catYellow disabled:opacity-50 transition-colors"
                     />
                   </div>
 
@@ -132,20 +196,31 @@ export default function ContactPage() {
                     <label className="text-muted block uppercase">03. MESSAGE / BRIEF *</label>
                     <textarea
                       required
+                      disabled={loading}
                       rows={5}
-                      placeholder="Describe scope and timeline..."
+                      placeholder="Describe scope, deliverables, and timeline..."
                       value={formData.message}
                       onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                      className="w-full px-4 py-3 bg-dark border border-neutral-700 text-light focus:outline-none focus:border-catYellow resize-none"
+                      className="w-full px-4 py-3 bg-dark border border-neutral-700 text-light focus:outline-none focus:border-catYellow resize-none disabled:opacity-50 transition-colors"
                     />
                   </div>
 
                   <button
                     type="submit"
-                    className="w-full py-4 bg-catYellow hover:bg-catYellow/90 text-dark font-display text-lg uppercase tracking-wider transition-colors flex items-center justify-center gap-2"
+                    disabled={loading}
+                    className="w-full py-4 bg-catYellow hover:bg-catYellow/90 text-dark font-display text-lg uppercase tracking-wider transition-colors flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer"
                   >
-                    <span>DISPATCH MESSAGE</span>
-                    <Send className="w-4 h-4" />
+                    {loading ? (
+                      <>
+                        <Loader2 className="w-5 h-5 animate-spin" />
+                        <span>TRANSMITTING MESSAGE...</span>
+                      </>
+                    ) : (
+                      <>
+                        <span>DISPATCH MESSAGE</span>
+                        <Send className="w-4 h-4" />
+                      </>
+                    )}
                   </button>
                 </form>
               )}
