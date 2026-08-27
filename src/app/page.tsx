@@ -979,17 +979,47 @@ export default function HomePage() {
     ? CLUSTERS.find((c) => c.projectSlugs.includes(openProject!))
     : null;
 
-  // Scroll to top of folder when a project opens
+  // Scroll to top of page/folder when a project opens
   useEffect(() => {
-    if (openProject && folderRef.current) {
-      setTimeout(() => {
-        folderRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-      }, 400);
+    if (openProject) {
+      window.scrollTo(0, 0);
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+
+      const raf = requestAnimationFrame(() => {
+        window.scrollTo(0, 0);
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
+      });
+
+      const timer = setTimeout(() => {
+        window.scrollTo(0, 0);
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
+      }, 50);
+
+      return () => {
+        cancelAnimationFrame(raf);
+        clearTimeout(timer);
+      };
     }
   }, [openProject]);
 
   function handleClose() {
     setOpenProject(null);
+    setHoveredCluster(null);
+    setHoveredProjectSlug(null);
+    setHoveredOverviewCluster(null);
+    if (typeof window !== "undefined") {
+      window.history.replaceState(null, "", "/");
+      window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+      setTimeout(() => {
+        window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+      }, 50);
+      setTimeout(() => {
+        window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+      }, 350);
+    }
   }
 
   // Get sibling projects in the same cluster
@@ -1030,7 +1060,7 @@ export default function HomePage() {
         </AnimatePresence>
 
         {/* ═══════ CATEGORY RIBBONS + FOLDER TABS ═══════ */}
-        <section id="work" ref={folderRef} className={openProject ? "pt-4" : ""}>
+        <section id="work" ref={folderRef} className="scroll-mt-24 md:scroll-mt-28">
           <AnimatePresence mode="wait">
             {!openProject ? (
               /* ─── INDEX VIEW: Stacked Ribbons ─── */
@@ -1205,15 +1235,21 @@ export default function HomePage() {
                 className="pb-32"
               >
                 {/* Close / Back Button */}
-                <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center justify-between mb-6 relative z-30">
                   <button
-                    onClick={handleClose}
-                    className="flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-muted hover:text-catYellow transition-colors cursor-pointer"
+                    type="button"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      handleClose();
+                    }}
+                    className="flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-muted hover:text-catYellow transition-colors cursor-pointer py-2 pr-4 select-none focus:outline-none"
+                    aria-label="Close dossier and return to index"
                   >
-                    <X className="w-4 h-4" />
-                    <span>CLOSE DOSSIER — RETURN TO INDEX</span>
+                    <X className="w-4 h-4 pointer-events-none" />
+                    <span className="pointer-events-none">CLOSE DOSSIER — RETURN TO INDEX</span>
                   </button>
-                  <span className="font-mono text-xs text-muted uppercase tracking-widest">
+                  <span className="font-mono text-xs text-muted uppercase tracking-widest select-none">
                     {activeProject?.dossierNumber} // {activeProject?.year}
                   </span>
                 </div>
