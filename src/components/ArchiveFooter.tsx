@@ -9,12 +9,14 @@ export function ArchiveFooter() {
         {/* Left Column */}
         <div className="md:col-span-5 space-y-6">
           <div>
-            <span className="font-mono text-xs uppercase tracking-widest text-light block opacity-80">
-              [ SCRAPBOOK INDEX // 2026 ]
-            </span>
-            <h3 className="font-display text-4xl md:text-5xl uppercase text-light tracking-tight mt-2">
-              PRANAV EDVANKAR
-            </h3>
+            <Link href="/" className="group inline-block">
+              <span className="font-mono text-xs uppercase tracking-widest text-light block opacity-80 group-hover:text-white">
+                [ SCRAPBOOK INDEX // 2026 ]
+              </span>
+              <h3 className="font-display text-4xl md:text-5xl uppercase text-light tracking-tight mt-2 group-hover:text-white transition-colors">
+                PRANAV EDVANKAR
+              </h3>
+            </Link>
             <p className="font-serif text-sm text-muted leading-relaxed max-w-prose mt-3">
               UI/UX Designer bridging user research, visual craft, and Flutter/React implementation. Tactile, research-driven digital dossiers.
             </p>
@@ -80,7 +82,9 @@ export function ArchiveFooter() {
 
       {/* Bottom Bar */}
       <div className="max-w-7xl mx-auto border-t border-neutral-800 mt-16 pt-6 flex flex-col md:flex-row items-center justify-between text-xs text-muted gap-4 font-mono">
-        <span>© {new Date().getFullYear()} PRANAV EDVANKAR. ALL RIGHTS RESERVED.</span>
+        <Link href="/" className="hover:text-white transition-colors">
+          © {new Date().getFullYear()} PRANAV EDVANKAR. ALL RIGHTS RESERVED.
+        </Link>
         <span className="uppercase tracking-widest text-[0.68rem]">
           DARK SCRAPBOOK DOSSIER // BUILT WITH NEXT.JS & TAILWIND
         </span>

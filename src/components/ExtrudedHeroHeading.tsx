@@ -8,15 +8,13 @@ interface ExtrudedHeroHeadingProps {
   className?: string;
 }
 
-// 7 distinct physical extrusion layers with progressive base depths (up to 44px).
+// Crisp physical extrusion layers with clean solid tones (zero blur, zero strokes)
 const LAYER_CONFIGS = [
-  { depth: 4.0,  color: "#ECE8DF", stroke: "rgba(0,0,0,0.15)" },
-  { depth: 9.0,  color: "#D7D2C3", stroke: "rgba(0,0,0,0.18)" },
-  { depth: 15.0, color: "#C1BBA8", stroke: "rgba(0,0,0,0.20)" },
-  { depth: 22.0, color: "#ABA590", stroke: "rgba(0,0,0,0.22)" },
-  { depth: 29.0, color: "#928D78", stroke: "rgba(0,0,0,0.25)" },
-  { depth: 36.0, color: "#746F5C", stroke: "rgba(0,0,0,0.30)" },
-  { depth: 44.0, color: "#545041", stroke: "rgba(0,0,0,0.35)" },
+  { depth: 6.0,  color: "#E8E4D9" },
+  { depth: 13.0, color: "#D4CFC2" },
+  { depth: 21.0, color: "#BFB9AB" },
+  { depth: 30.0, color: "#A8A293" },
+  { depth: 40.0, color: "#8E8878" },
 ];
 
 export function ExtrudedHeroHeading({
@@ -82,15 +80,14 @@ export function ExtrudedHeroHeading({
                   dirY = dy / dist;
 
                   // Wide magnetic attraction field (300px radius around each letter)
-                  // Magnetizes letters even when cursor is in the empty space surrounding the text
                   const radius = 300;
                   if (dist < radius) {
                     const norm = dist / radius;
                     influence = 0.5 * (1 + Math.cos(norm * Math.PI));
                   }
 
-                  // Amplified magnetic pull vector reaching toward cursor (up to 48px displacement)
-                  const maxMagneticDist = 48;
+                  // Magnetic pull displacement
+                  const maxMagneticDist = 42;
                   magX = dirX * Math.min(dist, maxMagneticDist) * influence * 0.95;
                   magY = dirY * Math.min(dist, maxMagneticDist) * influence * 0.95;
                 }
@@ -105,15 +102,14 @@ export function ExtrudedHeroHeading({
                     }}
                     className="relative inline-block"
                   >
-                    {/* ── 7 Extrusion Layers (Wide Field Magnetic Extrusion) ── */}
+                    {/* ── Crisp Extrusion Layers (Clean solid planes, zero blur) ── */}
                     {!shouldReduceMotion &&
                       LAYER_CONFIGS.map((layer, layerIndex) => {
                         const effectiveDepth = layer.depth * influence;
                         const layerOffsetX = isLetterActive ? magX + dirX * effectiveDepth : 0;
                         const layerOffsetY = isLetterActive ? magY + dirY * effectiveDepth : 0;
 
-                        // Fast tracking when active, slow motion spring when settling back (~700ms)
-                        const springStiffness = isLetterActive ? (220 - layerIndex * 12) : (55 - layerIndex * 3);
+                        const springStiffness = isLetterActive ? (220 - layerIndex * 15) : (55 - layerIndex * 4);
                         const springDamping = isLetterActive ? (20 + layerIndex * 1.0) : (14 + layerIndex * 0.8);
                         const springMass = isLetterActive ? (0.55 + layerIndex * 0.08) : (0.95 + layerIndex * 0.12);
 
@@ -124,7 +120,6 @@ export function ExtrudedHeroHeading({
                             className={`${className} absolute inset-0 pointer-events-none select-none`}
                             style={{
                               color: layer.color,
-                              WebkitTextStroke: `1px ${layer.stroke}`,
                               zIndex: 20 - layerIndex,
                               WebkitFontSmoothing: "antialiased",
                               MozOsxFontSmoothing: "grayscale",
@@ -147,7 +142,7 @@ export function ExtrudedHeroHeading({
                         );
                       })}
 
-                    {/* ── Primary Front Letter (Amplified Magnetic Pull) ── */}
+                    {/* ── Primary Front Letter (Sharp & Crisp) ── */}
                     <motion.span
                       className={`${className} relative z-30 inline-block`}
                       style={{

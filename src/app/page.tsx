@@ -93,7 +93,7 @@ function FolderTabH({
 
   return (
     <div
-      className="relative cursor-pointer focus:outline-none block group"
+      className="relative cursor-pointer focus:outline-none inline-block group shrink-0"
       onClick={(e) => {
         e.stopPropagation();
         onClick();
@@ -101,8 +101,8 @@ function FolderTabH({
       onMouseEnter={onMouseEnter}
       style={{ isolation: "isolate" }}
     >
-      {/* Flap Stage */}
-      <div className="relative w-[200px] h-[46px] md:w-[270px] md:h-[54px]">
+      {/* Flap Stage — Width naturally driven by text content */}
+      <div className="relative h-[42px] sm:h-[48px] md:h-[54px] flex items-center justify-center px-4 sm:px-6 md:px-7">
         {/* InsideFace — static dark underside, fully hidden at rest */}
         <div
           className="absolute inset-0 pointer-events-none"
@@ -146,9 +146,6 @@ function FolderTabH({
               strokeWidth="1.5"
             />
           </svg>
-          <span className="absolute inset-0 flex items-center justify-center px-4 pt-1 font-serif text-xs sm:text-sm md:text-base font-bold text-dark tracking-tight text-center select-none leading-tight">
-            {title}
-          </span>
           {/* Light-catching gradient overlay */}
           <motion.div
             className="absolute inset-0 pointer-events-none"
@@ -161,12 +158,17 @@ function FolderTabH({
             aria-hidden
           />
         </motion.div>
+
+        {/* Natural text content width */}
+        <span className="relative z-10 font-serif text-xs sm:text-sm md:text-base font-bold text-dark tracking-tight text-center select-none whitespace-nowrap pt-1">
+          {title}
+        </span>
       </div>
     </div>
   );
 }
 
-/* ─── Vertical Tab (Right Edge) — 2D Fake-3D Peek ─── */
+/* ─── Vertical Tab (Right Edge — Mosby File Folder Style) ─── */
 function VerticalTab({
   title,
   color,
@@ -181,17 +183,16 @@ function VerticalTab({
   onClick: () => void;
 }) {
   const darkColor = darkenHex(color, 0.22);
-  const sharedRounded = { borderTopLeftRadius: "12px", borderBottomLeftRadius: "12px" };
+  const sharedRounded = { borderTopRightRadius: "8px", borderBottomRightRadius: "8px" };
 
   return (
     <div
-      className="relative cursor-pointer block w-16 md:w-20"
-      style={{ writingMode: "vertical-rl", isolation: "isolate" }}
+      className="relative cursor-pointer block select-none"
       onClick={onClick}
     >
       {/* Flap Stage */}
-      <div className="relative w-full h-full">
-        {/* InsideFace — static dark underside, fully hidden at rest */}
+      <div className="relative">
+        {/* InsideFace */}
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
@@ -202,36 +203,25 @@ function VerticalTab({
           aria-hidden
         />
 
-        {/* FrontFace — animates scaleX + skewY to fake left-edge hinge tilt */}
+        {/* FrontFace */}
         <motion.div
           initial={false}
-          whileHover={{ scaleX: 0.94, skewY: -2 }}
-          transition={PEEK_TRANSITION_H}
+          whileHover={{ x: 2 }}
+          transition={{ duration: 0.18 }}
+          className="relative px-1 sm:px-1.5 md:px-2.5 py-3 sm:py-5 shadow-md"
           style={{
             ...sharedRounded,
             backgroundColor: color,
-            borderRight: isActive ? "3px solid rgba(0,0,0,0.2)" : "none",
-            transformOrigin: "left center",
-            position: "relative",
+            borderLeft: isActive ? "2.5px solid rgba(0,0,0,0.3)" : "none",
             zIndex: 1,
           }}
         >
-          <div className="py-6 px-3 flex flex-col items-center gap-2 text-dark font-serif">
-            <span className="text-sm md:text-base font-bold tracking-tight whitespace-nowrap">{title}</span>
-            <span className="text-[0.6rem] font-mono uppercase tracking-widest opacity-60 whitespace-nowrap">{categoryLabel}</span>
+          <div
+            className="flex items-center justify-center font-serif text-[0.58rem] sm:text-xs md:text-sm font-bold text-dark tracking-tight whitespace-nowrap"
+            style={{ writingMode: "vertical-rl", transform: "rotate(180deg)" }}
+          >
+            <span>{title}</span>
           </div>
-          {/* Light-catching gradient overlay */}
-          <motion.div
-            className="absolute inset-0 pointer-events-none"
-            initial={{ opacity: 0 }}
-            whileHover={{ opacity: 0.16 }}
-            transition={PEEK_TRANSITION_H}
-            style={{
-              ...sharedRounded,
-              background: "linear-gradient(to left, transparent 0%, rgba(0,0,0,0.7) 100%)",
-            }}
-            aria-hidden
-          />
         </motion.div>
       </div>
     </div>
@@ -556,10 +546,10 @@ function ProjectPaperCard({ project }: { project: CaseStudy }) {
         {isDesktopProject ? (
           <div className="relative w-full mb-14">
             {/* Background bleed — category color wash */}
-            <div className="absolute inset-x-0 top-6 bottom-16 -mx-12 rounded-sm pointer-events-none" style={{ backgroundColor: color, opacity: 0.12 }} />
+            <div className="absolute inset-x-0 top-6 bottom-16 -mx-4 sm:-mx-8 md:-mx-12 rounded-sm pointer-events-none" style={{ backgroundColor: color, opacity: 0.12 }} />
 
             {/* Flagship Desktop PC Mockup */}
-            <div className="max-w-4xl mx-auto px-2 pt-2 pb-6 relative z-10">
+            <div className="max-w-4xl mx-auto px-1 sm:px-2 pt-2 pb-6 relative z-10">
               <DesktopScreen
                 src={project.coverImage || "/images/aurelle/web/Home.png"}
                 alt={`${project.title} Desktop Storefront`}
@@ -572,7 +562,7 @@ function ProjectPaperCard({ project }: { project: CaseStudy }) {
             </div>
 
             {/* Overlapping Floating Phone Mockup (Mobile Home) */}
-            <div className="absolute bottom-4 right-2 sm:right-6 md:right-12 w-[130px] sm:w-[150px] md:w-[180px] z-20">
+            <div className="absolute bottom-2 sm:bottom-4 right-1 sm:right-6 md:right-12 w-[100px] sm:w-[150px] md:w-[180px] z-20">
               <div className="relative">
                 <div className="absolute -top-5 -right-2 z-30 pointer-events-none"><Paperclip /></div>
                 <PhoneScreen
@@ -603,17 +593,21 @@ function ProjectPaperCard({ project }: { project: CaseStudy }) {
             </motion.div>
           </div>
         ) : isAppProject ? (
-          <div className="relative w-full mb-10" style={{ minHeight: "520px" }}>
+          <div className="relative w-full mb-10 overflow-hidden" style={{ minHeight: "420px" }}>
             {/* Background bleed — category color wash */}
-            <div className="absolute inset-x-0 top-8 bottom-20 -mx-12 rounded-sm pointer-events-none" style={{ backgroundColor: color, opacity: 0.12 }} />
+            <div className="absolute inset-x-0 top-8 bottom-20 -mx-4 sm:-mx-8 md:-mx-12 rounded-sm pointer-events-none" style={{ backgroundColor: color, opacity: 0.12 }} />
 
-            {/* Scattered hero phones */}
-            <div className="relative flex items-center justify-center gap-0 pt-4 pb-6">
+            {/* Scattered hero phones (Responsive width so all 3 phones fit on mobile screen) */}
+            <div className="relative flex items-center justify-center gap-1 sm:gap-2 pt-4 pb-6 max-w-full">
               {project.flows[0]?.images.slice(0, 3).map((img, i) => {
-                const rots = [-8, 0, 7];
-                const offsets = ["-translate-x-6 translate-y-4", "z-10 scale-105", "translate-x-6 translate-y-6"];
+                const rots = [-6, 0, 6];
+                const offsets = [
+                  "-translate-x-1 sm:-translate-x-4 translate-y-2 sm:translate-y-4",
+                  "z-10 scale-105",
+                  "translate-x-1 sm:translate-x-4 translate-y-3 sm:translate-y-6",
+                ];
                 return (
-                  <div key={i} className={`w-[140px] md:w-[185px] ${offsets[i] || ""}`}>
+                  <div key={i} className={`w-[90px] sm:w-[135px] md:w-[185px] shrink-0 ${offsets[i] || ""}`}>
                     <PhoneScreen
                       src={img.src}
                       alt={img.alt}
@@ -637,10 +631,10 @@ function ProjectPaperCard({ project }: { project: CaseStudy }) {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.5 }}
-              className="absolute bottom-0 right-4 md:right-10 max-w-xs bg-white/90 backdrop-blur-sm p-4 shadow-lg border border-black/10 rotate-1 cursor-grab active:cursor-grabbing select-none"
+              className="absolute bottom-0 right-2 sm:right-4 md:right-10 max-w-[200px] sm:max-w-xs bg-white/90 backdrop-blur-sm p-3 sm:p-4 shadow-lg border border-black/10 rotate-1 cursor-grab active:cursor-grabbing select-none"
             >
-              <p className="font-mono text-[0.6rem] uppercase tracking-widest opacity-50 mb-1 pointer-events-none">{project.dossierNumber}</p>
-              <p className="font-serif text-sm text-neutral-800 leading-relaxed pointer-events-none">{project.subtitle}</p>
+              <p className="font-mono text-[0.55rem] sm:text-[0.6rem] uppercase tracking-widest opacity-50 mb-0.5 pointer-events-none">{project.dossierNumber}</p>
+              <p className="font-serif text-xs sm:text-sm text-neutral-800 leading-snug pointer-events-none line-clamp-2 sm:line-clamp-none">{project.subtitle}</p>
             </motion.div>
           </div>
         ) : (
@@ -653,20 +647,20 @@ function ProjectPaperCard({ project }: { project: CaseStudy }) {
         )}
 
         {/* ═══ OVERVIEW PROSE ═══ */}
-        <div className="font-serif text-lg md:text-xl leading-relaxed text-neutral-900 max-w-3xl mx-auto space-y-6 mb-12">
+        <div className="font-serif text-base sm:text-lg md:text-xl leading-relaxed text-neutral-900 max-w-3xl mx-auto space-y-5 mb-12">
           {project.overview.map((para, i) => (
-            <p key={i} className={i === 0 ? "first-letter:text-6xl first-letter:font-display first-letter:leading-none first-letter:float-left first-letter:mr-3 first-letter:mt-1" : ""}>
+            <p key={i} className={i === 0 ? "first-letter:text-5xl sm:first-letter:text-6xl first-letter:font-display first-letter:leading-none first-letter:float-left first-letter:mr-3 first-letter:mt-1" : ""}>
               {para}
             </p>
           ))}
         </div>
 
         {/* ═══ METADATA ═══ */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-5 border border-black/15 bg-black/5 font-mono text-xs mb-14">
-          <div><span className="font-bold block opacity-60">Role:</span><span className="font-serif text-sm font-semibold">{project.role}</span></div>
-          <div><span className="font-bold block opacity-60">Type:</span><span className="font-serif text-sm font-semibold">{project.type}</span></div>
-          <div><span className="font-bold block opacity-60">Timeline:</span><span className="font-serif text-sm font-semibold">{project.timeline}</span></div>
-          <div><span className="font-bold block opacity-60">Tools:</span><span className="font-serif text-sm font-semibold">{project.tools.join(", ")}</span></div>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 p-4 sm:p-5 border border-black/15 bg-black/5 font-mono text-xs mb-14">
+          <div><span className="font-bold block opacity-60">Role:</span><span className="font-serif text-xs sm:text-sm font-semibold">{project.role}</span></div>
+          <div><span className="font-bold block opacity-60">Type:</span><span className="font-serif text-xs sm:text-sm font-semibold">{project.type}</span></div>
+          <div><span className="font-bold block opacity-60">Timeline:</span><span className="font-serif text-xs sm:text-sm font-semibold">{project.timeline}</span></div>
+          <div><span className="font-bold block opacity-60">Tools:</span><span className="font-serif text-xs sm:text-sm font-semibold">{project.tools.join(", ")}</span></div>
         </div>
 
         {/* ═══ FLOW SECTIONS — Mosby scrapbook collage layouts ═══ */}
@@ -715,7 +709,7 @@ function ProjectPaperCard({ project }: { project: CaseStudy }) {
           if (isDrawerFlow) {
             return (
               <div key={idx} className="relative mt-10 mb-20">
-                <div className="flex flex-col lg:flex-row gap-8 items-start mb-8">
+                <div className="flex flex-col lg:flex-row gap-6 md:gap-8 items-start mb-8">
                   <div className="lg:w-[35%] space-y-6 lg:sticky lg:top-20">
                     <ScrapbookInfoCard
                       title={flow.title}
@@ -724,13 +718,13 @@ function ProjectPaperCard({ project }: { project: CaseStudy }) {
                       rotate={-2}
                       delay={0.1}
                       hasClip
-                      className="max-w-md"
+                      className="w-full max-w-md"
                     />
                     <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.3 }} className="font-serif text-base text-neutral-800 leading-relaxed">
                       {flow.description}
                     </motion.p>
                   </div>
-                  <div className="lg:w-[65%] grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-5">
+                  <div className="lg:w-[65%] grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-5 w-full">
                     {imgs.map((img, i) => (
                       <div key={i} className="w-full">
                         <DrawerScreen
@@ -750,12 +744,12 @@ function ProjectPaperCard({ project }: { project: CaseStudy }) {
           }
 
           if (!isPortrait) {
-            // Non-portrait (landscape images) — draggable cards with expand on click
+            // Non-portrait (landscape images)
             const rot = [-2, 3, -3, 2, -1][idx % 5];
             return (
               <div key={idx} className="relative mt-10 mb-16">
-                <ScrapbookInfoCard title={flow.title} caption={flow.caption} color={color} rotate={rot} delay={0.1} className="max-w-md mb-6" hasClip={idx === 0} />
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <ScrapbookInfoCard title={flow.title} caption={flow.caption} color={color} rotate={rot} delay={0.1} className="w-full max-w-md mb-6" hasClip={idx === 0} />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                   {imgs.map((img, i) => (
                     <motion.div
                       key={i}
@@ -781,21 +775,21 @@ function ProjectPaperCard({ project }: { project: CaseStudy }) {
             );
           }
 
-          /* ─── PORTRAIT / APP SCREEN LAYOUTS — 5 unique collage patterns with drag & expand ─── */
+          /* ─── PORTRAIT / APP SCREEN LAYOUTS — Responsive Collage Patterns ─── */
           return (
             <div key={idx} className="relative mt-6 mb-20">
 
               {pattern === 0 && (
-                /* Pattern A: Info card left + staggered phone trio right, text below */
+                /* Pattern A: Info card top + phone trio below */
                 <>
                   <div className="flex flex-col md:flex-row gap-6 items-start">
-                    <ScrapbookInfoCard title={flow.title} caption={flow.caption} color={color} rotate={-3} delay={0.1} className="md:w-[280px] shrink-0 md:mt-16 md:sticky md:top-20" hasClip />
-                    <div className="flex-1 flex items-end justify-center gap-0 md:gap-2 flex-wrap relative" style={{ minHeight: "400px" }}>
+                    <ScrapbookInfoCard title={flow.title} caption={flow.caption} color={color} rotate={-3} delay={0.1} className="w-full md:w-[280px] shrink-0 md:mt-16 md:sticky md:top-20" hasClip />
+                    <div className="flex-1 flex items-end justify-center gap-1 sm:gap-2 relative w-full pt-4 pb-6" style={{ minHeight: "360px" }}>
                       {imgs.slice(0, 3).map((img, i) => {
-                        const rots = [-6, 2, -4];
-                        const yOff = [20, -10, 30];
+                        const rots = [-5, 1, -4];
+                        const yOff = [15, -8, 20];
                         return (
-                          <div key={i} className="w-[120px] md:w-[160px]" style={{ transform: `translateY(${yOff[i]}px)` }}>
+                          <div key={i} className="w-[90px] sm:w-[130px] md:w-[160px] shrink-0" style={{ transform: `translateY(${yOff[i]}px)` }}>
                             <PhoneScreen src={img.src} alt={img.alt} caption={img.caption} rotate={rots[i]} delay={0.2 + i * 0.12} zIndex={3 - i} onExpand={setExpandedImage} />
                           </div>
                         );
@@ -804,9 +798,9 @@ function ProjectPaperCard({ project }: { project: CaseStudy }) {
                   </div>
                   {/* Remaining images as small pair below */}
                   {imgs.length > 3 && (
-                    <div className="flex justify-end gap-4 mt-6 -mr-4 md:mr-0">
+                    <div className="flex justify-center sm:justify-end gap-3 sm:gap-4 mt-6">
                       {imgs.slice(3).map((img, i) => (
-                        <div key={i} className="w-[110px] md:w-[140px]">
+                        <div key={i} className="w-[85px] sm:w-[110px] md:w-[140px] shrink-0">
                           <PhoneScreen src={img.src} alt={img.alt} caption={img.caption} rotate={i % 2 === 0 ? 3 : -2} delay={0.5 + i * 0.1} onExpand={setExpandedImage} />
                         </div>
                       ))}
@@ -819,24 +813,24 @@ function ProjectPaperCard({ project }: { project: CaseStudy }) {
               )}
 
               {pattern === 1 && (
-                /* Pattern B: Full-width 4-phone spread with info card overlapping from bottom-left */
+                /* Pattern B: 4-phone spread with responsive sizes */
                 <>
                   <div className="relative">
-                    <div className="flex items-end justify-center gap-2 md:gap-4">
+                    <div className="flex items-end justify-center gap-1 sm:gap-2 md:gap-4 max-w-full">
                       {imgs.slice(0, 4).map((img, i) => {
-                        const rots = [4, -2, 3, -5];
-                        const yOff = [10, -15, 5, 20];
+                        const rots = [3, -2, 2, -4];
+                        const yOff = [8, -10, 4, 14];
                         return (
-                          <div key={i} className="w-[100px] md:w-[150px]" style={{ transform: `translateY(${yOff[i]}px)` }}>
+                          <div key={i} className="w-[72px] sm:w-[105px] md:w-[150px] shrink-0" style={{ transform: `translateY(${yOff[i]}px)` }}>
                             <PhoneScreen src={img.src} alt={img.alt} caption={img.caption} rotate={rots[i]} delay={0.1 + i * 0.1} zIndex={4 - i} onExpand={setExpandedImage} />
                           </div>
                         );
                       })}
                     </div>
                     {/* Overlapping info card */}
-                    <ScrapbookInfoCard title={flow.title} caption={flow.caption} color={color} rotate={2} delay={0.5} className="md:absolute md:-bottom-10 md:left-0 max-w-sm mt-6 md:mt-0 z-20" />
+                    <ScrapbookInfoCard title={flow.title} caption={flow.caption} color={color} rotate={2} delay={0.5} className="md:absolute md:-bottom-10 md:left-0 w-full max-w-sm mt-6 md:mt-0 z-20" />
                   </div>
-                  <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.6 }} className="font-serif text-base text-neutral-800 leading-relaxed max-w-xl mt-16 md:ml-auto md:mr-8">
+                  <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.6 }} className="font-serif text-base text-neutral-800 leading-relaxed max-w-xl mt-10 md:mt-16 md:ml-auto md:mr-8">
                     {flow.description}
                   </motion.p>
                 </>
@@ -845,23 +839,18 @@ function ProjectPaperCard({ project }: { project: CaseStudy }) {
               {pattern === 2 && (
                 /* Pattern C: Editorial — text left, stacked phones right with overlap */
                 <>
-                  <div className="flex flex-col-reverse md:flex-row gap-8 items-start">
-                    <div className="md:w-[45%] space-y-6">
-                      <ScrapbookInfoCard title={flow.title} caption={flow.caption} color={color} rotate={-2} delay={0.1} hasClip className="max-w-sm" />
+                  <div className="flex flex-col-reverse md:flex-row gap-6 md:gap-8 items-start">
+                    <div className="w-full md:w-[45%] space-y-6">
+                      <ScrapbookInfoCard title={flow.title} caption={flow.caption} color={color} rotate={-2} delay={0.1} hasClip className="w-full max-w-sm" />
                       <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.3 }} className="font-serif text-base text-neutral-800 leading-relaxed">
                         {flow.description}
                       </motion.p>
                     </div>
-                    <div className="md:w-[55%] relative flex items-start justify-center" style={{ minHeight: "450px" }}>
+                    <div className="w-full md:w-[55%] relative flex items-center justify-center gap-1 sm:gap-3 py-4" style={{ minHeight: "360px" }}>
                       {imgs.slice(0, 3).map((img, i) => {
-                        const positions = [
-                          "absolute top-0 left-[5%]",
-                          "absolute top-12 left-[30%]",
-                          "absolute top-4 right-[5%]",
-                        ];
-                        const rots = [-5, 3, -3];
+                        const rots = [-4, 2, -3];
                         return (
-                          <div key={i} className={`w-[130px] md:w-[155px] ${positions[i]}`}>
+                          <div key={i} className="w-[90px] sm:w-[120px] md:w-[155px] shrink-0">
                             <PhoneScreen src={img.src} alt={img.alt} caption={img.caption} rotate={rots[i]} delay={0.15 + i * 0.12} zIndex={3 - i} onExpand={setExpandedImage} />
                           </div>
                         );
@@ -869,9 +858,9 @@ function ProjectPaperCard({ project }: { project: CaseStudy }) {
                     </div>
                   </div>
                   {imgs.length > 3 && (
-                    <div className="flex gap-4 mt-8 justify-start ml-4">
+                    <div className="flex gap-3 sm:gap-4 mt-6 justify-center md:justify-start md:ml-4">
                       {imgs.slice(3).map((img, i) => (
-                        <div key={i} className="w-[110px] md:w-[140px]">
+                        <div key={i} className="w-[85px] sm:w-[110px] md:w-[140px] shrink-0">
                           <PhoneScreen src={img.src} alt={img.alt} caption={img.caption} rotate={i % 2 === 0 ? 4 : -3} delay={0.5 + i * 0.1} onExpand={setExpandedImage} />
                         </div>
                       ))}
@@ -881,33 +870,25 @@ function ProjectPaperCard({ project }: { project: CaseStudy }) {
               )}
 
               {pattern === 3 && (
-                /* Pattern D: Wide scattered spread — 3 top + info card bottom-right + 2 smaller bottom-left */
+                /* Pattern D: Wide scattered spread */
                 <>
-                  <ScrapbookInfoCard title={flow.title} caption={flow.caption} color={color} rotate={3} delay={0.1} className="max-w-md mb-4" hasClip />
-                  <div className="relative" style={{ minHeight: "480px" }}>
-                    {imgs.slice(0, 3).map((img, i) => {
-                      const positions = [
-                        "absolute top-0 left-0",
-                        "absolute top-6 left-[35%]",
-                        "absolute top-0 right-0",
-                      ];
-                      const rots = [3, -4, 5];
-                      return (
-                        <div key={i} className={`w-[125px] md:w-[165px] ${positions[i]}`}>
-                          <PhoneScreen src={img.src} alt={img.alt} caption={img.caption} rotate={rots[i]} delay={0.15 + i * 0.1} zIndex={3 - i} onExpand={setExpandedImage} />
-                        </div>
-                      );
-                    })}
-                    {imgs.length > 3 && (
-                      <div className="absolute bottom-0 left-[10%] flex gap-3">
-                        {imgs.slice(3).map((img, i) => (
-                          <div key={i} className="w-[100px] md:w-[130px]">
-                            <PhoneScreen src={img.src} alt={img.alt} caption={img.caption} rotate={i % 2 === 0 ? -3 : 4} delay={0.5 + i * 0.1} onExpand={setExpandedImage} />
-                          </div>
-                        ))}
+                  <ScrapbookInfoCard title={flow.title} caption={flow.caption} color={color} rotate={3} delay={0.1} className="w-full max-w-md mb-4" hasClip />
+                  <div className="relative flex items-center justify-center gap-1 sm:gap-3 py-4" style={{ minHeight: "360px" }}>
+                    {imgs.slice(0, 3).map((img, i) => (
+                      <div key={i} className="w-[90px] sm:w-[125px] md:w-[165px] shrink-0">
+                        <PhoneScreen src={img.src} alt={img.alt} caption={img.caption} rotate={[2, -3, 3][i % 3]} delay={0.15 + i * 0.1} zIndex={3 - i} onExpand={setExpandedImage} />
                       </div>
-                    )}
+                    ))}
                   </div>
+                  {imgs.length > 3 && (
+                    <div className="flex justify-center gap-2 sm:gap-3 mt-4">
+                      {imgs.slice(3).map((img, i) => (
+                        <div key={i} className="w-[80px] sm:w-[100px] md:w-[130px] shrink-0">
+                          <PhoneScreen src={img.src} alt={img.alt} caption={img.caption} rotate={i % 2 === 0 ? -3 : 4} delay={0.5 + i * 0.1} onExpand={setExpandedImage} />
+                        </div>
+                      ))}
+                    </div>
+                  )}
                   <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.5 }} className="font-serif text-base text-neutral-800 leading-relaxed max-w-2xl mt-6">
                     {flow.description}
                   </motion.p>
@@ -915,27 +896,27 @@ function ProjectPaperCard({ project }: { project: CaseStudy }) {
               )}
 
               {pattern === 4 && (
-                /* Pattern E: Centered duo with info card sandwiched between, remaining below */
+                /* Pattern E: Centered duo */
                 <>
-                  <div className="flex flex-col md:flex-row items-center gap-4 md:gap-0">
-                    <div className="w-[130px] md:w-[170px]">
-                      <PhoneScreen src={imgs[0]?.src || ""} alt={imgs[0]?.alt || ""} caption={imgs[0]?.caption || ""} rotate={-5} delay={0.1} zIndex={5} onExpand={setExpandedImage} />
+                  <div className="flex flex-row items-center justify-center gap-2 sm:gap-4 md:gap-0">
+                    <div className="w-[95px] sm:w-[130px] md:w-[170px] shrink-0">
+                      <PhoneScreen src={imgs[0]?.src || ""} alt={imgs[0]?.alt || ""} caption={imgs[0]?.caption || ""} rotate={-4} delay={0.1} zIndex={5} onExpand={setExpandedImage} />
                     </div>
-                    <ScrapbookInfoCard title={flow.title} caption={flow.caption} color={color} rotate={1} delay={0.25} className="max-w-xs md:-mx-4 z-10" hasClip />
-                    <div className="w-[130px] md:w-[170px]">
-                      <PhoneScreen src={imgs[1]?.src || ""} alt={imgs[1]?.alt || ""} caption={imgs[1]?.caption || ""} rotate={4} delay={0.2} zIndex={5} onExpand={setExpandedImage} />
+                    <ScrapbookInfoCard title={flow.title} caption={flow.caption} color={color} rotate={1} delay={0.25} className="max-w-[150px] sm:max-w-xs md:-mx-4 z-10 text-xs sm:text-sm" hasClip />
+                    <div className="w-[95px] sm:w-[130px] md:w-[170px] shrink-0">
+                      <PhoneScreen src={imgs[1]?.src || ""} alt={imgs[1]?.alt || ""} caption={imgs[1]?.caption || ""} rotate={3} delay={0.2} zIndex={5} onExpand={setExpandedImage} />
                     </div>
                   </div>
                   {imgs.length > 2 && (
-                    <div className="flex justify-center gap-3 md:gap-5 mt-8">
+                    <div className="flex justify-center gap-2 sm:gap-4 md:gap-5 mt-6">
                       {imgs.slice(2).map((img, i) => (
-                        <div key={i} className="w-[105px] md:w-[140px]">
+                        <div key={i} className="w-[85px] sm:w-[105px] md:w-[140px] shrink-0">
                           <PhoneScreen src={img.src} alt={img.alt} caption={img.caption} rotate={[3, -2, 4, -3][i % 4]} delay={0.4 + i * 0.1} onExpand={setExpandedImage} />
                         </div>
                       ))}
                     </div>
                   )}
-                  <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.5 }} className="font-serif text-base text-neutral-800 leading-relaxed max-w-xl mx-auto mt-8 text-center">
+                  <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.5 }} className="font-serif text-base text-neutral-800 leading-relaxed max-w-xl mx-auto mt-6 md:mt-8 text-center">
                     {flow.description}
                   </motion.p>
                 </>
@@ -1036,7 +1017,7 @@ export default function HomePage() {
 
   return (
     <div className="relative min-h-screen bg-dark text-light overflow-x-hidden">
-      <div className="max-w-7xl mx-auto px-4 md:px-12">
+      <div className="max-w-7xl mx-auto px-0 md:px-12">
 
         {/* ═══════ HERO SECTION ═══════ */}
         <AnimatePresence>
@@ -1047,7 +1028,7 @@ export default function HomePage() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0, y: -40 }}
               transition={{ duration: 0.5 }}
-              className="pt-20 pb-16 md:pt-32 md:pb-24"
+              className="pt-20 pb-16 md:pt-32 md:pb-24 px-4 sm:px-6 md:px-0"
             >
               <div className="space-y-6 max-w-5xl">
                 <ExtrudedHeroHeading />
@@ -1060,7 +1041,7 @@ export default function HomePage() {
         </AnimatePresence>
 
         {/* ═══════ CATEGORY RIBBONS + FOLDER TABS ═══════ */}
-        <section id="work" ref={folderRef} className="scroll-mt-24 md:scroll-mt-28">
+        <section id="work" ref={folderRef} className="scroll-mt-24 md:scroll-mt-28 w-full">
           <AnimatePresence mode="wait">
             {!openProject ? (
               /* ─── INDEX VIEW: Stacked Ribbons ─── */
@@ -1094,7 +1075,7 @@ export default function HomePage() {
 
                   const folderHeight = isShowOverview
                     ? (isLastCluster ? "680px" : "450px")
-                    : (isLastCluster ? "680px" : "44px");
+                    : (isLastCluster ? "680px" : "58px");
 
                   const zIndex = (clusterIdx + 1) * 10;
 
@@ -1106,37 +1087,46 @@ export default function HomePage() {
                       }}
                       transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
                       className={`relative ${
-                        clusterIdx > 0 ? "-mt-[48px] md:-mt-[56px]" : ""
+                        clusterIdx > 0 ? "-mt-[40px] sm:-mt-[46px] md:-mt-[52px]" : ""
                       }`}
                       style={{
                         zIndex,
                       }}
                     >
-                      {/* Folder tabs sitting seamlessly on top edge with clean spacing */}
-                      <div className="flex items-end pl-4 md:pl-10 -mb-[2px] relative z-10 gap-3 md:gap-5">
-                        {cluster.projectSlugs.map((slug, idx) => {
-                          const project = PROJECTS_DATA[slug];
-                          if (!project) return null;
-                          return (
-                            <div
-                              key={slug}
-                              style={{
-                                zIndex: cluster.projectSlugs.length - idx + 10,
-                              }}
-                            >
-                              <FolderTabH
-                                title={project.title}
-                                color={cluster.color}
-                                onClick={() => setOpenProject(slug)}
-                                onMouseEnter={() => {
-                                  setHoveredCluster(cluster.id);
-                                  setHoveredProjectSlug(slug);
-                                  setHoveredOverviewCluster(null);
+                      {/* Continuous Folder Top Edge with Tabs (Solid backplate eliminates black gaps) */}
+                      <div className="relative">
+                        <div
+                          className="absolute inset-x-0 bottom-0 h-4 md:h-5 rounded-t-sm pointer-events-none z-0"
+                          style={{ backgroundColor: cluster.color }}
+                        />
+
+                        {/* Folder tabs naturally sized according to text length */}
+                        <div className="flex items-end pl-3 sm:pl-6 md:pl-10 pr-3 sm:pr-6 md:pr-10 -mb-[1px] relative z-10 gap-2 sm:gap-4 md:gap-5 max-w-full overflow-x-auto no-scrollbar">
+                          {cluster.projectSlugs.map((slug, idx) => {
+                            const project = PROJECTS_DATA[slug];
+                            if (!project) return null;
+                            return (
+                              <div
+                                key={slug}
+                                className="shrink-0"
+                                style={{
+                                  zIndex: cluster.projectSlugs.length - idx + 10,
                                 }}
-                              />
-                            </div>
-                          );
-                        })}
+                              >
+                                <FolderTabH
+                                  title={project.title}
+                                  color={cluster.color}
+                                  onClick={() => setOpenProject(slug)}
+                                  onMouseEnter={() => {
+                                    setHoveredCluster(cluster.id);
+                                    setHoveredProjectSlug(slug);
+                                    setHoveredOverviewCluster(null);
+                                  }}
+                                />
+                              </div>
+                            );
+                          })}
+                        </div>
                       </div>
 
                       {/* Folder Body (Mosby Dossier Layout with 3D Tilt) */}
@@ -1151,11 +1141,11 @@ export default function HomePage() {
                         onClick={() => setOpenProject(cluster.projectSlugs[0])}
                         animate={{
                           height: folderHeight,
-                          paddingTop: isExpanded ? 24 : 10,
-                          paddingBottom: isExpanded ? 28 : 10,
+                          paddingTop: isExpanded ? 20 : 8,
+                          paddingBottom: isExpanded ? 24 : 8,
                         }}
                         transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-                        className="w-full relative overflow-hidden px-6 md:px-12 flex flex-col justify-start cursor-pointer rounded-t-sm"
+                        className="w-full relative overflow-hidden px-4 sm:px-6 md:px-12 flex flex-col justify-start cursor-pointer rounded-t-sm"
                         style={{
                           backgroundColor: cluster.color,
                           color: "#0A0A0A",
@@ -1195,8 +1185,8 @@ export default function HomePage() {
                           />
                         </div>
 
-                        {/* Right-aligned category label header */}
-                        <div className="flex items-center justify-end gap-2 font-mono text-xs md:text-sm font-bold uppercase tracking-widest opacity-90 h-6 shrink-0 group relative z-20">
+                        {/* Right-aligned category label header (hidden on mobile view) */}
+                        <div className="hidden md:flex items-center justify-end gap-2 font-mono text-sm font-bold uppercase tracking-widest opacity-90 h-6 shrink-0 group relative z-20">
                           <span>{cluster.tag}</span>
                           <span className="text-sm font-extrabold transition-transform group-hover:scale-125">
                             {showOverviewText ? "∨" : "<"}
@@ -1211,9 +1201,9 @@ export default function HomePage() {
                               animate={{ opacity: 1, y: 0 }}
                               exit={{ opacity: 0, y: -6 }}
                               transition={{ duration: 0.25 }}
-                              className="mt-3 max-w-3xl flex flex-col justify-start relative z-20"
+                              className="mt-2 sm:mt-3 max-w-3xl flex flex-col justify-start relative z-20"
                             >
-                              <p className="font-mono text-sm md:text-base leading-relaxed opacity-90 font-medium">
+                              <p className="font-mono text-xs sm:text-sm md:text-base leading-relaxed opacity-90 font-medium">
                                 {cluster.description}
                               </p>
                             </motion.div>
@@ -1232,10 +1222,10 @@ export default function HomePage() {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.4 }}
-                className="pb-32"
+                className="pb-32 pl-0 pr-3 sm:pr-6 md:px-0"
               >
                 {/* Close / Back Button */}
-                <div className="flex items-center justify-between mb-6 relative z-30">
+                <div className="flex items-center justify-between mb-6 px-3 sm:px-6 md:px-0 relative z-30">
                   <button
                     type="button"
                     onClick={(e) => {
@@ -1243,7 +1233,7 @@ export default function HomePage() {
                       e.stopPropagation();
                       handleClose();
                     }}
-                    className="flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-muted hover:text-catYellow transition-colors cursor-pointer py-2 pr-4 select-none focus:outline-none"
+                    className="flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-muted hover:text-white transition-colors cursor-pointer py-2 pr-4 select-none focus:outline-none"
                     aria-label="Close dossier and return to index"
                   >
                     <X className="w-4 h-4 pointer-events-none" />
@@ -1259,43 +1249,41 @@ export default function HomePage() {
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.1 }}
-                  className="mb-2"
+                  className="mb-2 px-3 sm:px-6 md:px-0"
                 >
                   <h2 className="font-display text-6xl sm:text-8xl md:text-[10rem] lg:text-[12rem] leading-[0.82] uppercase tracking-tight text-light">
                     {activeProject?.title}
                   </h2>
                 </motion.div>
 
-                {/* Folder body: colored background + paper card + vertical tabs */}
-                <div className="relative flex">
+                {/* Folder body: colored folder with left binder spine, paper card, and right vertical tabs (Mosby style) */}
+                <div className="relative flex items-stretch max-w-full pl-0">
 
-                  {/* Left: Dot markers / side rail */}
-                  <div className="hidden md:flex flex-col items-center gap-10 pt-20 pr-4 relative z-10">
-                    {[1, 2, 3, 4, 5].map((n) => (
-                      <div key={n} className="w-3.5 h-3.5 rounded-full shadow-md" style={{ backgroundColor: activeCluster?.color }} />
+                  {/* Left: Binder spine with punched holes (touches left screen edge) */}
+                  <div
+                    className="w-4 sm:w-7 md:w-9 rounded-l-none sm:rounded-l-lg flex flex-col items-center justify-around py-12 sm:py-20 shrink-0 select-none shadow-xl"
+                    style={{ backgroundColor: activeCluster?.color }}
+                  >
+                    {[1, 2, 3, 4, 5, 6].map((n) => (
+                      <div
+                        key={n}
+                        className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-[#0A0A0A] border border-white/20 shadow-inner"
+                      />
                     ))}
-                    <div className="space-y-2 font-mono text-[0.6rem] text-muted uppercase tracking-widest mt-4">
-                      <div><span className="font-bold">Role:</span></div>
-                      <div className="text-light text-[0.55rem] max-w-[100px] leading-tight">{activeProject?.role}</div>
-                      <div className="mt-3"><span className="font-bold">Timeline:</span></div>
-                      <div className="text-light text-[0.55rem] max-w-[100px] leading-tight">{activeProject?.timeline}</div>
-                    </div>
                   </div>
 
-                  {/* Center: Colored folder background + Paper card */}
+                  {/* Center: Colored folder frame + White Paper card */}
                   <motion.div
                     initial={{ y: 60, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ duration: 0.6, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-                    className="flex-1 relative"
+                    className="flex-1 min-w-0 relative shadow-2xl"
+                    style={{ backgroundColor: activeCluster?.color }}
                   >
-                    {/* Colored Folder Frame */}
-                    <div
-                      className="p-3 sm:p-5 md:p-8 rounded-t-lg shadow-2xl relative"
-                      style={{ backgroundColor: activeCluster?.color }}
-                    >
+                    {/* Inner Paper Card Padding */}
+                    <div className="p-2 sm:p-4 md:p-6">
                       {/* Top folder bar / header inside folder */}
-                      <div className="flex items-center justify-between font-mono text-xs font-bold text-dark uppercase tracking-widest mb-4 px-2">
+                      <div className="flex items-center justify-between font-mono text-[0.62rem] sm:text-xs font-bold text-dark uppercase tracking-widest mb-3 px-2">
                         <span>FOLDER // {activeCluster?.title}</span>
                         <span>CONFIDENTIAL ARCHIVE</span>
                       </div>
@@ -1304,15 +1292,15 @@ export default function HomePage() {
                       {activeProject && <ProjectPaperCard project={activeProject} />}
 
                       {/* Technical stamps footer on paper frame */}
-                      <div className="flex justify-between items-center text-dark pt-6 px-2">
+                      <div className="flex justify-between items-center text-dark pt-5 px-2">
                         <DossierStamps />
-                        <span className="font-mono text-[0.65rem] opacity-75">PAGE 01 / SCISSOR-CUT DOSSIER</span>
+                        <span className="font-mono text-[0.6rem] sm:text-[0.65rem] opacity-75">PAGE 01 / SCISSOR-CUT DOSSIER</span>
                       </div>
                     </div>
                   </motion.div>
 
-                  {/* Right: Vertical Category Tabs for quick switching */}
-                  <div className="hidden lg:flex flex-col gap-2 pt-28 -ml-1 relative z-20">
+                  {/* Right: Vertical Staggered Tabs (Mosby style sticking out right edge on all screen sizes) */}
+                  <div className="flex flex-col gap-1.5 sm:gap-2 pt-12 sm:pt-20 -ml-[1px] relative z-20 shrink-0">
                     {getSiblingTabs().map((tab) => (
                       <VerticalTab
                         key={tab.slug}
@@ -1333,7 +1321,7 @@ export default function HomePage() {
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    className="mt-20 pt-12 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-6"
+                    className="mt-20 pt-12 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-6 px-3 sm:px-6 md:px-0"
                   >
                     <div>
                       <span className="font-mono text-xs text-muted uppercase tracking-widest block mb-1">NEXT DOSSIER</span>
