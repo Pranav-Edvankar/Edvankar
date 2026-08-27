@@ -14,7 +14,7 @@ const config: Config = {
         muted: "#A3A3A3",
         catBlue: "#2E5EFF",
         catRed: "#E63946",
-        catYellow: "#F4C430",
+        catYellow: "#FFFFFF",
         catPurple: "#7B2CBF",
       },
       fontFamily: {

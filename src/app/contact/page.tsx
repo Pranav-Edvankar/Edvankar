@@ -63,13 +63,13 @@ export default function ContactPage() {
         
         {/* Header */}
         <div className="space-y-4 border-b border-neutral-800 pb-10">
-          <div className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest px-3 py-1 border border-neutral-800 bg-neutral-900 text-catYellow">
+          <div className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest px-3 py-1 border border-neutral-800 bg-neutral-900 text-light">
             <span>TRANSMISSION DOSSIER // DIRECT CONTACT</span>
           </div>
           <h1 className="font-display text-6xl sm:text-8xl md:text-[9rem] uppercase tracking-tight text-light leading-[0.88]">
             INITIATE CONTACT
           </h1>
-          <p className="font-serif italic text-xl md:text-3xl text-catYellow font-normal">
+          <p className="font-serif italic text-xl md:text-3xl text-light font-normal">
             Available for product design contracts, enterprise UX research, and design systems.
           </p>
         </div>
@@ -126,25 +126,24 @@ export default function ContactPage() {
           {/* Form */}
           <div className="md:col-span-7">
             <div className="p-8 bg-neutral-900 border border-neutral-800 space-y-6">
-              <div className="flex items-center justify-between">
+              <div>
                 <h3 className="font-display text-3xl uppercase tracking-tight text-light">
                   DIRECT TRANSMISSION FORM
                 </h3>
-                <span className="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse" title="Live Transmission Channel" />
               </div>
 
               {formSubmitted ? (
-                <div className="p-6 bg-catYellow text-dark space-y-4">
+                <div className="p-6 bg-white text-dark space-y-4 border border-neutral-200 shadow-xl">
                   <div className="space-y-1">
-                    <h4 className="font-display text-2xl uppercase tracking-tight">TRANSMISSION DISPATCHED</h4>
-                    <p className="font-serif text-sm">
-                      Your message has been delivered directly to <strong className="font-mono font-bold">pranavedvankar3@gmail.com</strong>. I will review your requirements and respond promptly.
+                    <h4 className="font-display text-2xl uppercase tracking-tight text-dark">TRANSMISSION DISPATCHED</h4>
+                    <p className="font-serif text-sm text-neutral-800">
+                      Your message has been delivered directly to <strong className="font-mono font-bold text-black">pranavedvankar3@gmail.com</strong>. I will review your requirements and respond promptly.
                     </p>
                   </div>
                   <button
                     type="button"
                     onClick={() => setFormSubmitted(false)}
-                    className="px-4 py-2 bg-dark text-light hover:bg-neutral-800 font-mono text-xs uppercase tracking-wider transition-colors cursor-pointer"
+                    className="px-4 py-2 bg-dark text-white hover:bg-neutral-800 font-mono text-xs uppercase tracking-wider transition-colors cursor-pointer"
                   >
                     SEND ANOTHER TRANSMISSION
                   </button>
@@ -175,7 +174,7 @@ export default function ContactPage() {
                       placeholder="e.g. Studio Apex"
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      className="w-full px-4 py-3 bg-dark border border-neutral-700 text-light focus:outline-none focus:border-catYellow disabled:opacity-50 transition-colors"
+                      className="w-full px-4 py-3 bg-dark border border-neutral-700 text-light focus:outline-none focus:border-white disabled:opacity-50 transition-colors"
                     />
                   </div>
 
@@ -188,7 +187,7 @@ export default function ContactPage() {
                       placeholder="e.g. contact@studioapex.com"
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="w-full px-4 py-3 bg-dark border border-neutral-700 text-light focus:outline-none focus:border-catYellow disabled:opacity-50 transition-colors"
+                      className="w-full px-4 py-3 bg-dark border border-neutral-700 text-light focus:outline-none focus:border-white disabled:opacity-50 transition-colors"
                     />
                   </div>
 
@@ -201,24 +200,24 @@ export default function ContactPage() {
                       placeholder="Describe scope, deliverables, and timeline..."
                       value={formData.message}
                       onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                      className="w-full px-4 py-3 bg-dark border border-neutral-700 text-light focus:outline-none focus:border-catYellow resize-none disabled:opacity-50 transition-colors"
+                      className="w-full px-4 py-3 bg-dark border border-neutral-700 text-light focus:outline-none focus:border-white resize-none disabled:opacity-50 transition-colors"
                     />
                   </div>
 
                   <button
                     type="submit"
                     disabled={loading}
-                    className="w-full py-4 bg-catYellow hover:bg-catYellow/90 text-dark font-display text-lg uppercase tracking-wider transition-colors flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer"
+                    className="w-full py-4 bg-white hover:bg-neutral-200 text-black font-display text-xl font-bold uppercase tracking-widest transition-all duration-150 flex items-center justify-center gap-3 shadow-lg hover:scale-[1.005] active:scale-[0.99] disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer"
                   >
                     {loading ? (
                       <>
-                        <Loader2 className="w-5 h-5 animate-spin" />
-                        <span>TRANSMITTING MESSAGE...</span>
+                        <Loader2 className="w-5 h-5 animate-spin text-black" />
+                        <span className="text-black">TRANSMITTING MESSAGE...</span>
                       </>
                     ) : (
                       <>
-                        <span>DISPATCH MESSAGE</span>
-                        <Send className="w-4 h-4" />
+                        <span className="text-black">DISPATCH MESSAGE</span>
+                        <Send className="w-5 h-5 text-black" />
                       </>
                     )}
                   </button>

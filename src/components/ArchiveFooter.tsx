@@ -9,7 +9,7 @@ export function ArchiveFooter() {
         {/* Left Column */}
         <div className="md:col-span-5 space-y-6">
           <div>
-            <span className="font-mono text-xs uppercase tracking-widest text-catYellow block">
+            <span className="font-mono text-xs uppercase tracking-widest text-light block opacity-80">
               [ SCRAPBOOK INDEX // 2026 ]
             </span>
             <h3 className="font-display text-4xl md:text-5xl uppercase text-light tracking-tight mt-2">
@@ -28,27 +28,27 @@ export function ArchiveFooter() {
           </h4>
           <ul className="font-serif space-y-2 text-sm text-muted">
             <li>
-              <Link href="/" className="hover:text-catYellow transition-colors">
+              <Link href="/" className="hover:text-white transition-colors">
                 Index / Home
               </Link>
             </li>
             <li>
-              <Link href="/about" className="hover:text-catYellow transition-colors">
+              <Link href="/about" className="hover:text-white transition-colors">
                 About & Philosophy
               </Link>
             </li>
             <li>
-              <Link href="/contact" className="hover:text-catYellow transition-colors">
+              <Link href="/contact" className="hover:text-white transition-colors">
                 Direct Contact
               </Link>
             </li>
             <li>
-              <Link href="/work/qwikamp" className="hover:text-catYellow transition-colors">
+              <Link href="/work/qwikamp" className="hover:text-white transition-colors">
                 Case File: Qwikamp
               </Link>
             </li>
             <li>
-              <Link href="/work/aurelle" className="hover:text-catYellow transition-colors">
+              <Link href="/work/aurelle" className="hover:text-white transition-colors">
                 Case File: Aurelle
               </Link>
             </li>
@@ -66,12 +66,12 @@ export function ArchiveFooter() {
           <div className="space-y-2 pt-2">
             <a
               href="mailto:pranavedvankar3@gmail.com"
-              className="flex items-center justify-between p-3 border border-neutral-800 bg-neutral-900/50 hover:border-catYellow transition-all group"
+              className="flex items-center justify-between p-3 border border-neutral-800 bg-neutral-900/50 hover:border-white transition-all group"
             >
-              <span className="font-mono text-xs text-light group-hover:text-catYellow">
+              <span className="font-mono text-xs text-light group-hover:text-white">
                 pranavedvankar3@gmail.com
               </span>
-              <ArrowUpRight className="w-4 h-4 text-catYellow group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+              <ArrowUpRight className="w-4 h-4 text-light group-hover:text-white group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
             </a>
           </div>
         </div>

@@ -14,13 +14,13 @@ export default function AboutPage() {
         
         {/* Header */}
         <div className="space-y-4 border-b border-neutral-800 pb-10">
-          <div className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest px-3 py-1 border border-neutral-800 bg-neutral-900 text-catYellow">
+          <div className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest px-3 py-1 border border-neutral-800 bg-neutral-900 text-light">
             <span>DOSSIER FILE // ABOUT & PHILOSOPHY</span>
           </div>
           <h1 className="font-display text-6xl sm:text-8xl md:text-[9rem] uppercase tracking-tight text-light leading-[0.88]">
             BIOGRAPHY & PHILOSOPHY
           </h1>
-          <p className="font-serif italic text-xl md:text-3xl text-catYellow font-normal">
+          <p className="font-serif italic text-xl md:text-3xl text-light font-normal">
             Research-informed UX grounded by real development mechanics.
           </p>
         </div>
@@ -107,7 +107,7 @@ export default function AboutPage() {
 
             <div className="p-6 bg-neutral-900 border border-neutral-800 space-y-3">
               <div className="flex items-center gap-2 border-b border-neutral-800 pb-2">
-                <Code2 className="w-4 h-4 text-catYellow" />
+                <Code2 className="w-4 h-4 text-white" />
                 <span className="font-display text-lg uppercase">DEVELOPMENT FLUENCY</span>
               </div>
               <ul className="font-mono text-xs space-y-2 text-muted uppercase">

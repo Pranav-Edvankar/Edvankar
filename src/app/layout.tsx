@@ -40,7 +40,7 @@ export default function RootLayout({
       lang="en"
       className={`${anton.variable} ${lora.variable} ${jetbrainsMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-dark text-light font-serif selection:bg-catYellow selection:text-dark">
+      <body className="min-h-full flex flex-col bg-dark text-light font-serif selection:bg-white selection:text-dark">
         <ArchiveHeader />
         <main className="flex-1 pt-20 md:pt-24">{children}</main>
         <ArchiveFooter />
