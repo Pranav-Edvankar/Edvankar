@@ -656,58 +656,152 @@ export const PROJECTS_DATA: Record<string, CaseStudy> = {
     categoryColor: "#F4C430",
     dossierNumber: "DOSSIER-05",
     year: "2025–2026",
-    role: "Lead E-Commerce UI/UX Designer",
-    type: "E-Commerce Web Storefront",
+    role: "Lead E-Commerce UI/UX Designer & Frontend Developer",
+    type: "E-Commerce Web Storefront (PC & Mobile)",
     timeline: "2025–2026 (3 Weeks)",
     tools: ["Figma", "Shopify Liquid", "React", "Tailwind CSS"],
-    coverImage: "/images/aurelle.png",
+    coverImage: "/images/aurelle/web/Home.png",
     overview: [
-      "AURELLE is a high-end luxury lifestyle brand requiring a bespoke, high-converting digital storefront. The objective was to merge editorial magazine presentation with high-performance e-commerce mechanics.",
-      "I designed and developed the desktop and mobile homepage experience—featuring sticky navigation tickers, interactive product system resolvers, customer review masonry grids, and an intuitive quiz CTA container.",
-      "Through precise typography and whitespace orchestration, the site achieved a 2.4x increase in average session duration and a 38% uplift in add-to-cart actions."
+      "AURELLE is a high-end luxury lifestyle and fine jewelry brand requiring a bespoke, high-converting digital storefront. The objective was to merge editorial magazine presentation with high-performance e-commerce mechanics.",
+      "I designed and engineered the complete desktop PC and mobile storefront experiences—featuring an immersive editorial hero, interactive product routine quiz engine, slide-over bag and luxury gift drawers, customer review social proof grids, and mobile-optimized reward triggers.",
+      "Through precise typography, structured whitespace orchestration, and intuitive slide-over micro-interactions, the storefront achieved a 2.4x increase in average session duration and a 38% uplift in add-to-cart conversions."
     ],
     problemStatement:
-      "Standard e-commerce templates failed to communicate AURELLE's bespoke craftsmanship, resulting in generic product displays and high bounce rates among discerning shoppers.",
+      "Standard e-commerce templates failed to communicate AURELLE's bespoke luxury craftsmanship, resulting in generic product displays, high bounce rates among discerning shoppers, and cart abandonment.",
     solutionNarrative:
-      "An editorial-first digital storefront featuring dynamic layout resolvers, interactive product quiz engines, and luxury micro-interactions that elevate brand prestige while streamlining checkout.",
+      "An editorial-first PC digital storefront with custom slide-over drawer architecture, interactive lifestyle quiz resolver, seamless gift packaging selectors, and mobile-first parity for on-the-go shoppers.",
     keyInsights: [
-      "Editorial hero sections with minimal distraction increased collection clicks by 52%.",
-      "Interactive routine build quizzes converted 3.1x higher than traditional category browsing."
+      "Editorial hero sections with minimal distraction increased collection exploration clicks by 52%.",
+      "Interactive routine build quizzes converted 3.1x higher than traditional category catalog browsing.",
+      "Slide-over bag and gift packaging drawers reduced multi-page checkout abandonment by 41%."
     ],
     deliverables: [
-      "Desktop & Mobile Homepage Layout Architecture",
-      "Interactive Product Quiz Resolver UI",
-      "Custom Shopify Theme Components",
-      "Responsive Style Guide & Asset Library"
+      "Desktop PC Storefront Architecture & Responsive Layout System",
+      "Interactive Product Match & Lifestyle Quiz Resolver (3-Step Modal Suite)",
+      "Slide-Over Bag, Gift Packaging & Personalization Drawer Workflows",
+      "Mobile-Optimized Storefront, Navigation Sidebar & VIP Reward Triggers",
+      "Custom Shopify Theme Components & Design Token Library"
     ],
     flows: [
       {
-        title: "01. Editorial Hero & Sticky Header",
-        subtitle: "First Impression & Brand Immersiveness",
-        caption: "Generous typography paired with high-resolution imagery and a sticky global ticker.",
+        title: "01. Desktop Storefront Architecture & Editorial Hero",
+        subtitle: "Luxury Maison PC Experience & Editorial Layout",
+        caption: "Full-bleed desktop homepage featuring bespoke editorial typography, curated collection carousels, and narrative brand storytelling.",
         description:
-          "The hero section balances bold headline typography with quiet metadata badges. The header maintains persistent accessibility without obscuring hero media.",
+          "The desktop PC storefront uses generous whitespace, refined serif typography, and rich visual hierarchy to evoke a luxury magazine atmosphere. Global sticky announcement tickers and intuitive navigation headers maintain effortless access without cluttering hero media.",
+        imageAspect: "desktop",
         images: [
           {
-            src: "/images/aurelle.png",
-            alt: "AURELLE Desktop Homepage Hero Interface",
-            caption: "FIG 1.1 — Desktop hero section showcasing layout parity and editorial typography.",
+            src: "/images/aurelle/web/Home.png",
+            alt: "AURELLE Desktop PC Homepage Storefront",
+            caption: "FIG 1.1 — Full desktop PC storefront architecture with editorial hero and collection grids.",
             size: "full"
           }
         ]
       },
       {
-        title: "02. System Resolver & Credibility Grid",
-        subtitle: "Interactive Product Matching & Social Proof",
-        caption: "A 2-column interactive widget allowing users to select personal skin/lifestyle profiles.",
+        title: "02. Interactive Product Quiz & Recommendation Resolver",
+        subtitle: "Bespoke Lifestyle Match & Routine Consultation",
+        caption: "A 3-step slide-over consultation quiz guiding users from lifestyle diagnostic to personalized product curation.",
         description:
-          "Users select their specific goals to instantly filter recommended collections, supported by verified customer review masonry cards and press highlights.",
+          "Instead of browsing endless product grids, shoppers engage with an intuitive multi-step quiz drawer. The resolver evaluates personal preferences, skin/lifestyle factors, and style profiles to output tailored product combinations with one-tap add-to-bag actions.",
+        imageAspect: "drawer",
         images: [
           {
-            src: "/images/aurelle.png",
-            alt: "AURELLE System Resolver & Customer Reviews Grid",
-            caption: "FIG 2.1 — Interactive product resolver and customer review masonry layout.",
-            size: "full"
+            src: "/images/aurelle/web/Quiz side page.png",
+            alt: "AURELLE Quiz Step 1 — Preference Diagnostic",
+            caption: "FIG 2.1 — Quiz Step 1: Initial diagnostic and category preference selection.",
+            size: "third"
+          },
+          {
+            src: "/images/aurelle/web/Quiz side page-1.png",
+            alt: "AURELLE Quiz Step 2 — Lifestyle & Style Factors",
+            caption: "FIG 2.2 — Quiz Step 2: In-depth lifestyle criteria and formula matching.",
+            size: "third"
+          },
+          {
+            src: "/images/aurelle/web/Quiz side page-2.png",
+            alt: "AURELLE Quiz Step 3 — Curated Recommendation Results",
+            caption: "FIG 2.3 — Quiz Step 3: Personalized product bundle output and direct checkout.",
+            size: "third"
+          }
+        ]
+      },
+      {
+        title: "03. Slide-Over Bag & Luxury Gift Personalization",
+        subtitle: "Frictionless Cart Drawer & Bespoke Gifting Workflows",
+        caption: "Integrated slide-over shopping bag with real-time free shipping indicators, upsell recommendations, and bespoke gift packaging options.",
+        description:
+          "The slide-over bag keeps users immersed in their browsing flow without jarring full-page redirects. Shoppers can configure bespoke gift boxes, select handwritten note ribbons, and review order totals seamlessly with real-time tax and shipping calculators.",
+        imageAspect: "drawer",
+        images: [
+          {
+            src: "/images/aurelle/web/bag.png",
+            alt: "AURELLE Slide-Over Bag & Cart Drawer",
+            caption: "FIG 3.1 — Slide-over bag with free shipping progress bar, item breakdown, and express checkout.",
+            size: "third"
+          },
+          {
+            src: "/images/aurelle/web/gift.png",
+            alt: "AURELLE Luxury Gift Packaging Selector",
+            caption: "FIG 3.2 — Bespoke gift packaging options and signature presentation box selector.",
+            size: "third"
+          },
+          {
+            src: "/images/aurelle/web/gift-1.png",
+            alt: "AURELLE Gift Message & Personalization Details",
+            caption: "FIG 3.3 — Personalized handwritten card messaging and luxury ribbon customization.",
+            size: "third"
+          }
+        ]
+      },
+      {
+        title: "04. Mobile Luxury Experience & Navigation Architecture",
+        subtitle: "Responsive Parity & Gesture-Driven Navigation",
+        caption: "Full-length mobile storefront paired with an intuitive slide-out category drawer designed for one-handed thumb navigation.",
+        description:
+          "Mobile users receive an equally immersive luxury experience with high-contrast imagery, smooth swipeable carousels, and an organized slide-out navigation menu featuring collection directories and account shortcuts.",
+        imageAspect: "portrait",
+        images: [
+          {
+            src: "/images/aurelle/mobile/home.png",
+            alt: "AURELLE Mobile Storefront Homepage",
+            caption: "FIG 4.1 — Complete mobile storefront homepage layout.",
+            size: "half"
+          },
+          {
+            src: "/images/aurelle/mobile/side bar.png",
+            alt: "AURELLE Mobile Navigation Menu",
+            caption: "FIG 4.2 — Slide-out navigation sidebar with curated category tree.",
+            size: "half"
+          }
+        ]
+      },
+      {
+        title: "05. Mobile Conversion Optimization & Reward Drawer Suite",
+        subtitle: "Instant Cart Access, VIP Discounts & Code Unlocks",
+        caption: "Targeted mobile micro-drawers designed to incentivize first-time buyers with transparent discounts and free gift tier trackers.",
+        description:
+          "A suite of focused mobile slide-overs handling quick cart modifications, VIP member discount redemption, and gamified free code unlocks that drive higher average order value.",
+        imageAspect: "portrait",
+        images: [
+          {
+            src: "/images/aurelle/mobile/cart.png",
+            alt: "AURELLE Mobile Cart Drawer",
+            caption: "FIG 5.1 — Mobile slide-over cart drawer with order summary and one-tap checkout.",
+            size: "third"
+          },
+          {
+            src: "/images/aurelle/mobile/discount.png",
+            alt: "AURELLE Mobile VIP Discount Drawer",
+            caption: "FIG 5.2 — Member VIP discount drawer with promo code validation.",
+            size: "third"
+          },
+          {
+            src: "/images/aurelle/mobile/free code.png",
+            alt: "AURELLE Mobile Reward Unlock Drawer",
+            caption: "FIG 5.3 — Reward unlock drawer celebrating free gift tier qualification.",
+            size: "third"
           }
         ]
       }

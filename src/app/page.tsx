@@ -336,7 +336,7 @@ function PhoneScreen({
       style={{ zIndex }}
       onTap={() => onExpand?.({ src, alt, caption })}
     >
-      {/* Sleek, clean paper bezel frame (no notch blocking the design) */}
+      {/* Sleek, clean paper bezel frame */}
       <div className="rounded-[1.5rem] bg-white p-1.5 shadow-2xl border border-black/15 group-hover:border-black/30 transition-all hover:scale-[1.02]">
         <div className="rounded-[1.2rem] overflow-hidden bg-[#0B1120] relative">
           <div className="relative aspect-[9/19.5] w-full">
@@ -345,6 +345,151 @@ function PhoneScreen({
         </div>
       </div>
       {/* Caption label */}
+      {caption && (
+        <p className="font-mono text-[0.6rem] text-neutral-500 mt-2 text-center leading-tight px-2 pointer-events-none">
+          {caption}
+        </p>
+      )}
+    </motion.div>
+  );
+}
+
+/* ─── Desktop PC Browser Screen Mockup — Authentic PC window chrome with scroll & expand ─── */
+function DesktopScreen({
+  src,
+  alt,
+  caption,
+  rotate = 0,
+  delay = 0.1,
+  className = "",
+  url = "aurelle-luxury.com",
+  onExpand,
+}: {
+  src: string;
+  alt: string;
+  caption?: string;
+  rotate?: number;
+  delay?: number;
+  className?: string;
+  url?: string;
+  onExpand?: (img: { src: string; alt: string; caption?: string }) => void;
+}) {
+  return (
+    <motion.div
+      drag
+      dragElastic={0.12}
+      whileDrag={{ scale: 1.02, zIndex: 50, cursor: "grabbing" }}
+      initial={{ opacity: 0, y: 35, rotate: 0 }}
+      whileInView={{ opacity: 1, y: 0, rotate }}
+      viewport={{ once: true, margin: "-40px" }}
+      transition={{ duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] }}
+      className={`relative cursor-grab active:cursor-grabbing select-none ${className}`}
+      onTap={() => onExpand?.({ src, alt, caption })}
+    >
+      {/* Sleek PC / Desktop Browser Frame */}
+      <div className="rounded-xl md:rounded-2xl bg-[#1E1E24] shadow-2xl border border-black/30 overflow-hidden group hover:border-black/50 transition-all">
+        {/* Browser Top Window Bar / Chrome */}
+        <div className="bg-[#16161A] px-3.5 py-2.5 flex items-center justify-between border-b border-white/10 gap-3">
+          {/* Traffic Light Control Dots */}
+          <div className="flex items-center gap-1.5 shrink-0">
+            <div className="w-3 h-3 rounded-full bg-[#FF5F56] border border-[#E0443E]/50 shadow-inner" />
+            <div className="w-3 h-3 rounded-full bg-[#FFBD2E] border border-[#DEA123]/50 shadow-inner" />
+            <div className="w-3 h-3 rounded-full bg-[#27C93F] border border-[#1AAB29]/50 shadow-inner" />
+          </div>
+
+          {/* Tab & URL Address Bar */}
+          <div className="flex-1 flex items-center justify-center max-w-md">
+            <div className="w-full bg-[#0D0D11] text-neutral-300 rounded-md py-1 px-3 flex items-center justify-between text-[0.68rem] md:text-xs font-mono border border-white/5 shadow-inner">
+              <span className="flex items-center gap-1.5 truncate text-neutral-400">
+                <span className="text-emerald-400 text-[0.7rem]">🔒</span>
+                <span className="text-neutral-200">{url}</span>
+              </span>
+              <span className="text-[0.6rem] uppercase tracking-wider text-neutral-500 hidden sm:inline">2026 PROD</span>
+            </div>
+          </div>
+
+          {/* Browser Window Icons */}
+          <div className="flex items-center gap-2 text-neutral-400 text-xs shrink-0">
+            <span className="hover:text-white transition-colors cursor-pointer" title="Expand View">⛶</span>
+          </div>
+        </div>
+
+        {/* Browser Viewport with Scrollable Preview */}
+        <div className="relative bg-[#0F0F12] max-h-[460px] md:max-h-[620px] overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent">
+          <div className="relative w-full">
+            <img
+              src={src}
+              alt={alt}
+              className="w-full h-auto block pointer-events-none"
+              loading="lazy"
+            />
+          </div>
+
+          {/* Subtle scroll hint overlay on bottom */}
+          <div className="sticky bottom-2 right-2 flex justify-end pointer-events-none pr-2 pb-2">
+            <span className="bg-black/80 backdrop-blur-md text-white/90 text-[0.6rem] font-mono uppercase tracking-widest px-2.5 py-1 rounded border border-white/15 shadow-lg">
+              ↕ Scroll Viewport • Click to Expand
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {caption && (
+        <p className="font-mono text-[0.65rem] text-neutral-500 mt-2 text-center leading-tight px-2 pointer-events-none">
+          {caption}
+        </p>
+      )}
+    </motion.div>
+  );
+}
+
+/* ─── Desktop Slide-Over Drawer Mockup ─── */
+function DrawerScreen({
+  src,
+  alt,
+  caption,
+  rotate = 0,
+  delay = 0.1,
+  className = "",
+  zIndex = 1,
+  onExpand,
+}: {
+  src: string;
+  alt: string;
+  caption?: string;
+  rotate?: number;
+  delay?: number;
+  className?: string;
+  zIndex?: number;
+  onExpand?: (img: { src: string; alt: string; caption?: string }) => void;
+}) {
+  return (
+    <motion.div
+      drag
+      dragElastic={0.15}
+      whileDrag={{ scale: 1.05, zIndex: 50, cursor: "grabbing" }}
+      initial={{ opacity: 0, y: 30, rotate: 0 }}
+      whileInView={{ opacity: 1, y: 0, rotate }}
+      viewport={{ once: true, margin: "-40px" }}
+      transition={{ duration: 0.6, delay, ease: [0.22, 1, 0.36, 1] }}
+      className={`relative cursor-grab active:cursor-grabbing select-none ${className}`}
+      style={{ zIndex }}
+      onTap={() => onExpand?.({ src, alt, caption })}
+    >
+      {/* Desktop Slide-over Drawer Frame */}
+      <div className="rounded-xl bg-white shadow-2xl border border-black/20 overflow-hidden hover:border-black/40 transition-all hover:scale-[1.02]">
+        {/* Drawer header bar */}
+        <div className="bg-[#1C1C1F] px-3 py-2 flex items-center justify-between border-b border-black/10">
+          <div className="flex items-center gap-1.5">
+            <div className="w-2 h-2 rounded-full bg-catYellow/90" />
+            <span className="font-mono text-[0.6rem] text-neutral-300 uppercase tracking-wider">Slide-Over Panel</span>
+          </div>
+          <span className="text-neutral-400 text-xs">✕</span>
+        </div>
+        <div className="relative aspect-[524/1215] w-full bg-[#FAFAFA]">
+          <Image src={src} alt={alt} fill className="object-cover object-top pointer-events-none" />
+        </div>
+      </div>
       {caption && (
         <p className="font-mono text-[0.6rem] text-neutral-500 mt-2 text-center leading-tight px-2 pointer-events-none">
           {caption}
@@ -393,7 +538,8 @@ function ScrapbookInfoCard({
 
 /* ─── Project Detail Paper Card (Mosby Scrapbook Aesthetic with Drag & Lightbox) ─── */
 function ProjectPaperCard({ project }: { project: CaseStudy }) {
-  const isAppProject = project.flows.some((f) => f.imageAspect === "portrait");
+  const isDesktopProject = project.slug === "aurelle" || project.flows.some((f) => f.imageAspect === "desktop");
+  const isAppProject = !isDesktopProject && project.flows.some((f) => f.imageAspect === "portrait");
   const color = project.categoryColor;
   const [expandedImage, setExpandedImage] = useState<{ src: string; alt: string; caption?: string } | null>(null);
 
@@ -406,8 +552,57 @@ function ProjectPaperCard({ project }: { project: CaseStudy }) {
 
       <div className="p-6 md:p-12 space-y-0">
 
-        {/* ═══ HERO COVER — scattered phone collage for app projects ═══ */}
-        {isAppProject ? (
+        {/* ═══ HERO COVER — Desktop PC Mockup Hero for web projects, phone collage for apps ═══ */}
+        {isDesktopProject ? (
+          <div className="relative w-full mb-14">
+            {/* Background bleed — category color wash */}
+            <div className="absolute inset-x-0 top-6 bottom-16 -mx-12 rounded-sm pointer-events-none" style={{ backgroundColor: color, opacity: 0.12 }} />
+
+            {/* Flagship Desktop PC Mockup */}
+            <div className="max-w-4xl mx-auto px-2 pt-2 pb-6 relative z-10">
+              <DesktopScreen
+                src={project.coverImage || "/images/aurelle/web/Home.png"}
+                alt={`${project.title} Desktop Storefront`}
+                caption="FIG 0.1 — AURELLE Haute Joaillerie & Maison E-Commerce Desktop Experience"
+                rotate={-0.5}
+                delay={0.1}
+                url="aurelle-luxury.com/storefront"
+                onExpand={setExpandedImage}
+              />
+            </div>
+
+            {/* Overlapping Floating Phone Mockup (Mobile Home) */}
+            <div className="absolute bottom-4 right-2 sm:right-6 md:right-12 w-[130px] sm:w-[150px] md:w-[180px] z-20">
+              <div className="relative">
+                <div className="absolute -top-5 -right-2 z-30 pointer-events-none"><Paperclip /></div>
+                <PhoneScreen
+                  src="/images/aurelle/mobile/home.png"
+                  alt="AURELLE Mobile Parity"
+                  caption="Mobile Storefront Parity"
+                  rotate={4}
+                  delay={0.35}
+                  zIndex={25}
+                  onExpand={setExpandedImage}
+                />
+              </div>
+            </div>
+
+            {/* Floating subtitle card */}
+            <motion.div
+              drag
+              dragElastic={0.15}
+              whileDrag={{ scale: 1.05, zIndex: 50 }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.5 }}
+              className="hidden sm:block absolute bottom-0 left-4 md:left-8 max-w-xs bg-white/95 backdrop-blur-sm p-4 shadow-lg border border-black/10 -rotate-1 cursor-grab active:cursor-grabbing select-none z-20"
+            >
+              <p className="font-mono text-[0.6rem] uppercase tracking-widest opacity-50 mb-1 pointer-events-none">{project.dossierNumber}</p>
+              <p className="font-serif text-sm text-neutral-800 leading-relaxed pointer-events-none">{project.subtitle}</p>
+            </motion.div>
+          </div>
+        ) : isAppProject ? (
           <div className="relative w-full mb-10" style={{ minHeight: "520px" }}>
             {/* Background bleed — category color wash */}
             <div className="absolute inset-x-0 top-8 bottom-20 -mx-12 rounded-sm pointer-events-none" style={{ backgroundColor: color, opacity: 0.12 }} />
@@ -476,9 +671,83 @@ function ProjectPaperCard({ project }: { project: CaseStudy }) {
 
         {/* ═══ FLOW SECTIONS — Mosby scrapbook collage layouts ═══ */}
         {project.flows.map((flow, idx) => {
+          const isDesktopFlow = flow.imageAspect === "desktop";
+          const isDrawerFlow = flow.imageAspect === "drawer";
           const isPortrait = flow.imageAspect === "portrait";
           const imgs = flow.images;
           const pattern = idx % 5;
+
+          /* ─── DESKTOP PC STOREFRONT FLOW ─── */
+          if (isDesktopFlow) {
+            return (
+              <div key={idx} className="relative mt-10 mb-20">
+                <ScrapbookInfoCard
+                  title={flow.title}
+                  caption={flow.caption}
+                  color={color}
+                  rotate={-1.5}
+                  delay={0.1}
+                  className="max-w-xl mb-8"
+                  hasClip={idx === 0}
+                />
+                <div className="w-full">
+                  {imgs.map((img, i) => (
+                    <DesktopScreen
+                      key={i}
+                      src={img.src}
+                      alt={img.alt}
+                      caption={img.caption}
+                      rotate={0.5}
+                      delay={0.2}
+                      url="aurelle-luxury.com"
+                      onExpand={setExpandedImage}
+                    />
+                  ))}
+                </div>
+                <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.4 }} className="font-serif text-base text-neutral-800 leading-relaxed max-w-2xl mt-6">
+                  {flow.description}
+                </motion.p>
+              </div>
+            );
+          }
+
+          /* ─── DESKTOP SLIDE-OVER DRAWER FLOW ─── */
+          if (isDrawerFlow) {
+            return (
+              <div key={idx} className="relative mt-10 mb-20">
+                <div className="flex flex-col lg:flex-row gap-8 items-start mb-8">
+                  <div className="lg:w-[35%] space-y-6 lg:sticky lg:top-20">
+                    <ScrapbookInfoCard
+                      title={flow.title}
+                      caption={flow.caption}
+                      color={color}
+                      rotate={-2}
+                      delay={0.1}
+                      hasClip
+                      className="max-w-md"
+                    />
+                    <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.3 }} className="font-serif text-base text-neutral-800 leading-relaxed">
+                      {flow.description}
+                    </motion.p>
+                  </div>
+                  <div className="lg:w-[65%] grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-5">
+                    {imgs.map((img, i) => (
+                      <div key={i} className="w-full">
+                        <DrawerScreen
+                          src={img.src}
+                          alt={img.alt}
+                          caption={img.caption}
+                          rotate={[-2, 1.5, -1][i % 3]}
+                          delay={0.2 + i * 0.12}
+                          onExpand={setExpandedImage}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            );
+          }
 
           if (!isPortrait) {
             // Non-portrait (landscape images) — draggable cards with expand on click
