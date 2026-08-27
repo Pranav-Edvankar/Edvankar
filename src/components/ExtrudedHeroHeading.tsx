@@ -26,9 +26,11 @@ export function ExtrudedHeroHeading({
   const charRefs = useRef<{ [key: number]: HTMLSpanElement | null }>({});
   const shouldReduceMotion = useReducedMotion();
 
-  // Track cursor position
+  // Track cursor position on desktop mouse pointers only (disabled on mobile / touch)
   const handleMouseMove = useCallback((e: React.MouseEvent) => {
-    setMousePos({ x: e.clientX, y: e.clientY });
+    if (typeof window !== "undefined" && window.matchMedia("(pointer: fine)").matches) {
+      setMousePos({ x: e.clientX, y: e.clientY });
+    }
   }, []);
 
   const handleMouseLeave = useCallback(() => {

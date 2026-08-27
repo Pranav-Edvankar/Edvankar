@@ -20,53 +20,106 @@ function darkenHex(hex: string, amount = 0.18): string {
   return `#${dr.toString(16).padStart(2, "0")}${dg.toString(16).padStart(2, "0")}${db.toString(16).padStart(2, "0")}`;
 }
 
-/* ─── Paperclip SVG ─── */
+/* ─── Realistic Metallic Steel Paperclip ─── */
 function Paperclip({ className = "" }: { className?: string }) {
   return (
-    <svg className={`w-8 h-14 text-neutral-400 drop-shadow-lg ${className}`} viewBox="0 0 24 36" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M12 6v18a4 4 0 0 1-8 0V8a6 6 0 0 1 12 0v16a8 8 0 0 1-16 0V10" /></svg>
+    <svg
+      className={`w-7 h-13 md:w-9 md:h-16 drop-shadow-[0_4px_6px_rgba(0,0,0,0.35)] select-none pointer-events-none ${className}`}
+      viewBox="0 0 42 70"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <defs>
+        {/* Realistic Steel / Chrome Metallic Gradient */}
+        <linearGradient id="clipSteelGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#FAFAFA" />
+          <stop offset="20%" stopColor="#C8C8CC" />
+          <stop offset="45%" stopColor="#FFFFFF" />
+          <stop offset="70%" stopColor="#8E8E96" />
+          <stop offset="90%" stopColor="#D4D4D8" />
+          <stop offset="100%" stopColor="#5A5A62" />
+        </linearGradient>
+
+        {/* Specular Chrome Reflection Sheen */}
+        <linearGradient id="clipShineGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.95" />
+          <stop offset="40%" stopColor="#A0A0A8" stopOpacity="0.3" />
+          <stop offset="70%" stopColor="#FFFFFF" stopOpacity="0.9" />
+          <stop offset="100%" stopColor="#6C6C74" stopOpacity="0.4" />
+        </linearGradient>
+      </defs>
+
+      {/* Cast Shadow Underlay */}
+      <path
+        d="M 15,16 L 15,44 A 6,6 0 0,0 27,44 L 27,16 A 9.5,9.5 0 0,0 8,16 L 8,48 A 13,13 0 0,0 34,48 L 34,22"
+        stroke="rgba(0,0,0,0.38)"
+        strokeWidth="3.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        transform="translate(1.5, 2.5)"
+      />
+
+      {/* Main Metallic Steel Wire */}
+      <path
+        d="M 15,16 L 15,44 A 6,6 0 0,0 27,44 L 27,16 A 9.5,9.5 0 0,0 8,16 L 8,48 A 13,13 0 0,0 34,48 L 34,22"
+        stroke="url(#clipSteelGrad)"
+        strokeWidth="3.2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+
+      {/* Core Specular Chrome Highlight */}
+      <path
+        d="M 15,16 L 15,44 A 6,6 0 0,0 27,44 L 27,16 A 9.5,9.5 0 0,0 8,16 L 8,48 A 13,13 0 0,0 34,48 L 34,22"
+        stroke="url(#clipShineGrad)"
+        strokeWidth="1.2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
   );
 }
 
 /* ─── Dossier Technical Stamps / Compass SVGs ─── */
 function DossierStamps() {
   return (
-    <div className="flex items-center gap-6 md:gap-10 opacity-75 pt-10 select-none">
+    <div className="flex items-center gap-2.5 sm:gap-6 md:gap-8 opacity-75 select-none shrink-0">
       {/* North Compass Arrow 1 */}
-      <svg className="w-7 h-7 md:w-9 md:h-9 text-current" viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.5">
+      <svg className="w-5 h-5 sm:w-7 sm:h-7 md:w-8 md:h-8 text-current shrink-0" viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.5">
         <circle cx="16" cy="16" r="13" />
         <path d="M16 5 L20 16 L16 13 L12 16 Z" fill="currentColor" />
         <text x="14" y="9" fontSize="5" fontWeight="bold" fill="currentColor">N</text>
       </svg>
       {/* Stamp Dial 2 */}
-      <svg className="w-7 h-7 md:w-9 md:h-9 text-current" viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.5">
+      <svg className="w-5 h-5 sm:w-7 sm:h-7 md:w-8 md:h-8 text-current shrink-0" viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.5">
         <circle cx="16" cy="16" r="12" strokeDasharray="2 2" />
         <polygon points="16,6 24,24 8,24" />
       </svg>
       {/* North Arrow 3 */}
-      <svg className="w-7 h-7 md:w-9 md:h-9 text-current" viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.5">
+      <svg className="w-5 h-5 sm:w-7 sm:h-7 md:w-8 md:h-8 text-current shrink-0" viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.5">
         <path d="M6 26 L26 6" />
         <path d="M18 6 L26 6 L26 14" />
         <text x="8" y="14" fontSize="6" fontWeight="bold" fill="currentColor">N</text>
       </svg>
       {/* Grid Globe 4 */}
-      <svg className="w-7 h-7 md:w-9 md:h-9 text-current" viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.5">
+      <svg className="w-5 h-5 sm:w-7 sm:h-7 md:w-8 md:h-8 text-current shrink-0" viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.5">
         <circle cx="16" cy="16" r="13" />
         <ellipse cx="16" cy="16" rx="6" ry="13" />
         <line x1="3" y1="16" x2="29" y2="16" />
       </svg>
-      {/* Dial Wheel 5 */}
-      <svg className="w-7 h-7 md:w-9 md:h-9 text-current" viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.5">
+      {/* Dial Wheel 5 (Hidden on extra small screens) */}
+      <svg className="hidden xs:block w-5 h-5 sm:w-7 sm:h-7 md:w-8 md:h-8 text-current shrink-0" viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.5">
         <circle cx="16" cy="16" r="12" />
         <line x1="4" y1="16" x2="28" y2="16" />
       </svg>
-      {/* Drafting Compass 6 */}
-      <svg className="w-7 h-7 md:w-9 md:h-9 text-current" viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.5">
+      {/* Drafting Compass 6 (Desktop only) */}
+      <svg className="hidden sm:block w-7 h-7 md:w-8 md:h-8 text-current shrink-0" viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.5">
         <path d="M16 4 L6 28 M16 4 L26 28" />
         <line x1="9" y1="20" x2="23" y2="20" />
         <circle cx="16" cy="4" r="2" fill="currentColor" />
       </svg>
-      {/* Technical Stamp 7 */}
-      <svg className="w-7 h-7 md:w-9 md:h-9 text-current" viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.5">
+      {/* Technical Stamp 7 (Desktop only) */}
+      <svg className="hidden md:block w-8 h-8 text-current shrink-0" viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.5">
         <rect x="5" y="5" width="22" height="22" strokeDasharray="3 2" />
         <circle cx="16" cy="16" r="7" />
       </svg>
@@ -183,7 +236,7 @@ function VerticalTab({
   onClick: () => void;
 }) {
   const darkColor = darkenHex(color, 0.22);
-  const sharedRounded = { borderTopRightRadius: "8px", borderBottomRightRadius: "8px" };
+  const sharedRounded = { borderTopRightRadius: "12px", borderBottomRightRadius: "12px" };
 
   return (
     <div
@@ -206,18 +259,18 @@ function VerticalTab({
         {/* FrontFace */}
         <motion.div
           initial={false}
-          whileHover={{ x: 2 }}
+          whileHover={{ x: 3 }}
           transition={{ duration: 0.18 }}
-          className="relative px-1 sm:px-1.5 md:px-2.5 py-3 sm:py-5 shadow-md"
+          className="relative px-2 sm:px-3 md:px-4 py-4 sm:py-6 md:py-8 shadow-md"
           style={{
             ...sharedRounded,
             backgroundColor: color,
-            borderLeft: isActive ? "2.5px solid rgba(0,0,0,0.3)" : "none",
+            borderLeft: isActive ? "3px solid rgba(0,0,0,0.3)" : "none",
             zIndex: 1,
           }}
         >
           <div
-            className="flex items-center justify-center font-serif text-[0.58rem] sm:text-xs md:text-sm font-bold text-dark tracking-tight whitespace-nowrap"
+            className="flex items-center justify-center font-serif text-xs sm:text-sm md:text-base font-bold text-dark tracking-tight whitespace-nowrap"
             style={{ writingMode: "vertical-rl", transform: "rotate(180deg)" }}
           >
             <span>{title}</span>
@@ -298,15 +351,15 @@ function PhoneScreen({
   src,
   alt,
   caption,
-  rotate,
-  delay,
+  rotate = 0,
+  delay = 0.1,
   className = "",
   zIndex = 1,
   onExpand,
 }: {
   src: string;
   alt: string;
-  caption: string;
+  caption?: string;
   rotate: number;
   delay: number;
   className?: string;
@@ -315,16 +368,13 @@ function PhoneScreen({
 }) {
   return (
     <motion.div
-      drag
-      dragElastic={0.15}
-      whileDrag={{ scale: 1.08, zIndex: 50, cursor: "grabbing" }}
       initial={{ opacity: 0, y: 40, rotate: 0 }}
       whileInView={{ opacity: 1, y: 0, rotate }}
       viewport={{ once: true, margin: "-40px" }}
       transition={{ duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] }}
-      className={`relative cursor-grab active:cursor-grabbing select-none ${className}`}
+      className={`relative cursor-pointer select-none ${className}`}
       style={{ zIndex }}
-      onTap={() => onExpand?.({ src, alt, caption })}
+      onClick={() => onExpand?.({ src, alt, caption })}
     >
       {/* Sleek, clean paper bezel frame */}
       <div className="rounded-[1.5rem] bg-white p-1.5 shadow-2xl border border-black/15 group-hover:border-black/30 transition-all hover:scale-[1.02]">
@@ -366,15 +416,12 @@ function DesktopScreen({
 }) {
   return (
     <motion.div
-      drag
-      dragElastic={0.12}
-      whileDrag={{ scale: 1.02, zIndex: 50, cursor: "grabbing" }}
       initial={{ opacity: 0, y: 35, rotate: 0 }}
       whileInView={{ opacity: 1, y: 0, rotate }}
       viewport={{ once: true, margin: "-40px" }}
       transition={{ duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] }}
-      className={`relative cursor-grab active:cursor-grabbing select-none ${className}`}
-      onTap={() => onExpand?.({ src, alt, caption })}
+      className={`relative cursor-pointer select-none ${className}`}
+      onClick={() => onExpand?.({ src, alt, caption })}
     >
       {/* Sleek PC / Desktop Browser Frame */}
       <div className="rounded-xl md:rounded-2xl bg-[#1E1E24] shadow-2xl border border-black/30 overflow-hidden group hover:border-black/50 transition-all">
@@ -455,23 +502,20 @@ function DrawerScreen({
 }) {
   return (
     <motion.div
-      drag
-      dragElastic={0.15}
-      whileDrag={{ scale: 1.05, zIndex: 50, cursor: "grabbing" }}
       initial={{ opacity: 0, y: 30, rotate: 0 }}
       whileInView={{ opacity: 1, y: 0, rotate }}
       viewport={{ once: true, margin: "-40px" }}
       transition={{ duration: 0.6, delay, ease: [0.22, 1, 0.36, 1] }}
-      className={`relative cursor-grab active:cursor-grabbing select-none ${className}`}
+      className={`relative cursor-pointer select-none ${className}`}
       style={{ zIndex }}
-      onTap={() => onExpand?.({ src, alt, caption })}
+      onClick={() => onExpand?.({ src, alt, caption })}
     >
       {/* Desktop Slide-over Drawer Frame */}
       <div className="rounded-xl bg-white shadow-2xl border border-black/20 overflow-hidden hover:border-black/40 transition-all hover:scale-[1.02]">
         {/* Drawer header bar */}
         <div className="bg-[#1C1C1F] px-3 py-2 flex items-center justify-between border-b border-black/10">
           <div className="flex items-center gap-1.5">
-            <div className="w-2 h-2 rounded-full bg-catYellow/90" />
+            <div className="w-2 h-2 rounded-full bg-white/90" />
             <span className="font-mono text-[0.6rem] text-neutral-300 uppercase tracking-wider">Slide-Over Panel</span>
           </div>
           <span className="text-neutral-400 text-xs">✕</span>
@@ -489,7 +533,7 @@ function DrawerScreen({
   );
 }
 
-/* ─── Colored Scrapbook Info Card (Mosby style - Draggable) ─── */
+/* ─── Colored Scrapbook Info Card (Mosby style) ─── */
 function ScrapbookInfoCard({
   title,
   caption,
@@ -509,14 +553,11 @@ function ScrapbookInfoCard({
 }) {
   return (
     <motion.div
-      drag
-      dragElastic={0.15}
-      whileDrag={{ scale: 1.05, zIndex: 50, cursor: "grabbing" }}
       initial={{ opacity: 0, y: 30, rotate: 0 }}
       whileInView={{ opacity: 1, y: 0, rotate }}
       viewport={{ once: true, margin: "-60px" }}
       transition={{ duration: 0.6, delay }}
-      className={`p-5 md:p-6 shadow-xl border border-black/10 relative cursor-grab active:cursor-grabbing select-none ${className}`}
+      className={`p-5 md:p-6 shadow-xl border border-black/10 relative select-none ${className}`}
       style={{ backgroundColor: color, color: "#0A0A0A" }}
     >
       {hasClip && <div className="absolute -top-5 -right-2 z-30 pointer-events-none"><Paperclip /></div>}
@@ -526,7 +567,7 @@ function ScrapbookInfoCard({
   );
 }
 
-/* ─── Project Detail Paper Card (Mosby Scrapbook Aesthetic with Drag & Lightbox) ─── */
+/* ─── Project Detail Paper Card (Mosby Scrapbook Aesthetic with Lightbox) ─── */
 function ProjectPaperCard({ project }: { project: CaseStudy }) {
   const isDesktopProject = project.slug === "aurelle" || project.flows.some((f) => f.imageAspect === "desktop");
   const isAppProject = !isDesktopProject && project.flows.some((f) => f.imageAspect === "portrait");
@@ -534,13 +575,25 @@ function ProjectPaperCard({ project }: { project: CaseStudy }) {
   const [expandedImage, setExpandedImage] = useState<{ src: string; alt: string; caption?: string } | null>(null);
 
   return (
-    <div className="bg-[#F5F3EE] text-dark relative shadow-2xl overflow-hidden">
-      <div className="absolute -top-5 left-[12%] z-30 pointer-events-none"><Paperclip /></div>
+    <div className="bg-[#F5F3EE] text-dark relative shadow-2xl overflow-hidden rounded-sm pl-6 sm:pl-9 md:pl-12">
+      {/* Paperclip at top right of paper sheet */}
+      <div className="absolute -top-5 right-[10%] sm:right-[15%] z-30 pointer-events-none"><Paperclip /></div>
+
+      {/* Punched Holes on the Paper Sheet (Revealing the colored folder underneath) */}
+      <div className="absolute left-2.5 sm:left-3.5 md:left-5 top-0 bottom-0 flex flex-col justify-around py-16 sm:py-28 pointer-events-none z-20">
+        {[1, 2, 3, 4, 5].map((n) => (
+          <div
+            key={n}
+            className="w-3.5 h-3.5 sm:w-4.5 sm:h-4.5 md:w-5 md:h-5 rounded-full border border-black/35 shadow-[inset_0_1.5px_3px_rgba(0,0,0,0.45)]"
+            style={{ backgroundColor: color }}
+          />
+        ))}
+      </div>
 
       {/* Lightbox for expanding images */}
       <ImageLightbox image={expandedImage} onClose={() => setExpandedImage(null)} />
 
-      <div className="p-6 md:p-12 space-y-0">
+      <div className="p-2 sm:p-6 md:p-12 space-y-0">
 
         {/* ═══ HERO COVER — Desktop PC Mockup Hero for web projects, phone collage for apps ═══ */}
         {isDesktopProject ? (
@@ -579,14 +632,11 @@ function ProjectPaperCard({ project }: { project: CaseStudy }) {
 
             {/* Floating subtitle card */}
             <motion.div
-              drag
-              dragElastic={0.15}
-              whileDrag={{ scale: 1.05, zIndex: 50 }}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.5 }}
-              className="hidden sm:block absolute bottom-0 left-4 md:left-8 max-w-xs bg-white/95 backdrop-blur-sm p-4 shadow-lg border border-black/10 -rotate-1 cursor-grab active:cursor-grabbing select-none z-20"
+              className="hidden sm:block absolute bottom-0 left-4 md:left-8 max-w-xs bg-white/95 backdrop-blur-sm p-4 shadow-lg border border-black/10 -rotate-1 select-none z-20"
             >
               <p className="font-mono text-[0.6rem] uppercase tracking-widest opacity-50 mb-1 pointer-events-none">{project.dossierNumber}</p>
               <p className="font-serif text-sm text-neutral-800 leading-relaxed pointer-events-none">{project.subtitle}</p>
@@ -624,14 +674,11 @@ function ProjectPaperCard({ project }: { project: CaseStudy }) {
 
             {/* Floating subtitle card */}
             <motion.div
-              drag
-              dragElastic={0.15}
-              whileDrag={{ scale: 1.05, zIndex: 50 }}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.5 }}
-              className="absolute bottom-0 right-2 sm:right-4 md:right-10 max-w-[200px] sm:max-w-xs bg-white/90 backdrop-blur-sm p-3 sm:p-4 shadow-lg border border-black/10 rotate-1 cursor-grab active:cursor-grabbing select-none"
+              className="absolute bottom-0 right-2 sm:right-4 md:right-10 max-w-[200px] sm:max-w-xs bg-white/90 backdrop-blur-sm p-3 sm:p-4 shadow-lg border border-black/10 rotate-1 select-none"
             >
               <p className="font-mono text-[0.55rem] sm:text-[0.6rem] uppercase tracking-widest opacity-50 mb-0.5 pointer-events-none">{project.dossierNumber}</p>
               <p className="font-serif text-xs sm:text-sm text-neutral-800 leading-snug pointer-events-none line-clamp-2 sm:line-clamp-none">{project.subtitle}</p>
@@ -753,15 +800,12 @@ function ProjectPaperCard({ project }: { project: CaseStudy }) {
                   {imgs.map((img, i) => (
                     <motion.div
                       key={i}
-                      drag
-                      dragElastic={0.15}
-                      whileDrag={{ scale: 1.05, zIndex: 50, cursor: "grabbing" }}
                       initial={{ opacity: 0, y: 30 }}
                       whileInView={{ opacity: 1, y: 0, rotate: i % 2 === 0 ? 2 : -3 }}
                       viewport={{ once: true, margin: "-60px" }}
                       transition={{ duration: 0.6, delay: 0.15 * (i + 1) }}
-                      className="bg-white p-3 shadow-xl border border-black/20 cursor-grab active:cursor-grabbing select-none"
-                      onTap={() => setExpandedImage({ src: img.src, alt: img.alt, caption: img.caption })}
+                      className="bg-white p-3 shadow-xl border border-black/20 select-none cursor-pointer"
+                      onClick={() => setExpandedImage({ src: img.src, alt: img.alt, caption: img.caption })}
                     >
                       <div className="relative aspect-[4/3] w-full overflow-hidden border border-black/10 pointer-events-none">
                         <Image src={img.src} alt={img.alt} fill className="object-cover" />
@@ -1256,28 +1300,15 @@ export default function HomePage() {
                   </h2>
                 </motion.div>
 
-                {/* Folder body: colored folder with left binder spine, paper card, and right vertical tabs (Mosby style) */}
+                {/* Folder body: colored folder frame with paper card & right vertical tabs (Mosby style) */}
                 <div className="relative flex items-stretch max-w-full pl-0">
-
-                  {/* Left: Binder spine with punched holes (touches left screen edge) */}
-                  <div
-                    className="w-4 sm:w-7 md:w-9 rounded-l-none sm:rounded-l-lg flex flex-col items-center justify-around py-12 sm:py-20 shrink-0 select-none shadow-xl"
-                    style={{ backgroundColor: activeCluster?.color }}
-                  >
-                    {[1, 2, 3, 4, 5, 6].map((n) => (
-                      <div
-                        key={n}
-                        className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-[#0A0A0A] border border-white/20 shadow-inner"
-                      />
-                    ))}
-                  </div>
 
                   {/* Center: Colored folder frame + White Paper card */}
                   <motion.div
                     initial={{ y: 60, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ duration: 0.6, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-                    className="flex-1 min-w-0 relative shadow-2xl"
+                    className="flex-1 min-w-0 relative shadow-2xl rounded-l-md"
                     style={{ backgroundColor: activeCluster?.color }}
                   >
                     {/* Inner Paper Card Padding */}
@@ -1288,19 +1319,21 @@ export default function HomePage() {
                         <span>CONFIDENTIAL ARCHIVE</span>
                       </div>
 
-                      {/* White / Cream Paper Card containing the Case Study content */}
+                      {/* White / Cream Paper Card containing the Case Study content with punched holes on paper */}
                       {activeProject && <ProjectPaperCard project={activeProject} />}
 
                       {/* Technical stamps footer on paper frame */}
-                      <div className="flex justify-between items-center text-dark pt-5 px-2">
+                      <div className="flex flex-wrap sm:flex-nowrap justify-between items-center text-dark pt-5 px-2 gap-2">
                         <DossierStamps />
-                        <span className="font-mono text-[0.6rem] sm:text-[0.65rem] opacity-75">PAGE 01 / SCISSOR-CUT DOSSIER</span>
+                        <span className="font-mono text-[0.55rem] sm:text-[0.65rem] font-bold opacity-75 whitespace-nowrap shrink-0">
+                          PAGE 01 / SCISSOR-CUT DOSSIER
+                        </span>
                       </div>
                     </div>
                   </motion.div>
 
                   {/* Right: Vertical Staggered Tabs (Mosby style sticking out right edge on all screen sizes) */}
-                  <div className="flex flex-col gap-1.5 sm:gap-2 pt-12 sm:pt-20 -ml-[1px] relative z-20 shrink-0">
+                  <div className="flex flex-col gap-2 pt-12 sm:pt-20 -ml-[1px] relative z-20 shrink-0">
                     {getSiblingTabs().map((tab) => (
                       <VerticalTab
                         key={tab.slug}
