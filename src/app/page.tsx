@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, Fragment } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, ChevronDown, X } from "lucide-react";
 import { PROJECTS_DATA, CLUSTERS, CaseStudy } from "@/data/projects";
@@ -597,16 +597,14 @@ function ProjectPaperCard({ project }: { project: CaseStudy }) {
 
         {/* ═══ HERO COVER — Desktop PC Mockup Hero for web projects, phone collage for apps ═══ */}
         {isDesktopProject ? (
-          <div className="relative w-full mb-14">
-            {/* Background bleed — category color wash */}
+          <div className="relative w-full mb-10">
             <div className="absolute inset-x-0 top-6 bottom-16 -mx-4 sm:-mx-8 md:-mx-12 rounded-sm pointer-events-none" style={{ backgroundColor: color, opacity: 0.12 }} />
 
-            {/* Flagship Desktop PC Mockup */}
             <div className="max-w-4xl mx-auto px-1 sm:px-2 pt-2 pb-6 relative z-10">
               <DesktopScreen
                 src={project.coverImage || "/images/aurelle/web/Home.png"}
                 alt={`${project.title} Desktop Storefront`}
-                caption="FIG 0.1 — AURELLE Haute Joaillerie & Maison E-Commerce Desktop Experience"
+                caption="FIG 0.1 — Flagship E-Commerce & Web Experience"
                 rotate={-0.5}
                 delay={0.1}
                 url="aurelle-luxury.com/storefront"
@@ -614,14 +612,13 @@ function ProjectPaperCard({ project }: { project: CaseStudy }) {
               />
             </div>
 
-            {/* Overlapping Floating Phone Mockup (Mobile Home) */}
             <div className="absolute bottom-2 sm:bottom-4 right-1 sm:right-6 md:right-12 w-[100px] sm:w-[150px] md:w-[180px] z-20">
               <div className="relative">
                 <div className="absolute -top-5 -right-2 z-30 pointer-events-none"><Paperclip /></div>
                 <PhoneScreen
                   src="/images/aurelle/mobile/home.png"
                   alt="AURELLE Mobile Parity"
-                  caption="Mobile Storefront Parity"
+                  caption="Mobile Parity"
                   rotate={4}
                   delay={0.35}
                   zIndex={25}
@@ -630,7 +627,6 @@ function ProjectPaperCard({ project }: { project: CaseStudy }) {
               </div>
             </div>
 
-            {/* Floating subtitle card */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -644,10 +640,8 @@ function ProjectPaperCard({ project }: { project: CaseStudy }) {
           </div>
         ) : isAppProject ? (
           <div className="relative w-full mb-10 overflow-hidden" style={{ minHeight: "420px" }}>
-            {/* Background bleed — category color wash */}
             <div className="absolute inset-x-0 top-8 bottom-20 -mx-4 sm:-mx-8 md:-mx-12 rounded-sm pointer-events-none" style={{ backgroundColor: color, opacity: 0.12 }} />
 
-            {/* Scattered hero phones (Responsive width so all 3 phones fit on mobile screen) */}
             <div className="relative flex items-center justify-center gap-1 sm:gap-2 pt-4 pb-6 max-w-full">
               {project.flows[0]?.images.slice(0, 3).map((img, i) => {
                 const rots = [-6, 0, 6];
@@ -672,7 +666,6 @@ function ProjectPaperCard({ project }: { project: CaseStudy }) {
               })}
             </div>
 
-            {/* Floating subtitle card */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -687,14 +680,14 @@ function ProjectPaperCard({ project }: { project: CaseStudy }) {
         ) : (
           <div
             onClick={() => setExpandedImage({ src: project.coverImage, alt: project.title, caption: project.title })}
-            className="relative aspect-[16/9] w-full overflow-hidden border border-black/20 shadow-lg -rotate-1 mb-10 cursor-pointer hover:opacity-95 transition-opacity"
+            className="relative aspect-[16/9] w-full overflow-hidden border border-black/20 shadow-lg -rotate-1 mb-8 cursor-pointer hover:opacity-95 transition-opacity"
           >
             <Image src={project.coverImage} alt={project.title} fill className="object-cover" priority />
           </div>
         )}
 
         {/* ═══ OVERVIEW PROSE ═══ */}
-        <div className="font-serif text-base sm:text-lg md:text-xl leading-relaxed text-neutral-900 max-w-3xl mx-auto space-y-5 mb-12">
+        <div className="font-serif text-base sm:text-lg md:text-xl leading-relaxed text-neutral-900 max-w-3xl mx-auto space-y-5 mb-10">
           {project.overview.map((para, i) => (
             <p key={i} className={i === 0 ? "first-letter:text-5xl sm:first-letter:text-6xl first-letter:font-display first-letter:leading-none first-letter:float-left first-letter:mr-3 first-letter:mt-1" : ""}>
               {para}
@@ -703,287 +696,414 @@ function ProjectPaperCard({ project }: { project: CaseStudy }) {
         </div>
 
         {/* ═══ METADATA ═══ */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 p-4 sm:p-5 border border-black/15 bg-black/5 font-mono text-xs mb-14">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 p-4 sm:p-5 border border-black/15 bg-black/5 font-mono text-xs mb-12">
           <div><span className="font-bold block opacity-60">Role:</span><span className="font-serif text-xs sm:text-sm font-semibold">{project.role}</span></div>
           <div><span className="font-bold block opacity-60">Type:</span><span className="font-serif text-xs sm:text-sm font-semibold">{project.type}</span></div>
           <div><span className="font-bold block opacity-60">Timeline:</span><span className="font-serif text-xs sm:text-sm font-semibold">{project.timeline}</span></div>
           <div><span className="font-bold block opacity-60">Tools:</span><span className="font-serif text-xs sm:text-sm font-semibold">{project.tools.join(", ")}</span></div>
         </div>
 
-        {/* ═══ FLOW SECTIONS — Mosby scrapbook collage layouts ═══ */}
-        {project.flows.map((flow, idx) => {
-          const isDesktopFlow = flow.imageAspect === "desktop";
-          const isDrawerFlow = flow.imageAspect === "drawer";
-          const isPortrait = flow.imageAspect === "portrait";
-          const imgs = flow.images;
-          const pattern = idx % 5;
-
-          /* ─── DESKTOP PC STOREFRONT FLOW ─── */
-          if (isDesktopFlow) {
-            return (
-              <div key={idx} className="relative mt-10 mb-20">
-                <ScrapbookInfoCard
-                  title={flow.title}
-                  caption={flow.caption}
-                  color={color}
-                  rotate={-1.5}
-                  delay={0.1}
-                  className="max-w-xl mb-8"
-                  hasClip={idx === 0}
-                />
-                <div className="w-full">
-                  {imgs.map((img, i) => (
-                    <DesktopScreen
-                      key={i}
-                      src={img.src}
-                      alt={img.alt}
-                      caption={img.caption}
-                      rotate={0.5}
-                      delay={0.2}
-                      url="aurelle-luxury.com"
-                      onExpand={setExpandedImage}
-                    />
-                  ))}
-                </div>
-                <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.4 }} className="font-serif text-base text-neutral-800 leading-relaxed max-w-2xl mt-6">
-                  {flow.description}
-                </motion.p>
-              </div>
-            );
-          }
-
-          /* ─── DESKTOP SLIDE-OVER DRAWER FLOW ─── */
-          if (isDrawerFlow) {
-            return (
-              <div key={idx} className="relative mt-10 mb-20">
-                <div className="flex flex-col lg:flex-row gap-6 md:gap-8 items-start mb-8">
-                  <div className="lg:w-[35%] space-y-6 lg:sticky lg:top-20">
-                    <ScrapbookInfoCard
-                      title={flow.title}
-                      caption={flow.caption}
-                      color={color}
-                      rotate={-2}
-                      delay={0.1}
-                      hasClip
-                      className="w-full max-w-md"
-                    />
-                    <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.3 }} className="font-serif text-base text-neutral-800 leading-relaxed">
-                      {flow.description}
-                    </motion.p>
-                  </div>
-                  <div className="lg:w-[65%] grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-5 w-full">
-                    {imgs.map((img, i) => (
-                      <div key={i} className="w-full">
-                        <DrawerScreen
-                          src={img.src}
-                          alt={img.alt}
-                          caption={img.caption}
-                          rotate={[-2, 1.5, -1][i % 3]}
-                          delay={0.2 + i * 0.12}
-                          onExpand={setExpandedImage}
-                        />
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            );
-          }
-
-          if (!isPortrait) {
-            // Non-portrait (landscape images)
-            const rot = [-2, 3, -3, 2, -1][idx % 5];
-            return (
-              <div key={idx} className="relative mt-10 mb-16">
-                <ScrapbookInfoCard title={flow.title} caption={flow.caption} color={color} rotate={rot} delay={0.1} className="w-full max-w-md mb-6" hasClip={idx === 0} />
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-                  {imgs.map((img, i) => (
-                    <motion.div
-                      key={i}
-                      initial={{ opacity: 0, y: 30 }}
-                      whileInView={{ opacity: 1, y: 0, rotate: i % 2 === 0 ? 2 : -3 }}
-                      viewport={{ once: true, margin: "-60px" }}
-                      transition={{ duration: 0.6, delay: 0.15 * (i + 1) }}
-                      className="bg-white p-3 shadow-xl border border-black/20 select-none cursor-pointer"
-                      onClick={() => setExpandedImage({ src: img.src, alt: img.alt, caption: img.caption })}
-                    >
-                      <div className="relative aspect-[4/3] w-full overflow-hidden border border-black/10 pointer-events-none">
-                        <Image src={img.src} alt={img.alt} fill className="object-cover" />
-                      </div>
-                      <p className="font-mono text-[0.65rem] text-neutral-600 mt-2 px-1 pointer-events-none">{img.caption}</p>
-                    </motion.div>
-                  ))}
-                </div>
-                <p className="font-serif text-base text-neutral-800 leading-relaxed max-w-2xl mt-6">{flow.description}</p>
-              </div>
-            );
-          }
-
-          /* ─── PORTRAIT / APP SCREEN LAYOUTS — Responsive Collage Patterns ─── */
-          return (
-            <div key={idx} className="relative mt-6 mb-20">
-
-              {pattern === 0 && (
-                /* Pattern A: Info card top + phone trio below */
-                <>
-                  <div className="flex flex-col md:flex-row gap-6 items-start">
-                    <ScrapbookInfoCard title={flow.title} caption={flow.caption} color={color} rotate={-3} delay={0.1} className="w-full md:w-[280px] shrink-0 md:mt-16 md:sticky md:top-20" hasClip />
-                    <div className="flex-1 flex items-end justify-center gap-1 sm:gap-2 relative w-full pt-4 pb-6" style={{ minHeight: "360px" }}>
-                      {imgs.slice(0, 3).map((img, i) => {
-                        const rots = [-5, 1, -4];
-                        const yOff = [15, -8, 20];
-                        return (
-                          <div key={i} className="w-[90px] sm:w-[130px] md:w-[160px] shrink-0" style={{ transform: `translateY(${yOff[i]}px)` }}>
-                            <PhoneScreen src={img.src} alt={img.alt} caption={img.caption} rotate={rots[i]} delay={0.2 + i * 0.12} zIndex={3 - i} onExpand={setExpandedImage} />
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                  {/* Remaining images as small pair below */}
-                  {imgs.length > 3 && (
-                    <div className="flex justify-center sm:justify-end gap-3 sm:gap-4 mt-6">
-                      {imgs.slice(3).map((img, i) => (
-                        <div key={i} className="w-[85px] sm:w-[110px] md:w-[140px] shrink-0">
-                          <PhoneScreen src={img.src} alt={img.alt} caption={img.caption} rotate={i % 2 === 0 ? 3 : -2} delay={0.5 + i * 0.1} onExpand={setExpandedImage} />
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                  <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.4 }} className="font-serif text-base text-neutral-800 leading-relaxed max-w-xl mt-8">
-                    {flow.description}
-                  </motion.p>
-                </>
-              )}
-
-              {pattern === 1 && (
-                /* Pattern B: 4-phone spread with responsive sizes */
-                <>
-                  <div className="relative">
-                    <div className="flex items-end justify-center gap-1 sm:gap-2 md:gap-4 max-w-full">
-                      {imgs.slice(0, 4).map((img, i) => {
-                        const rots = [3, -2, 2, -4];
-                        const yOff = [8, -10, 4, 14];
-                        return (
-                          <div key={i} className="w-[72px] sm:w-[105px] md:w-[150px] shrink-0" style={{ transform: `translateY(${yOff[i]}px)` }}>
-                            <PhoneScreen src={img.src} alt={img.alt} caption={img.caption} rotate={rots[i]} delay={0.1 + i * 0.1} zIndex={4 - i} onExpand={setExpandedImage} />
-                          </div>
-                        );
-                      })}
-                    </div>
-                    {/* Overlapping info card */}
-                    <ScrapbookInfoCard title={flow.title} caption={flow.caption} color={color} rotate={2} delay={0.5} className="md:absolute md:-bottom-10 md:left-0 w-full max-w-sm mt-6 md:mt-0 z-20" />
-                  </div>
-                  <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.6 }} className="font-serif text-base text-neutral-800 leading-relaxed max-w-xl mt-10 md:mt-16 md:ml-auto md:mr-8">
-                    {flow.description}
-                  </motion.p>
-                </>
-              )}
-
-              {pattern === 2 && (
-                /* Pattern C: Editorial — text left, stacked phones right with overlap */
-                <>
-                  <div className="flex flex-col-reverse md:flex-row gap-6 md:gap-8 items-start">
-                    <div className="w-full md:w-[45%] space-y-6">
-                      <ScrapbookInfoCard title={flow.title} caption={flow.caption} color={color} rotate={-2} delay={0.1} hasClip className="w-full max-w-sm" />
-                      <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.3 }} className="font-serif text-base text-neutral-800 leading-relaxed">
-                        {flow.description}
-                      </motion.p>
-                    </div>
-                    <div className="w-full md:w-[55%] relative flex items-center justify-center gap-1 sm:gap-3 py-4" style={{ minHeight: "360px" }}>
-                      {imgs.slice(0, 3).map((img, i) => {
-                        const rots = [-4, 2, -3];
-                        return (
-                          <div key={i} className="w-[90px] sm:w-[120px] md:w-[155px] shrink-0">
-                            <PhoneScreen src={img.src} alt={img.alt} caption={img.caption} rotate={rots[i]} delay={0.15 + i * 0.12} zIndex={3 - i} onExpand={setExpandedImage} />
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                  {imgs.length > 3 && (
-                    <div className="flex gap-3 sm:gap-4 mt-6 justify-center md:justify-start md:ml-4">
-                      {imgs.slice(3).map((img, i) => (
-                        <div key={i} className="w-[85px] sm:w-[110px] md:w-[140px] shrink-0">
-                          <PhoneScreen src={img.src} alt={img.alt} caption={img.caption} rotate={i % 2 === 0 ? 4 : -3} delay={0.5 + i * 0.1} onExpand={setExpandedImage} />
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </>
-              )}
-
-              {pattern === 3 && (
-                /* Pattern D: Wide scattered spread */
-                <>
-                  <ScrapbookInfoCard title={flow.title} caption={flow.caption} color={color} rotate={3} delay={0.1} className="w-full max-w-md mb-4" hasClip />
-                  <div className="relative flex items-center justify-center gap-1 sm:gap-3 py-4" style={{ minHeight: "360px" }}>
-                    {imgs.slice(0, 3).map((img, i) => (
-                      <div key={i} className="w-[90px] sm:w-[125px] md:w-[165px] shrink-0">
-                        <PhoneScreen src={img.src} alt={img.alt} caption={img.caption} rotate={[2, -3, 3][i % 3]} delay={0.15 + i * 0.1} zIndex={3 - i} onExpand={setExpandedImage} />
-                      </div>
-                    ))}
-                  </div>
-                  {imgs.length > 3 && (
-                    <div className="flex justify-center gap-2 sm:gap-3 mt-4">
-                      {imgs.slice(3).map((img, i) => (
-                        <div key={i} className="w-[80px] sm:w-[100px] md:w-[130px] shrink-0">
-                          <PhoneScreen src={img.src} alt={img.alt} caption={img.caption} rotate={i % 2 === 0 ? -3 : 4} delay={0.5 + i * 0.1} onExpand={setExpandedImage} />
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                  <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.5 }} className="font-serif text-base text-neutral-800 leading-relaxed max-w-2xl mt-6">
-                    {flow.description}
-                  </motion.p>
-                </>
-              )}
-
-              {pattern === 4 && (
-                /* Pattern E: Centered duo */
-                <>
-                  <div className="flex flex-row items-center justify-center gap-2 sm:gap-4 md:gap-0">
-                    <div className="w-[95px] sm:w-[130px] md:w-[170px] shrink-0">
-                      <PhoneScreen src={imgs[0]?.src || ""} alt={imgs[0]?.alt || ""} caption={imgs[0]?.caption || ""} rotate={-4} delay={0.1} zIndex={5} onExpand={setExpandedImage} />
-                    </div>
-                    <ScrapbookInfoCard title={flow.title} caption={flow.caption} color={color} rotate={1} delay={0.25} className="max-w-[150px] sm:max-w-xs md:-mx-4 z-10 text-xs sm:text-sm" hasClip />
-                    <div className="w-[95px] sm:w-[130px] md:w-[170px] shrink-0">
-                      <PhoneScreen src={imgs[1]?.src || ""} alt={imgs[1]?.alt || ""} caption={imgs[1]?.caption || ""} rotate={3} delay={0.2} zIndex={5} onExpand={setExpandedImage} />
-                    </div>
-                  </div>
-                  {imgs.length > 2 && (
-                    <div className="flex justify-center gap-2 sm:gap-4 md:gap-5 mt-6">
-                      {imgs.slice(2).map((img, i) => (
-                        <div key={i} className="w-[85px] sm:w-[105px] md:w-[140px] shrink-0">
-                          <PhoneScreen src={img.src} alt={img.alt} caption={img.caption} rotate={[3, -2, 4, -3][i % 4]} delay={0.4 + i * 0.1} onExpand={setExpandedImage} />
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                  <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.5 }} className="font-serif text-base text-neutral-800 leading-relaxed max-w-xl mx-auto mt-6 md:mt-8 text-center">
-                    {flow.description}
-                  </motion.p>
-                </>
-              )}
-
+        {/* ═══ STRUCTURED CASE STUDY QUESTIONS (PROBLEM, USERS, RESEARCH) ═══ */}
+        <div className="space-y-6 mb-14">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Problem Statement */}
+            <div className="p-5 bg-white border border-black/15 shadow-md relative">
+              <span className="font-mono text-[0.65rem] uppercase tracking-widest text-neutral-500 font-bold block mb-1">01 // PROBLEM DEFINITION</span>
+              <h4 className="font-display text-base uppercase tracking-tight text-dark mb-2">What problem were you solving?</h4>
+              <p className="font-serif text-sm leading-relaxed text-neutral-800">{project.problemStatement}</p>
             </div>
-          );
-        })}
+
+            {/* Target Users */}
+            {project.targetUsers && (
+              <div className="p-5 bg-white border border-black/15 shadow-md relative">
+                <span className="font-mono text-[0.65rem] uppercase tracking-widest text-neutral-500 font-bold block mb-1">02 // USER PERSONAS & AUDIENCE</span>
+                <h4 className="font-display text-base uppercase tracking-tight text-dark mb-2">Who were the users?</h4>
+                <p className="font-serif text-sm leading-relaxed text-neutral-800">{project.targetUsers}</p>
+              </div>
+            )}
+          </div>
+
+          {/* Research Methods */}
+          {project.researchConducted && project.researchConducted.length > 0 && (
+            <div className="p-5 bg-white border border-black/15 shadow-md">
+              <span className="font-mono text-[0.65rem] uppercase tracking-widest text-neutral-500 font-bold block mb-1">03 // RESEARCH METHODOLOGY</span>
+              <h4 className="font-display text-base uppercase tracking-tight text-dark mb-3">What research did you conduct?</h4>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {project.researchConducted.map((item, i) => (
+                  <div key={i} className="flex items-start gap-2.5 p-3 bg-[#F9F8F5] border border-black/10">
+                    <span className="font-mono text-xs font-bold text-white px-2 py-0.5 rounded shrink-0" style={{ backgroundColor: color }}>
+                      R{i + 1}
+                    </span>
+                    <p className="font-serif text-xs leading-relaxed text-neutral-800">{item}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
 
         {/* ═══ KEY INSIGHTS ═══ */}
         {project.keyInsights && project.keyInsights.length > 0 && (
-          <div className="border-t border-black/15 pt-8 space-y-4">
-            <h4 className="font-display text-xl uppercase tracking-wider text-dark">KEY FINDINGS</h4>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="mb-14 space-y-4">
+            <div className="flex items-center gap-2 border-b border-black/15 pb-2">
+              <span className="font-mono text-xs font-bold uppercase tracking-widest text-neutral-500">04 // INSIGHT DISCOVERY</span>
+              <h4 className="font-display text-lg uppercase tracking-wider text-dark">— What insights did you discover?</h4>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               {project.keyInsights.map((insight, i) => (
-                <motion.div key={i} initial={{ opacity: 0, y: 20, rotate: 0 }} whileInView={{ opacity: 1, y: 0, rotate: [-1, 1.5, -0.5][i % 3] }} viewport={{ once: true }} transition={{ delay: i * 0.1 }} className="p-4 border border-black/10 bg-black/5 shadow-md">
-                  <span className="font-display text-lg text-dark">0{i + 1}.</span>
-                  <p className="font-serif text-sm leading-relaxed mt-1 text-neutral-800">{insight}</p>
+                <motion.div key={i} initial={{ opacity: 0, y: 20, rotate: 0 }} whileInView={{ opacity: 1, y: 0, rotate: [-1, 1.5, -0.5, 0.8][i % 4] }} viewport={{ once: true }} transition={{ delay: i * 0.1 }} className="p-4 border border-black/10 bg-white shadow-md">
+                  <span className="font-mono text-xs font-bold px-2 py-0.5 rounded text-white" style={{ backgroundColor: color }}>
+                    INSIGHT 0{i + 1}
+                  </span>
+                  <p className="font-serif text-xs leading-relaxed mt-2 text-neutral-800">{insight}</p>
                 </motion.div>
               ))}
             </div>
           </div>
         )}
+
+        {/* ═══ FLOW SECTIONS — EXPERIENCE STRUCTURE (IA, WIREFRAMES, PROTOTYPES, HI-FI) ═══ */}
+        <div className="mb-8 pt-6 border-t border-black/15">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-8">
+            <div>
+              <span className="font-mono text-xs font-bold uppercase tracking-widest text-neutral-500">05 // EXPERIENCE ARCHITECTURE & VISUAL FLOWS</span>
+              <h3 className="font-display text-xl sm:text-2xl uppercase tracking-tight text-dark">How did you structure the experience?</h3>
+            </div>
+            <span className="font-mono text-[0.65rem] uppercase tracking-widest text-neutral-500 bg-black/5 px-2.5 py-1 rounded border border-black/10">
+              IA → Wireframes → Prototype → Hi-Fi
+            </span>
+          </div>
+
+          {project.flows.map((flow, idx) => {
+            const isDesktopFlow = flow.imageAspect === "desktop";
+            const isDrawerFlow = flow.imageAspect === "drawer";
+            const isPortrait = flow.imageAspect === "portrait";
+            const imgs = flow.images;
+            const pattern = idx % 5;
+
+            /* ─── DESKTOP PC STOREFRONT FLOW ─── */
+            if (isDesktopFlow) {
+              return (
+                <div key={idx} className="relative mt-10 mb-20">
+                  <ScrapbookInfoCard
+                    title={flow.title}
+                    caption={flow.caption}
+                    color={color}
+                    rotate={-1.5}
+                    delay={0.1}
+                    className="max-w-xl mb-8"
+                    hasClip={idx === 0}
+                  />
+                  <div className="w-full">
+                    {imgs.map((img, i) => (
+                      <DesktopScreen
+                        key={i}
+                        src={img.src}
+                        alt={img.alt}
+                        caption={img.caption}
+                        rotate={0.5}
+                        delay={0.2}
+                        url="aurelle-luxury.com"
+                        onExpand={setExpandedImage}
+                      />
+                    ))}
+                  </div>
+                  <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.4 }} className="font-serif text-base text-neutral-800 leading-relaxed max-w-2xl mt-6">
+                    {flow.description}
+                  </motion.p>
+                </div>
+              );
+            }
+
+            /* ─── DESKTOP SLIDE-OVER DRAWER FLOW ─── */
+            if (isDrawerFlow) {
+              return (
+                <div key={idx} className="relative mt-10 mb-20">
+                  <div className="flex flex-col lg:flex-row gap-6 md:gap-8 items-start mb-8">
+                    <div className="lg:w-[35%] space-y-6 lg:sticky lg:top-20">
+                      <ScrapbookInfoCard
+                        title={flow.title}
+                        caption={flow.caption}
+                        color={color}
+                        rotate={-2}
+                        delay={0.1}
+                        hasClip
+                        className="w-full max-w-md"
+                      />
+                      <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.3 }} className="font-serif text-base text-neutral-800 leading-relaxed">
+                        {flow.description}
+                      </motion.p>
+                    </div>
+                    <div className="lg:w-[65%] grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-5 w-full">
+                      {imgs.map((img, i) => (
+                        <div key={i} className="w-full">
+                          <DrawerScreen
+                            src={img.src}
+                            alt={img.alt}
+                            caption={img.caption}
+                            rotate={[-2, 1.5, -1][i % 3]}
+                            delay={0.2 + i * 0.12}
+                            onExpand={setExpandedImage}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              );
+            }
+
+            if (!isPortrait) {
+              // Non-portrait (landscape images)
+              const rot = [-2, 3, -3, 2, -1][idx % 5];
+              return (
+                <div key={idx} className="relative mt-10 mb-16">
+                  <ScrapbookInfoCard title={flow.title} caption={flow.caption} color={color} rotate={rot} delay={0.1} className="w-full max-w-md mb-6" hasClip={idx === 0} />
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+                    {imgs.map((img, i) => (
+                      <motion.div
+                        key={i}
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0, rotate: i % 2 === 0 ? 2 : -3 }}
+                        viewport={{ once: true, margin: "-60px" }}
+                        transition={{ duration: 0.6, delay: 0.15 * (i + 1) }}
+                        className="bg-white p-3 shadow-xl border border-black/20 select-none cursor-pointer"
+                        onClick={() => setExpandedImage({ src: img.src, alt: img.alt, caption: img.caption })}
+                      >
+                        <div className="relative aspect-[4/3] w-full overflow-hidden border border-black/10 pointer-events-none">
+                          <Image src={img.src} alt={img.alt} fill className="object-cover" />
+                        </div>
+                        <p className="font-mono text-[0.65rem] text-neutral-600 mt-2 px-1 pointer-events-none">{img.caption}</p>
+                      </motion.div>
+                    ))}
+                  </div>
+                  <p className="font-serif text-base text-neutral-800 leading-relaxed max-w-2xl mt-6">{flow.description}</p>
+                </div>
+              );
+            }
+
+            /* ─── PORTRAIT / APP SCREEN LAYOUTS — Responsive Collage Patterns ─── */
+            return (
+              <div key={idx} className="relative mt-6 mb-20">
+
+                {pattern === 0 && (
+                  <>
+                    <div className="flex flex-col md:flex-row gap-6 items-start">
+                      <ScrapbookInfoCard title={flow.title} caption={flow.caption} color={color} rotate={-3} delay={0.1} className="w-full md:w-[280px] shrink-0 md:mt-16 md:sticky md:top-20" hasClip />
+                      <div className="flex-1 flex items-end justify-center gap-1 sm:gap-2 relative w-full pt-4 pb-6" style={{ minHeight: "360px" }}>
+                        {imgs.slice(0, 3).map((img, i) => {
+                          const rots = [-5, 1, -4];
+                          const yOff = [15, -8, 20];
+                          return (
+                            <div key={i} className="w-[90px] sm:w-[130px] md:w-[160px] shrink-0" style={{ transform: `translateY(${yOff[i]}px)` }}>
+                              <PhoneScreen src={img.src} alt={img.alt} caption={img.caption} rotate={rots[i]} delay={0.2 + i * 0.12} zIndex={3 - i} onExpand={setExpandedImage} />
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                    {imgs.length > 3 && (
+                      <div className="flex justify-center sm:justify-end gap-3 sm:gap-4 mt-6">
+                        {imgs.slice(3).map((img, i) => (
+                          <div key={i} className="w-[85px] sm:w-[110px] md:w-[140px] shrink-0">
+                            <PhoneScreen src={img.src} alt={img.alt} caption={img.caption} rotate={i % 2 === 0 ? 3 : -2} delay={0.5 + i * 0.1} onExpand={setExpandedImage} />
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                    <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.4 }} className="font-serif text-base text-neutral-800 leading-relaxed max-w-xl mt-8">
+                      {flow.description}
+                    </motion.p>
+                  </>
+                )}
+
+                {pattern === 1 && (
+                  <>
+                    <div className="relative">
+                      <div className="flex items-end justify-center gap-1 sm:gap-2 md:gap-4 max-w-full">
+                        {imgs.slice(0, 4).map((img, i) => {
+                          const rots = [3, -2, 2, -4];
+                          const yOff = [8, -10, 4, 14];
+                          return (
+                            <div key={i} className="w-[72px] sm:w-[105px] md:w-[150px] shrink-0" style={{ transform: `translateY(${yOff[i]}px)` }}>
+                              <PhoneScreen src={img.src} alt={img.alt} caption={img.caption} rotate={rots[i]} delay={0.1 + i * 0.1} zIndex={4 - i} onExpand={setExpandedImage} />
+                            </div>
+                          );
+                        })}
+                      </div>
+                      <ScrapbookInfoCard title={flow.title} caption={flow.caption} color={color} rotate={2} delay={0.5} className="md:absolute md:-bottom-10 md:left-0 w-full max-w-sm mt-6 md:mt-0 z-20" />
+                    </div>
+                    <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.6 }} className="font-serif text-base text-neutral-800 leading-relaxed max-w-xl mt-10 md:mt-16 md:ml-auto md:mr-8">
+                      {flow.description}
+                    </motion.p>
+                  </>
+                )}
+
+                {pattern === 2 && (
+                  <>
+                    <div className="flex flex-col-reverse md:flex-row gap-6 md:gap-8 items-start">
+                      <div className="w-full md:w-[45%] space-y-6">
+                        <ScrapbookInfoCard title={flow.title} caption={flow.caption} color={color} rotate={-2} delay={0.1} hasClip className="w-full max-w-sm" />
+                        <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.3 }} className="font-serif text-base text-neutral-800 leading-relaxed">
+                          {flow.description}
+                        </motion.p>
+                      </div>
+                      <div className="w-full md:w-[55%] relative flex items-center justify-center gap-1 sm:gap-3 py-4" style={{ minHeight: "360px" }}>
+                        {imgs.slice(0, 3).map((img, i) => {
+                          const rots = [-4, 2, -3];
+                          return (
+                            <div key={i} className="w-[90px] sm:w-[120px] md:w-[155px] shrink-0">
+                              <PhoneScreen src={img.src} alt={img.alt} caption={img.caption} rotate={rots[i]} delay={0.15 + i * 0.12} zIndex={3 - i} onExpand={setExpandedImage} />
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                    {imgs.length > 3 && (
+                      <div className="flex gap-3 sm:gap-4 mt-6 justify-center md:justify-start md:ml-4">
+                        {imgs.slice(3).map((img, i) => (
+                          <div key={i} className="w-[85px] sm:w-[110px] md:w-[140px] shrink-0">
+                            <PhoneScreen src={img.src} alt={img.alt} caption={img.caption} rotate={i % 2 === 0 ? 4 : -3} delay={0.5 + i * 0.1} onExpand={setExpandedImage} />
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </>
+                )}
+
+                {pattern === 3 && (
+                  <>
+                    <ScrapbookInfoCard title={flow.title} caption={flow.caption} color={color} rotate={3} delay={0.1} className="w-full max-w-md mb-4" hasClip />
+                    <div className="relative flex items-center justify-center gap-1 sm:gap-3 py-4" style={{ minHeight: "360px" }}>
+                      {imgs.slice(0, 3).map((img, i) => (
+                        <div key={i} className="w-[90px] sm:w-[125px] md:w-[165px] shrink-0">
+                          <PhoneScreen src={img.src} alt={img.alt} caption={img.caption} rotate={[2, -3, 3][i % 3]} delay={0.15 + i * 0.1} zIndex={3 - i} onExpand={setExpandedImage} />
+                        </div>
+                      ))}
+                    </div>
+                    {imgs.length > 3 && (
+                      <div className="flex justify-center gap-2 sm:gap-3 mt-4">
+                        {imgs.slice(3).map((img, i) => (
+                          <div key={i} className="w-[80px] sm:w-[100px] md:w-[130px] shrink-0">
+                            <PhoneScreen src={img.src} alt={img.alt} caption={img.caption} rotate={i % 2 === 0 ? -3 : 4} delay={0.5 + i * 0.1} onExpand={setExpandedImage} />
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                    <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.5 }} className="font-serif text-base text-neutral-800 leading-relaxed max-w-2xl mt-6">
+                      {flow.description}
+                    </motion.p>
+                  </>
+                )}
+
+                {pattern === 4 && (
+                  <>
+                    <div className="flex flex-row items-center justify-center gap-2 sm:gap-4 md:gap-0">
+                      <div className="w-[95px] sm:w-[130px] md:w-[170px] shrink-0">
+                        <PhoneScreen src={imgs[0]?.src || ""} alt={imgs[0]?.alt || ""} caption={imgs[0]?.caption || ""} rotate={-4} delay={0.1} zIndex={5} onExpand={setExpandedImage} />
+                      </div>
+                      <ScrapbookInfoCard title={flow.title} caption={flow.caption} color={color} rotate={1} delay={0.25} className="max-w-[150px] sm:max-w-xs md:-mx-4 z-10 text-xs sm:text-sm" hasClip />
+                      <div className="w-[95px] sm:w-[130px] md:w-[170px] shrink-0">
+                        <PhoneScreen src={imgs[1]?.src || ""} alt={imgs[1]?.alt || ""} caption={imgs[1]?.caption || ""} rotate={3} delay={0.2} zIndex={5} onExpand={setExpandedImage} />
+                      </div>
+                    </div>
+                    {imgs.length > 2 && (
+                      <div className="flex justify-center gap-2 sm:gap-4 md:gap-5 mt-6">
+                        {imgs.slice(2).map((img, i) => (
+                          <div key={i} className="w-[85px] sm:w-[105px] md:w-[140px] shrink-0">
+                            <PhoneScreen src={img.src} alt={img.alt} caption={img.caption} rotate={[3, -2, 4, -3][i % 4]} delay={0.4 + i * 0.1} onExpand={setExpandedImage} />
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                    <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.5 }} className="font-serif text-base text-neutral-800 leading-relaxed max-w-xl mx-auto mt-6 md:mt-8 text-center">
+                      {flow.description}
+                    </motion.p>
+                  </>
+                )}
+
+              </div>
+            );
+          })}
+        </div>
+
+        {/* ═══ STRATEGIC RATIONALE, AI, ITERATION & FINAL OUTCOME ═══ */}
+        <div className="space-y-6 mt-16 pt-10 border-t border-black/15">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Explored Alternatives */}
+            {project.exploredAlternatives && (
+              <div className="p-5 bg-white border border-black/15 shadow-md">
+                <span className="font-mono text-[0.65rem] uppercase tracking-widest text-neutral-500 font-bold block mb-1">06 // EXPLORED ALTERNATIVES</span>
+                <h4 className="font-display text-base uppercase tracking-tight text-dark mb-2">What alternatives did you explore?</h4>
+                <p className="font-serif text-sm leading-relaxed text-neutral-800">{project.exploredAlternatives}</p>
+              </div>
+            )}
+
+            {/* Final Solution Rationale */}
+            {project.finalSolutionRationale && (
+              <div className="p-5 bg-white border border-black/15 shadow-md">
+                <span className="font-mono text-[0.65rem] uppercase tracking-widest text-neutral-500 font-bold block mb-1">07 // SOLUTION RATIONALE</span>
+                <h4 className="font-display text-base uppercase tracking-tight text-dark mb-2">Why did you choose the final solution?</h4>
+                <p className="font-serif text-sm leading-relaxed text-neutral-800">{project.finalSolutionRationale}</p>
+              </div>
+            )}
+          </div>
+
+          {/* Information Architecture (IA) */}
+          {(project.informationArchitecture || project.aiIntegration) && (
+            <div className="p-6 bg-[#F4F1EA] border border-black/15 shadow-md mb-6">
+              <span className="font-mono text-[0.65rem] uppercase tracking-widest text-purple-700 font-bold block mb-1">08 // INFORMATION ARCHITECTURE (IA)</span>
+              <h4 className="font-display text-base uppercase tracking-tight text-dark mb-3">How did you structure the Information Architecture (IA)?</h4>
+              {Array.isArray(project.informationArchitecture) ? (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 mt-3">
+                  {project.informationArchitecture.map((item, idx) => (
+                    <div key={idx} className="flex items-start gap-3 p-3.5 bg-white/90 border border-black/15 shadow-sm rounded-sm">
+                      <span className="font-mono text-xs font-bold text-purple-800 bg-purple-100/80 border border-purple-300 px-2 py-0.5 rounded shrink-0">
+                        IA-{String(idx + 1).padStart(2, '0')}
+                      </span>
+                      <span className="font-sans text-xs leading-relaxed text-neutral-900 font-medium">
+                        {item}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="font-serif text-sm leading-relaxed text-neutral-800">{project.informationArchitecture || project.aiIntegration}</p>
+              )}
+            </div>
+          )}
+
+          {/* Feedback & Iteration */}
+          {project.feedbackAndIteration && (
+            <div className="p-5 bg-white border border-black/15 shadow-md mb-6">
+              <span className="font-mono text-[0.65rem] uppercase tracking-widest text-neutral-500 font-bold block mb-1">09 // FEEDBACK & ITERATION</span>
+              <h4 className="font-display text-base uppercase tracking-tight text-dark mb-2">How did you respond to feedback?</h4>
+              <p className="font-serif text-sm leading-relaxed text-neutral-800">{project.feedbackAndIteration}</p>
+            </div>
+          )}
+
+          {/* Final Outcome */}
+          {project.finalOutcome && (
+            <div className="p-6 bg-white border-2 border-black/20 shadow-lg" style={{ borderLeft: `6px solid ${color}` }}>
+              <span className="font-mono text-[0.65rem] uppercase tracking-widest text-neutral-500 font-bold block mb-1">10 // FINAL OUTCOME & DELIVERABLES</span>
+              <h4 className="font-display text-lg uppercase tracking-tight text-dark mb-2">What was the final outcome?</h4>
+              <p className="font-serif text-base leading-relaxed text-neutral-900 mb-4">{project.finalOutcome}</p>
+
+              {project.deliverables && project.deliverables.length > 0 && (
+                <div className="pt-3 border-t border-black/10">
+                  <span className="font-mono text-[0.65rem] uppercase tracking-widest text-neutral-500 font-bold block mb-2">Project Deliverables:</span>
+                  <div className="flex flex-wrap gap-2">
+                    {project.deliverables.map((deliv, dIdx) => (
+                      <span key={dIdx} className="font-mono text-[0.7rem] bg-[#F5F3EE] text-dark px-2.5 py-1 rounded border border-black/15">
+                        ✓ {deliv}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

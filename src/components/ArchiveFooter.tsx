@@ -10,9 +10,6 @@ export function ArchiveFooter() {
         <div className="md:col-span-5 space-y-6">
           <div>
             <Link href="/" className="group inline-block">
-              <span className="font-mono text-xs uppercase tracking-widest text-light block opacity-80 group-hover:text-white">
-                [ SCRAPBOOK INDEX // 2026 ]
-              </span>
               <h3 className="font-display text-4xl md:text-5xl uppercase text-light tracking-tight mt-2 group-hover:text-white transition-colors">
                 PRANAV EDVANKAR
               </h3>
@@ -81,13 +78,10 @@ export function ArchiveFooter() {
       </div>
 
       {/* Bottom Bar */}
-      <div className="max-w-7xl mx-auto border-t border-neutral-800 mt-16 pt-6 flex flex-col md:flex-row items-center justify-between text-xs text-muted gap-4 font-mono">
+      <div className="max-w-7xl mx-auto border-t border-neutral-800 mt-16 pt-6 flex items-center justify-center text-xs text-muted font-mono text-center">
         <Link href="/" className="hover:text-white transition-colors">
           © {new Date().getFullYear()} PRANAV EDVANKAR. ALL RIGHTS RESERVED.
         </Link>
-        <span className="uppercase tracking-widest text-[0.68rem]">
-          DARK SCRAPBOOK DOSSIER // BUILT WITH NEXT.JS & TAILWIND
-        </span>
       </div>
     </footer>
   );
