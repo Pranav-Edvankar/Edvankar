@@ -106,7 +106,7 @@ export function ArchiveHeader() {
         >
           <span>PRANAV EDVANKAR</span>
           <span className="font-mono text-[0.65rem] uppercase tracking-widest text-muted border-l border-neutral-700 pl-3 hidden sm:inline-block font-normal">
-            SCRAPBOOK DOSSIER
+            PRODUCT DESIGNER
           </span>
         </Link>
 

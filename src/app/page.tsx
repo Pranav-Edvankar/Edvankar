@@ -747,7 +747,7 @@ function ProjectPaperCard({ project }: { project: CaseStudy }) {
           <div className="mb-14 space-y-4">
             <div className="flex items-center gap-2 border-b border-black/15 pb-2">
               <span className="font-mono text-xs font-bold uppercase tracking-widest text-neutral-500">04 // INSIGHT DISCOVERY</span>
-              <h4 className="font-display text-lg uppercase tracking-wider text-dark">— What insights did you discover?</h4>
+              <h4 className="font-display text-lg uppercase tracking-wider text-dark">What insights did you discover?</h4>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               {project.keyInsights.map((insight, i) => (
@@ -1197,7 +1197,7 @@ export default function HomePage() {
               <div className="space-y-6 max-w-5xl">
                 <ExtrudedHeroHeading />
                 <p className="font-serif text-lg md:text-2xl text-muted leading-relaxed max-w-3xl italic">
-                  A project exploring end-to-end product design, enterprise UX research, and scalable design systems — bridging Figma craft with Flutter & React development reality.
+                  Product designer with an IT background. I design mobile apps, brand identities, and design systems, grounded by how code actually works in Flutter and React.
                 </p>
               </div>
             </motion.section>
@@ -1401,7 +1401,7 @@ export default function HomePage() {
                     aria-label="Close dossier and return to index"
                   >
                     <X className="w-4 h-4 pointer-events-none" />
-                    <span className="pointer-events-none">CLOSE DOSSIER — RETURN TO INDEX</span>
+                    <span className="pointer-events-none">CLOSE DOSSIER // RETURN TO INDEX</span>
                   </button>
                   <span className="font-mono text-xs text-muted uppercase tracking-widest select-none">
                     {activeProject?.dossierNumber} // {activeProject?.year}

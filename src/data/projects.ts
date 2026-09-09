@@ -1359,7 +1359,7 @@ export const CLUSTERS = [
     title: "Product Design & UX Systems",
     color: "#2E5EFF",
     description:
-      "Structuring end-to-end mobile applications and multi-platform service ecosystems. Grounded in user mental models, task flow efficiency, and scalable design component architectures.",
+      "Mobile apps and interface systems built around real user workflows, tested with clean usability mechanics and backed by reusable components.",
     projectSlugs: ["qwikamp", "fintech-banking"]
   },
   {
@@ -1368,7 +1368,7 @@ export const CLUSTERS = [
     title: "Brand & Visual Identity",
     color: "#E63946",
     description:
-      "Constructing cohesive visual identities, typographic systems, and brand toolkits that bridge digital interfaces with physical and strategic brand presence.",
+      "Brand identities, logos, and typographic systems designed to work consistently across mobile screens and physical media.",
     projectSlugs: ["step-out", "nivora"]
   },
   {
@@ -1377,7 +1377,7 @@ export const CLUSTERS = [
     title: "Client & Freelance Work",
     color: "#F4C430",
     description:
-      "Direct client engagement, rapid prototyping, e-commerce storefront optimization, and neo-brutalist digital design solutions tailored for commercial impact.",
+      "Client projects, e-commerce storefronts, and experimental layouts built on tight deadlines.",
     projectSlugs: ["aurelle", "fiverr-freelance"]
   },
   {
@@ -1386,7 +1386,7 @@ export const CLUSTERS = [
     title: "Research & Enterprise UX",
     color: "#7B2CBF",
     description:
-      "Methodical UX research, qualitative inquiry, quantitative survey synthesis, and ethnographic observation applied to complex financial and enterprise workflows.",
+      "User surveys, 1,500-transaction data analysis, and competitor audits for complex financial workflows.",
     projectSlugs: ["lloyds-ux"]
   }
 ];

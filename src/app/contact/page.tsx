@@ -36,7 +36,7 @@ export default function ContactPage() {
           name: formData.name,
           email: formData.email,
           message: formData.message,
-          _subject: `New Transmission from ${formData.name} [Portfolio Contact]`,
+          _subject: `Portfolio message from ${formData.name}`,
           _template: "table",
           _captcha: "false",
         }),
@@ -64,13 +64,13 @@ export default function ContactPage() {
         {/* Header */}
         <div className="space-y-4 border-b border-neutral-800 pb-10">
           <div className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest px-3 py-1 border border-neutral-800 bg-neutral-900 text-light">
-            <span>TRANSMISSION DOSSIER // DIRECT CONTACT</span>
+            <span>CONTACT // GET IN TOUCH</span>
           </div>
           <h1 className="font-display text-6xl sm:text-8xl md:text-[9rem] uppercase tracking-tight text-light leading-[0.88]">
-            INITIATE CONTACT
+            LET&apos;S TALK
           </h1>
           <p className="font-serif italic text-xl md:text-3xl text-light font-normal">
-            Available for product design contracts, enterprise UX research, and design systems.
+            Open to full-time product design roles, design systems work, and freelance projects.
           </p>
         </div>
 
@@ -82,7 +82,7 @@ export default function ContactPage() {
             <div className="p-6 bg-paper-card text-dark space-y-6 shadow-2xl">
               <div className="space-y-2 border-b border-black/20 pb-4">
                 <span className="font-display text-base uppercase text-dark block">
-                  ELECTRONIC MAIL
+                  EMAIL
                 </span>
                 <div className="flex items-center justify-between gap-2 font-mono text-sm">
                   <a href="mailto:pranavedvankar3@gmail.com" className="font-bold hover:underline break-all">
@@ -101,7 +101,7 @@ export default function ContactPage() {
 
               <div className="space-y-2 border-b border-black/20 pb-4 font-mono text-xs">
                 <span className="font-display text-base uppercase text-dark block">
-                  LINKEDIN PROFILE
+                  LINKEDIN
                 </span>
                 <a
                   href="https://linkedin.com/in/pranav-edvankar"
@@ -128,16 +128,16 @@ export default function ContactPage() {
             <div className="p-8 bg-neutral-900 border border-neutral-800 space-y-6">
               <div>
                 <h3 className="font-display text-3xl uppercase tracking-tight text-light">
-                  DIRECT TRANSMISSION FORM
+                  SEND A MESSAGE
                 </h3>
               </div>
 
               {formSubmitted ? (
                 <div className="p-6 bg-white text-dark space-y-4 border border-neutral-200 shadow-xl">
                   <div className="space-y-1">
-                    <h4 className="font-display text-2xl uppercase tracking-tight text-dark">TRANSMISSION DISPATCHED</h4>
+                    <h4 className="font-display text-2xl uppercase tracking-tight text-dark">MESSAGE RECEIVED</h4>
                     <p className="font-serif text-sm text-neutral-800">
-                      Your message has been delivered directly to <strong className="font-mono font-bold text-black">pranavedvankar3@gmail.com</strong>. I will review your requirements and respond promptly.
+                      Thanks for reaching out. Your note landed in my inbox at <strong className="font-mono font-bold text-black">pranavedvankar3@gmail.com</strong>, and I will get back to you soon.
                     </p>
                   </div>
                   <button
@@ -145,7 +145,7 @@ export default function ContactPage() {
                     onClick={() => setFormSubmitted(false)}
                     className="px-4 py-2 bg-dark text-white hover:bg-neutral-800 font-mono text-xs uppercase tracking-wider transition-colors cursor-pointer"
                   >
-                    SEND ANOTHER TRANSMISSION
+                    SEND ANOTHER MESSAGE
                   </button>
                 </div>
               ) : (
@@ -156,22 +156,22 @@ export default function ContactPage() {
                       <div className="space-y-1">
                         <p>{errorMessage}</p>
                         <a
-                          href={`mailto:pranavedvankar3@gmail.com?subject=Direct Inquiry from ${encodeURIComponent(formData.name || "Portfolio Visitor")}&body=${encodeURIComponent(formData.message)}`}
+                          href={`mailto:pranavedvankar3@gmail.com?subject=Inquiry from ${encodeURIComponent(formData.name || "Portfolio Visitor")}&body=${encodeURIComponent(formData.message)}`}
                           className="underline text-red-300 hover:text-white inline-block mt-1"
                         >
-                          Click here to send via your email client instead &rarr;
+                          Write to me directly via email instead &rarr;
                         </a>
                       </div>
                     </div>
                   )}
 
                   <div className="space-y-1">
-                    <label className="text-muted block uppercase">01. YOUR NAME / ORGANIZATION *</label>
+                    <label className="text-muted block uppercase">01. YOUR NAME *</label>
                     <input
                       type="text"
                       required
                       disabled={loading}
-                      placeholder="e.g. Studio Apex"
+                      placeholder="What should I call you?"
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                       className="w-full px-4 py-3 bg-dark border border-neutral-700 text-light focus:outline-none focus:border-white disabled:opacity-50 transition-colors"
@@ -184,7 +184,7 @@ export default function ContactPage() {
                       type="email"
                       required
                       disabled={loading}
-                      placeholder="e.g. contact@studioapex.com"
+                      placeholder="Where can I reply?"
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       className="w-full px-4 py-3 bg-dark border border-neutral-700 text-light focus:outline-none focus:border-white disabled:opacity-50 transition-colors"
@@ -192,12 +192,12 @@ export default function ContactPage() {
                   </div>
 
                   <div className="space-y-1">
-                    <label className="text-muted block uppercase">03. MESSAGE / BRIEF *</label>
+                    <label className="text-muted block uppercase">03. YOUR MESSAGE *</label>
                     <textarea
                       required
                       disabled={loading}
                       rows={5}
-                      placeholder="Describe scope, deliverables, and timeline..."
+                      placeholder="Tell me about your team, your project, or just say hello."
                       value={formData.message}
                       onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                       className="w-full px-4 py-3 bg-dark border border-neutral-700 text-light focus:outline-none focus:border-white resize-none disabled:opacity-50 transition-colors"
@@ -212,11 +212,11 @@ export default function ContactPage() {
                     {loading ? (
                       <>
                         <Loader2 className="w-5 h-5 animate-spin text-black" />
-                        <span className="text-black">TRANSMITTING MESSAGE...</span>
+                        <span className="text-black">SENDING MESSAGE...</span>
                       </>
                     ) : (
                       <>
-                        <span className="text-black">DISPATCH MESSAGE</span>
+                        <span className="text-black">SEND MESSAGE</span>
                         <Send className="w-5 h-5 text-black" />
                       </>
                     )}
