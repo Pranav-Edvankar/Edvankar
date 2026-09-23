@@ -53,7 +53,12 @@
     color: #0A0A0A;
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-family: var(--font-anton), "Anton", "Archivo Black", sans-serif;
     text-transform: uppercase;
     letter-spacing: -0.01em;
@@ -104,4 +109,353 @@
 
 ::-webkit-scrollbar-thumb:hover {
   background: #FFFFFF;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   MOSBY'S FILES 3D FOLDER DOSSIER SYSTEM (10/10 AUTHENTIC KINEMATICS)
+   ═══════════════════════════════════════════════════════════════════ */
+:root {
+  --stack-border-radius: 4px;
+  --stack-group-height-sm: 20vw;
+  --stack-group-height-lg: 540px;
+  --stack-group-offset: 3.75rem;
+  --stack-perspective: 3000px;
+  --stack-rotation-angle: -3deg;
+  --stack-rotation-offset: 1rem;
+  --stack-shadow: 0 -1px 8px rgba(0, 0, 0, 0.18);
+  --folder-shadow: 0 -2px 10px rgba(0, 0, 0, 0.22);
+  --folder-offset: 65vh;
+  --tag-height: 2.75rem;
+  --tag-aspect-ratio: 1.409;
+}
+
+@media only screen and (max-width: 1024px) {
+  :root {
+    --stack-group-height-lg: 480px;
+    --stack-group-offset: 3.25rem;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  :root {
+    --tag-height: 2.1rem;
+    --tag-aspect-ratio: 1.1;
+    --stack-group-height-lg: 420px;
+    --stack-group-offset: 2.75rem;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  :root {
+    --tag-height: 1.85rem;
+    --tag-aspect-ratio: 0.95;
+    --stack-group-offset: 2.5rem;
+  }
+}
+
+/* The Perspective Stack Container */
+.mosby-stack {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  width: 100%;
+  margin-top: calc(var(--tag-height) + 1.5rem);
+  margin-bottom: 3rem;
+  perspective: var(--stack-perspective);
+  transform-style: preserve-3d;
+  isolation: isolate;
+}
+
+/* Stack Group (Each Dossier Cluster) */
+.mosby-stack-group {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: calc(var(--stack-group-height-lg) + var(--stack-group-offset) * var(--offset-multiplier));
+  transform-origin: bottom center;
+  transform-style: preserve-3d;
+  will-change: height, transform;
+  transition: transform 0.65s cubic-bezier(0.33, 1, 0.68, 1), height 0.65s cubic-bezier(0.33, 1, 0.68, 1);
+  margin-top: calc(var(--stack-border-radius) * -1);
+}
+
+/* Category header / overview unfold push-down */
+.mosby-stack-group.is-pushed-down {
+  transform: translateY(220px);
+}
+
+/* Authentic Mosby Group Kinematic Tilt: groups in front tilt back and sink 1rem */
+.mosby-stack-group.is-rotated {
+  height: calc(var(--stack-group-height-lg) + var(--stack-group-offset) * var(--offset-multiplier) - var(--stack-rotation-offset));
+  transform: rotateX(var(--stack-rotation-angle)) translateZ(calc(2px * var(--group-idx)));
+}
+
+@media only screen and (max-width: 768px) {
+  .mosby-stack-group.is-pushed-down {
+    transform: translateY(170px);
+  }
+}
+
+.mosby-stack-group__inner {
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  width: 100%;
+}
+
+/* Stack Page (Inside a group) */
+.mosby-stack-page {
+  border-radius: var(--stack-border-radius) var(--stack-border-radius) 0 0;
+  bottom: 0;
+  height: 100%;
+  left: 0;
+  position: absolute;
+  right: 0;
+  transform: translateZ(0);
+  transform-origin: bottom center;
+  transform-style: preserve-3d;
+  width: 100%;
+  cursor: pointer;
+  /* Authentic Mosby motion curve */
+  transition: transform 0.65s cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+/* Active hovered page stays upright at translateZ(0) */
+.mosby-stack-page.is-hovered {
+  transform: translateZ(0);
+}
+
+/* Preceding pages inside active cluster rotate back and sink 1rem */
+.mosby-stack-page.is-rotated {
+  transform: translateY(var(--stack-rotation-offset)) rotateX(var(--stack-rotation-angle));
+}
+
+.mosby-stack-page__bg {
+  border-radius: inherit;
+  inset: 0;
+  position: absolute;
+  z-index: -1;
+  box-shadow: var(--folder-shadow);
+}
+
+/* Header housing the Scalloped Tabs */
+.mosby-stack-page__header {
+  align-items: center;
+  bottom: 100%;
+  display: flex;
+  left: var(--stack-border-radius);
+  position: absolute;
+  pointer-events: none;
+  transform-style: preserve-3d;
+  z-index: 40;
+}
+
+.mosby-stack-page.is-hovered .mosby-stack-page__header {
+  z-index: 50;
+}
+
+/* Right 33% unfold trigger zone */
+.mosby-stack-page__unfold-area {
+  bottom: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 33%;
+  z-index: 5;
+  cursor: pointer;
+}
+
+/* Scalloped Folder Tag / Tab — Fused continuously with folder body */
+.mosby-tag {
+  align-items: flex-start;
+  display: flex;
+  font-family: var(--font-lora), "Lora", Georgia, serif;
+  font-size: 1.45rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  height: var(--tag-height);
+  margin-bottom: -1px;
+  opacity: 0;
+  pointer-events: none;
+  position: relative;
+  white-space: nowrap;
+  user-select: none;
+  transition: opacity 0.25s ease;
+  filter: none;
+  box-shadow: none;
+}
+
+.mosby-tag * {
+  pointer-events: none;
+}
+
+.mosby-tag.is-visible:hover {
+  filter: none;
+  box-shadow: none;
+}
+
+@media only screen and (max-width: 1024px) {
+  .mosby-tag {
+    font-size: 1.15rem;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .mosby-tag {
+    font-size: 0.85rem;
+    letter-spacing: -0.02em;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .mosby-tag {
+    font-size: 0.78rem;
+  }
+
+  .mosby-cover__category {
+    display: none !important;
+  }
+}
+
+.mosby-tag.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.mosby-tag__middle {
+  align-items: center;
+  background-color: var(--tag-bg);
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  z-index: 5;
+  padding-inline: 0.25rem;
+  color: var(--tag-color);
+}
+
+.mosby-tag__side {
+  aspect-ratio: var(--tag-aspect-ratio);
+  height: 100%;
+  color: var(--tag-bg);
+  transform-origin: top;
+  display: block;
+}
+
+.mosby-tag__start {
+  transform: scale(-1, 1.01) translate(-1px);
+}
+
+.mosby-tag__end {
+  transform: scaleY(1.01) translate(-1px);
+}
+
+/* Folder Cover Plate — Authentic Mosby Front Jacket Flap */
+.mosby-stack-cover {
+  align-items: flex-start;
+  background-color: var(--cover-bg);
+  border-radius: var(--stack-border-radius) var(--stack-border-radius) 0 0;
+  bottom: 0;
+  box-sizing: border-box;
+  display: flex;
+  height: 100%;
+  justify-content: space-between;
+  padding: 0 1.5rem;
+  pointer-events: none;
+  left: 0;
+  right: 0;
+  position: absolute;
+  transform-origin: bottom center;
+  transform-style: preserve-3d;
+  z-index: 20;
+  transition: transform 0.65s cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+/* Cover rotates backward & sinks 1rem when any page in this group is hovered */
+.mosby-stack-cover.is-rotated {
+  transform: translateY(var(--stack-rotation-offset)) rotateX(var(--stack-rotation-angle));
+}
+
+@media only screen and (min-width: 768px) {
+  .mosby-stack-cover {
+    padding: 0 2.5rem;
+  }
+}
+
+/* Luminous Highlight Overlay */
+.mosby-stack-cover:after {
+  background: linear-gradient(0deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.08));
+  border-radius: inherit;
+  box-shadow: var(--stack-shadow);
+  content: "";
+  height: 100%;
+  inset: 0;
+  opacity: 0;
+  position: absolute;
+  width: 100%;
+  z-index: 2;
+  pointer-events: none;
+  transition: opacity 0.65s cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+.mosby-stack-cover.is-hovered:after {
+  opacity: 1;
+}
+
+/* Folder Category & Arrow Header */
+.mosby-cover__category {
+  align-items: center;
+  display: inline-flex;
+  gap: 0.5rem;
+  line-height: var(--stack-group-offset);
+  font-family: var(--font-mono), monospace;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  /* MUST be auto so React onMouseEnter fires on the category label */
+  pointer-events: auto;
+  margin-left: auto;
+  user-select: none;
+  cursor: pointer;
+  position: relative;
+  z-index: 40;
+  /* Subtle underline hint on hover */
+  transition: opacity 0.2s ease;
+}
+
+.mosby-cover__category:hover {
+  opacity: 0.85;
+}
+
+.mosby-cover__category-arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.65s cubic-bezier(0.33, 1, 0.68, 1);
+  transform: rotate(90deg);
+  /* points < / right-angled chevron at rest */
+}
+
+.mosby-stack-cover.is-unfolded .mosby-cover__category-arrow {
+  transform: rotate(0deg);
+  /* points down v when unfolded */
+}
+
+/* Category Description */
+.mosby-cover__desc {
+  max-width: 750px;
+  top: var(--stack-group-offset);
+  position: absolute;
+  left: 1.5rem;
+  pointer-events: auto;
+  transition: opacity 0.45s ease, transform 0.45s ease;
+  z-index: 6;
+}
+
+@media only screen and (min-width: 768px) {
+  .mosby-cover__desc {
+    left: 2.5rem;
+  }
 }

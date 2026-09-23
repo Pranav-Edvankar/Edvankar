@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, ChevronDown, X } from "lucide-react";
 import { PROJECTS_DATA, CLUSTERS, CaseStudy } from "@/data/projects";
 import { ExtrudedHeroHeading } from "@/components/ExtrudedHeroHeading";
+import MosbyFolderStack from "@/components/MosbyFolderStack";
 
 /** Darkens a hex colour by a given factor (0–1). Zero-dependency, runs in JS. */
 function darkenHex(hex: string, amount = 0.18): string {
@@ -1205,178 +1206,23 @@ export default function HomePage() {
         </AnimatePresence>
 
         {/* ═══════ CATEGORY RIBBONS + FOLDER TABS ═══════ */}
-        <section id="work" ref={folderRef} className="scroll-mt-24 md:scroll-mt-28 w-full">
+        <section id="work" ref={folderRef} className="scroll-mt-24 md:scroll-mt-28 w-full pt-8 sm:pt-12 md:pt-14">
           <AnimatePresence mode="wait">
             {!openProject ? (
-              /* ─── INDEX VIEW: Stacked Ribbons ─── */
+              /* ─── INDEX VIEW: Authentic Mosby 3D Folder Stack ─── */
               <motion.div
                 key="index"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.3 }}
-                onMouseLeave={() => {
-                  setHoveredCluster(null);
-                  setHoveredProjectSlug(null);
-                  setHoveredOverviewCluster(null);
-                }}
-                className="space-y-0 pb-32"
+                className="w-full pb-32"
               >
-                {CLUSTERS.map((cluster, clusterIdx) => {
-                  const isHovered = hoveredCluster === cluster.id;
-                  const isLastCluster = clusterIdx === CLUSTERS.length - 1;
-                  const isShowOverview = hoveredOverviewCluster === cluster.id;
-                  const isHoveredTab = hoveredCluster === cluster.id && hoveredOverviewCluster === null;
-                  const showOverviewText = isShowOverview || (hoveredCluster === null && isLastCluster);
-
-                  const hoveredClusterIndex = CLUSTERS.findIndex((c) => c.id === hoveredCluster);
-                  const isBelowHovered = hoveredClusterIndex !== -1 && clusterIdx > hoveredClusterIndex;
-
-                  const isExpanded =
-                    hoveredCluster !== null
-                      ? isHovered
-                      : isLastCluster;
-
-                  const folderHeight = isShowOverview
-                    ? (isLastCluster ? "680px" : "450px")
-                    : (isLastCluster ? "680px" : "58px");
-
-                  const zIndex = (clusterIdx + 1) * 10;
-
-                  return (
-                    <motion.div
-                      key={cluster.id}
-                      animate={{
-                        y: isHovered ? -3 : 0,
-                      }}
-                      transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-                      className={`relative ${
-                        clusterIdx > 0 ? "-mt-[40px] sm:-mt-[46px] md:-mt-[52px]" : ""
-                      }`}
-                      style={{
-                        zIndex,
-                      }}
-                    >
-                      {/* Continuous Folder Top Edge with Tabs (Solid backplate eliminates black gaps) */}
-                      <div className="relative">
-                        <div
-                          className="absolute inset-x-0 bottom-0 h-4 md:h-5 rounded-t-sm pointer-events-none z-0"
-                          style={{ backgroundColor: cluster.color }}
-                        />
-
-                        {/* Folder tabs naturally sized according to text length */}
-                        <div className="flex items-end pl-3 sm:pl-6 md:pl-10 pr-3 sm:pr-6 md:pr-10 -mb-[1px] relative z-10 gap-2 sm:gap-4 md:gap-5 max-w-full overflow-x-auto no-scrollbar">
-                          {cluster.projectSlugs.map((slug, idx) => {
-                            const project = PROJECTS_DATA[slug];
-                            if (!project) return null;
-                            return (
-                              <div
-                                key={slug}
-                                className="shrink-0"
-                                style={{
-                                  zIndex: cluster.projectSlugs.length - idx + 10,
-                                }}
-                              >
-                                <FolderTabH
-                                  title={project.title}
-                                  color={cluster.color}
-                                  onClick={() => setOpenProject(slug)}
-                                  onMouseEnter={() => {
-                                    setHoveredCluster(cluster.id);
-                                    setHoveredProjectSlug(slug);
-                                    setHoveredOverviewCluster(null);
-                                  }}
-                                />
-                              </div>
-                            );
-                          })}
-                        </div>
-                      </div>
-
-                      {/* Folder Body (Mosby Dossier Layout with 3D Tilt) */}
-                      <motion.div
-                        onMouseEnter={() => {
-                          setHoveredCluster(cluster.id);
-                          setHoveredOverviewCluster(cluster.id);
-                          if (!hoveredProjectSlug || !cluster.projectSlugs.includes(hoveredProjectSlug)) {
-                            setHoveredProjectSlug(cluster.projectSlugs[0]);
-                          }
-                        }}
-                        onClick={() => setOpenProject(cluster.projectSlugs[0])}
-                        animate={{
-                          height: folderHeight,
-                          paddingTop: isExpanded ? 20 : 8,
-                          paddingBottom: isExpanded ? 24 : 8,
-                        }}
-                        transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-                        className="w-full relative overflow-hidden px-4 sm:px-6 md:px-12 flex flex-col justify-start cursor-pointer rounded-t-sm"
-                        style={{
-                          backgroundColor: cluster.color,
-                          color: "#0A0A0A",
-                          boxShadow: isExpanded
-                            ? "0 20px 45px rgba(0,0,0,0.4)"
-                            : "none",
-                        }}
-                      >
-                        {/* 2-Layer Folder Opening Illusion (Front Lip & Subtle Inner Crease) */}
-                        <div className="absolute top-0 inset-x-0 h-full pointer-events-none overflow-hidden">
-                          {/* Inner Folder Crease Shadow (Slightly Darker Tint of Folder Color) */}
-                          <motion.div
-                            initial={false}
-                            animate={{
-                              opacity: isHoveredTab ? 1 : 0,
-                            }}
-                            transition={{ duration: 0.2 }}
-                            className="absolute top-0 inset-x-0 h-4 z-0"
-                            style={{
-                              backgroundColor: cluster.color,
-                              filter: "brightness(0.82)",
-                            }}
-                          />
-
-                          {/* Layer 2: Front Folder Lip Layer (Sliding Down Seamlessly) */}
-                          <motion.div
-                            initial={false}
-                            animate={{
-                              y: isHoveredTab ? 10 : 0,
-                            }}
-                            transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-                            className="absolute top-0 inset-x-0 h-11 z-10"
-                            style={{
-                              backgroundColor: cluster.color,
-                              filter: "brightness(0.96)",
-                            }}
-                          />
-                        </div>
-
-                        {/* Right-aligned category label header (hidden on mobile view) */}
-                        <div className="hidden md:flex items-center justify-end gap-2 font-mono text-sm font-bold uppercase tracking-widest opacity-90 h-6 shrink-0 group relative z-20">
-                          <span>{cluster.tag}</span>
-                          <span className="text-sm font-extrabold transition-transform group-hover:scale-125">
-                            {showOverviewText ? "∨" : "<"}
-                          </span>
-                        </div>
-
-                        {/* Category Overview Description on expansion */}
-                        <AnimatePresence>
-                          {showOverviewText && (
-                            <motion.div
-                              initial={{ opacity: 0, y: -6 }}
-                              animate={{ opacity: 1, y: 0 }}
-                              exit={{ opacity: 0, y: -6 }}
-                              transition={{ duration: 0.25 }}
-                              className="mt-2 sm:mt-3 max-w-3xl flex flex-col justify-start relative z-20"
-                            >
-                              <p className="font-mono text-xs sm:text-sm md:text-base leading-relaxed opacity-90 font-medium">
-                                {cluster.description}
-                              </p>
-                            </motion.div>
-                          )}
-                        </AnimatePresence>
-                      </motion.div>
-                    </motion.div>
-                  );
-                })}
+                <MosbyFolderStack
+                  clusters={CLUSTERS}
+                  projectsData={PROJECTS_DATA}
+                  onSelectProject={(slug) => setOpenProject(slug)}
+                />
               </motion.div>
             ) : (
               /* ─── OPEN FOLDER VIEW ─── */
