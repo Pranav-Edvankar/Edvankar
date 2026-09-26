@@ -1,0 +1,191 @@
+const fs = require('fs');
+const path = require('path');
+const { execSync } = require('child_process');
+
+const chartCode = `graph TD
+    A[Onboarding Screen Carousel] --> B[Login Screen]
+    B --> C[Verification / OTP Screen]
+    C --> D[Home Page - Light & Dark Modes]
+
+    subgraph Nav_Entry ["Home Navigation & Entry Points"]
+        D -->|Navbar / Hero / 2x2 Grid| E[Shop Page]
+        D -->|Navbar / Hero / 2x2 Grid| F[Repair Page - Service Center Map]
+        D -->|2x2 Grid / Services| G[Service Your Cycle Page]
+        D -->|2x2 Grid / Services| H[Doorstep Repair Page]
+        D -->|Navbar Icon / Bottom Bar| I[Cart Page]
+        D -->|Navbar Icon / Bottom Bar| J[Profile Page]
+    end
+
+    subgraph Cart_Panels ["Cart Page - Unified Management (4 Panels)"]
+        I --> I1[Purchases Panel]
+        I --> I2[Repair Panel]
+        I --> I3[Service Panel]
+        I --> I4[Doorstep Panel]
+    end
+
+    subgraph Secondary_Screens ["Detailed Views & Modal Overlays"]
+        E --> E1[Product Details Page]
+        E1 --> E2[Payment Success Screen]
+        F --> F1[Extended Service Center Page]
+        I1 & I2 & I3 & I4 --> K[Bill View / Invoice Sheet]
+    end`;
+
+const html = `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Diagram 01 - Information Architecture</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: #1A1D20;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+      font-family: 'Space Grotesk', sans-serif;
+    }
+
+    .paper-sheet {
+      position: relative;
+      background-color: #F7F5EE;
+      background-image: 
+        radial-gradient(circle at 50% 50%, rgba(120, 100, 70, 0.08) 1px, transparent 1px),
+        linear-gradient(to right, rgba(0, 0, 0, 0.04) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
+      background-size: 24px 24px, 24px 24px, 24px 24px;
+      padding: 60px 80px;
+      border: 1px solid rgba(0, 0, 0, 0.15);
+      border-radius: 4px;
+      box-shadow: 
+        0 15px 35px rgba(0, 0, 0, 0.4),
+        0 3px 10px rgba(0, 0, 0, 0.2);
+      display: inline-block;
+    }
+
+    /* Subtle paper texture */
+    .paper-sheet::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.15;
+      mix-blend-mode: multiply;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.7'/%3E%3C/svg%3E");
+    }
+
+    /* Mermaid custom blueprint styling */
+    .mermaid {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Override Mermaid SVG styles to match rustic blueprint */
+    svg {
+      font-family: 'Space Grotesk', -apple-system, sans-serif !important;
+    }
+
+    .node rect, .node polygon {
+      fill: #FFFFFF !important;
+      stroke: #1E232A !important;
+      stroke-width: 1.6px !important;
+      rx: 4px;
+      ry: 4px;
+    }
+
+    .node .label {
+      font-family: 'Space Grotesk', sans-serif !important;
+      font-size: 13.5px !important;
+      font-weight: 600 !important;
+      fill: #1E232A !important;
+    }
+
+    .cluster rect {
+      fill: rgba(0, 0, 0, 0.02) !important;
+      stroke: #333D4B !important;
+      stroke-width: 1.5px !important;
+      stroke-dasharray: 6 4 !important;
+      rx: 6px;
+      ry: 6px;
+    }
+
+    .cluster .nodeLabel {
+      font-family: 'JetBrains Mono', monospace !important;
+      font-size: 13px !important;
+      font-weight: 700 !important;
+      text-transform: uppercase !important;
+      letter-spacing: 0.8px !important;
+      fill: #1E232A !important;
+    }
+
+    .edgePath .path {
+      stroke: #2A323D !important;
+      stroke-width: 1.6px !important;
+    }
+
+    .arrowheadPath {
+      fill: #2A323D !important;
+      stroke: #2A323D !important;
+    }
+
+    .edgeLabel {
+      background-color: #F7F5EE !important;
+      font-family: 'JetBrains Mono', monospace !important;
+      font-size: 11px !important;
+      font-weight: 600 !important;
+      color: #334155 !important;
+      padding: 2px 6px !important;
+      border-radius: 3px !important;
+      border: 1px solid rgba(0, 0, 0, 0.12) !important;
+    }
+  </style>
+  <script src="../node_modules/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <div class="paper-sheet">
+    <div class="mermaid">
+${chartCode}
+    </div>
+  </div>
+
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: 'base',
+      themeVariables: {
+        fontFamily: 'Space Grotesk, sans-serif',
+        primaryColor: '#FFFFFF',
+        primaryBorderColor: '#1E232A',
+        primaryTextColor: '#1E232A',
+        lineColor: '#2A323D',
+        secondaryColor: 'rgba(0,0,0,0.02)',
+        tertiaryColor: '#FFFFFF',
+      },
+      flowchart: {
+        curve: 'basis',
+        padding: 24,
+        htmlLabels: true
+      }
+    });
+  </script>
+</body>
+</html>`;
+
+const htmlPath = path.resolve('e:\\USER\\Downloads\\Edvankar\\qwikamp\\simple_blueprint_diagram.html');
+fs.writeFileSync(htmlPath, html, 'utf-8');
+console.log('Saved simple diagram HTML to:', htmlPath);
+
+const chromePath = 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
+const testPng = path.resolve('e:\\USER\\Downloads\\Edvankar\\qwikamp\\test_simple.png');
+const cmd = `"${chromePath}" --headless=new --screenshot="${testPng}" --window-size=2400,1600 --default-background-color=1A1D20 "file:///${htmlPath.replace(/\\/g, '/')}"`;
+
+try {
+  execSync(cmd, { stdio: 'inherit' });
+  console.log('Screenshot saved to:', testPng);
+} catch (err) {
+  console.error('Screenshot error:', err);
+}

@@ -1,0 +1,260 @@
+const fs = require('fs');
+const path = require('path');
+const { execSync } = require('child_process');
+
+const chartCode = `graph TD
+    A[Onboarding Screen Carousel] --> B[Login Screen]
+    B --> C[Verification / OTP Screen]
+    C --> D[Home Page - Light & Dark Modes]
+
+    subgraph Nav_Entry ["Home Navigation & Entry Points"]
+        D -->|Navbar / Hero / 2x2 Grid| E[Shop Page]
+        D -->|Navbar / Hero / 2x2 Grid| F[Repair Page - Service Center Map]
+        D -->|2x2 Grid / Services| G[Service Your Cycle Page]
+        D -->|2x2 Grid / Services| H[Doorstep Repair Page]
+        D -->|Navbar Icon / Bottom Bar| I[Cart Page]
+        D -->|Navbar Icon / Bottom Bar| J[Profile Page]
+    end
+
+    subgraph Cart_Panels ["Cart Page - Unified Management (4 Panels)"]
+        I --> I1[Purchases Panel]
+        I --> I2[Repair Panel]
+        I --> I3[Service Panel]
+        I --> I4[Doorstep Panel]
+    end
+
+    subgraph Secondary_Screens ["Detailed Views & Modal Overlays"]
+        E --> E1[Product Details Page]
+        E1 --> E2[Payment Success Screen]
+        F --> F1[Extended Service Center Page]
+        I1 & I2 & I3 & I4 --> K[Bill View / Invoice Sheet]
+    end`;
+
+const bgPath = path.resolve('e:\\USER\\Downloads\\Edvankar\\qwikamp\\rustic_paper_bg.jpg');
+
+const html = `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Mermaid on Rustic Paper</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      width: 2560px;
+      height: 1440px;
+      position: relative;
+      overflow: hidden;
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Space Grotesk', -apple-system, sans-serif;
+    }
+
+    .bg-image {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: fill;
+      z-index: 1;
+    }
+
+    /* Container for the diagram positioned precisely on the paper area */
+    .paper-content {
+      position: absolute;
+      /* The paper in rustic_paper_bg.jpg occupies roughly this region */
+      top: 90px;
+      bottom: 90px;
+      left: 310px;
+      right: 310px;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 30px;
+    }
+
+    .header-title {
+      width: 100%;
+      text-align: left;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1.5px solid rgba(80, 60, 30, 0.4);
+      mix-blend-mode: multiply;
+    }
+
+    .header-title h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: #221C16;
+      letter-spacing: -0.2px;
+    }
+
+    .header-title p {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 600;
+      color: #6A5A43;
+      margin-top: 2px;
+    }
+
+    .mermaid-container {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      mix-blend-mode: multiply;
+    }
+
+    /* ─── Mermaid SVG Blueprint Customization ─── */
+    svg {
+      width: 100% !important;
+      height: 100% !important;
+      max-height: 1150px !important;
+    }
+
+    /* Nodes: antique card look with graphite border */
+    .node rect, .node polygon, .node circle {
+      fill: #FAF6EB !important;
+      stroke: #262018 !important;
+      stroke-width: 2px !important;
+      rx: 4px !important;
+      ry: 4px !important;
+    }
+
+    /* Node Text */
+    .node .label {
+      font-family: 'Space Grotesk', sans-serif !important;
+      font-size: 14px !important;
+      font-weight: 600 !important;
+      color: #1E1914 !important;
+    }
+
+    .node .label div, .node .label p, .node .label span {
+      color: #1E1914 !important;
+    }
+
+    /* Central hub (Home Page) highlight */
+    #flowchart-D-4 rect, g[id*="-D-"] rect {
+      fill: #221C16 !important;
+      stroke: #221C16 !important;
+    }
+
+    #flowchart-D-4 .label, g[id*="-D-"] .label div {
+      color: #F4EFE2 !important;
+    }
+
+    /* Subgraph Containers */
+    .cluster rect {
+      fill: rgba(70, 55, 30, 0.03) !important;
+      stroke: #5A4D3B !important;
+      stroke-width: 1.8px !important;
+      stroke-dasharray: 7 5 !important;
+      rx: 6px !important;
+      ry: 6px !important;
+    }
+
+    /* Subgraph Title */
+    .cluster .nodeLabel {
+      font-family: 'JetBrains Mono', monospace !important;
+      font-size: 12px !important;
+      font-weight: 700 !important;
+      text-transform: uppercase !important;
+      letter-spacing: 0.6px !important;
+      color: #2B2319 !important;
+      background: #E2D7BE !important;
+      padding: 3px 8px !important;
+      border: 1px solid #8C795E !important;
+      border-radius: 3px !important;
+    }
+
+    /* Edge connectors */
+    .edgePath .path {
+      stroke: #262018 !important;
+      stroke-width: 2px !important;
+    }
+
+    .arrowheadPath {
+      fill: #262018 !important;
+      stroke: #262018 !important;
+    }
+
+    /* Edge Labels */
+    .edgeLabel {
+      background-color: #FAF6EB !important;
+    }
+
+    .edgeLabel div, .edgeLabel span {
+      background-color: #FAF6EB !important;
+      color: #352B1E !important;
+      font-family: 'JetBrains Mono', monospace !important;
+      font-size: 10.5px !important;
+      font-weight: 600 !important;
+      padding: 2px 6px !important;
+      border: 1px solid #8C795E !important;
+      border-radius: 3px !important;
+    }
+  </style>
+  <script src="../node_modules/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+
+  <img class="bg-image" src="file:///${bgPath.replace(/\\/g, '/')}" />
+
+  <div class="paper-content">
+    <div class="header-title">
+      <h1>QWIKAMP — SYSTEM OVERVIEW &amp; CORE INFORMATION ARCHITECTURE</h1>
+      <p>Spec: UI_UX_INFORMATION_ARCHITECTURE.md (§ 1.0) • Flowchart Topology (Mermaid Graph TD)</p>
+    </div>
+
+    <div class="mermaid-container">
+      <div class="mermaid">
+${chartCode}
+      </div>
+    </div>
+  </div>
+
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: 'base',
+      themeVariables: {
+        fontFamily: 'Space Grotesk, sans-serif',
+        primaryColor: '#FAF6EB',
+        primaryBorderColor: '#262018',
+        primaryTextColor: '#1E1914',
+        lineColor: '#262018',
+        secondaryColor: 'rgba(70,55,30,0.03)',
+        tertiaryColor: '#FAF6EB',
+      },
+      flowchart: {
+        curve: 'basis',
+        padding: 16,
+        htmlLabels: true
+      }
+    });
+  </script>
+</body>
+</html>`;
+
+const htmlPath = path.resolve('e:\\USER\\Downloads\\Edvankar\\qwikamp\\mermaid_rustic_paper.html');
+fs.writeFileSync(htmlPath, html, 'utf-8');
+console.log('Saved mermaid_rustic_paper.html');
+
+const outPng = path.resolve('e:\\USER\\Downloads\\Edvankar\\qwikamp\\test_mermaid_rustic.png');
+const chromePath = 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
+const cmd = `"${chromePath}" --headless=new --screenshot="${outPng}" --window-size=2560,1440 --default-background-color=000000 "file:///${htmlPath.replace(/\\/g, '/')}"`;
+
+try {
+  execSync(cmd, { stdio: 'inherit' });
+  console.log('Successfully rendered to:', outPng);
+} catch (err) {
+  console.error(err);
+}

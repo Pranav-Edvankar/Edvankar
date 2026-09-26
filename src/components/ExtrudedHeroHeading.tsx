@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef, useCallback } from "react";
+import React, { useState, useRef, useCallback, useEffect } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 
 interface ExtrudedHeroHeadingProps {
@@ -19,12 +19,21 @@ const LAYER_CONFIGS = [
 
 export function ExtrudedHeroHeading({
   headingText = "PRANAV EDVANKAR",
-  className = "font-display text-6xl sm:text-8xl md:text-[9rem] lg:text-[11rem] leading-[0.88] uppercase tracking-tight text-light",
+  className = "font-display text-5xl sm:text-7xl md:text-[6.5rem] lg:text-[8.5rem] leading-[0.88] uppercase tracking-tight text-light",
 }: ExtrudedHeroHeadingProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [mousePos, setMousePos] = useState<{ x: number; y: number } | null>(null);
   const charRefs = useRef<{ [key: number]: HTMLSpanElement | null }>({});
   const shouldReduceMotion = useReducedMotion();
+  const [isEntranceFinished, setIsEntranceFinished] = useState(false);
+
+  useEffect(() => {
+    // Release character line clip masks after the 0.9s rise finishes to allow unclipped 3D mouse extrusion
+    const timer = setTimeout(() => {
+      setIsEntranceFinished(true);
+    }, 1500);
+    return () => clearTimeout(timer);
+  }, []);
 
   // Track cursor position on desktop mouse pointers only (disabled on mobile / touch)
   const handleMouseMove = useCallback((e: React.MouseEvent) => {
@@ -44,7 +53,7 @@ export function ExtrudedHeroHeading({
   return (
     <div
       ref={containerRef}
-      className="relative inline-block cursor-pointer select-none group focus:outline-none p-12 -m-12"
+      className="relative inline-block cursor-pointer select-none group focus:outline-none p-6 -m-6"
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       tabIndex={0}
@@ -97,72 +106,93 @@ export function ExtrudedHeroHeading({
                 const isLetterActive = mousePos !== null && influence > 0.001;
 
                 return (
+                  /* ── Mosby SplitText Mask Container ── */
                   <span
                     key={charIndex}
-                    ref={(node) => {
-                      charRefs.current[uniqueCharId] = node;
-                    }}
-                    className="relative inline-block"
+                    className={`inline-block ${
+                      isEntranceFinished ? "overflow-visible" : "overflow-hidden"
+                    }`}
+                    style={{ paddingBottom: "0.12em", marginBottom: "-0.12em" }}
                   >
-                    {/* ── Crisp Extrusion Layers (Clean solid planes, zero blur) ── */}
-                    {!shouldReduceMotion &&
-                      LAYER_CONFIGS.map((layer, layerIndex) => {
-                        const effectiveDepth = layer.depth * influence;
-                        const layerOffsetX = isLetterActive ? magX + dirX * effectiveDepth : 0;
-                        const layerOffsetY = isLetterActive ? magY + dirY * effectiveDepth : 0;
-
-                        const springStiffness = isLetterActive ? (220 - layerIndex * 15) : (55 - layerIndex * 4);
-                        const springDamping = isLetterActive ? (20 + layerIndex * 1.0) : (14 + layerIndex * 0.8);
-                        const springMass = isLetterActive ? (0.55 + layerIndex * 0.08) : (0.95 + layerIndex * 0.12);
-
-                        return (
-                          <motion.span
-                            key={layerIndex}
-                            aria-hidden="true"
-                            className={`${className} absolute inset-0 pointer-events-none select-none`}
-                            style={{
-                              color: layer.color,
-                              zIndex: 20 - layerIndex,
-                              WebkitFontSmoothing: "antialiased",
-                              MozOsxFontSmoothing: "grayscale",
-                            }}
-                            initial={{ x: 0, y: 0, opacity: 0 }}
-                            animate={{
-                              x: layerOffsetX,
-                              y: layerOffsetY,
-                              opacity: isLetterActive ? 1 : 0,
-                            }}
-                            transition={{
-                              type: "spring",
-                              stiffness: springStiffness,
-                              damping: springDamping,
-                              mass: springMass,
-                            }}
-                          >
-                            {char}
-                          </motion.span>
-                        );
-                      })}
-
-                    {/* ── Primary Front Letter (Sharp & Crisp) ── */}
+                    {/* ── Mosby Rising Letter Motion Wrapper (power4.out) ── */}
                     <motion.span
-                      className={`${className} relative z-30 inline-block`}
-                      style={{
-                        WebkitFontSmoothing: "antialiased",
-                        MozOsxFontSmoothing: "grayscale",
-                      }}
-                      animate={{
-                        x: isLetterActive ? magX : 0,
-                        y: isLetterActive ? magY : 0,
-                      }}
+                      initial={shouldReduceMotion ? false : { y: "115%", opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
                       transition={{
-                        type: "spring",
-                        stiffness: isLetterActive ? 260 : 65,
-                        damping: isLetterActive ? 20 : 15,
-                        mass: isLetterActive ? 0.5 : 0.9,
+                        duration: 0.9,
+                        delay: 0.4 + lineIndex * 0.2 + charIndex * 0.015,
+                        ease: [0.165, 0.84, 0.44, 1], // Exact GSAP power4.out curve
                       }}
+                      className="inline-block"
                     >
-                      {char}
+                      {/* ── Interactive Physical Letter with 3D Extrusion ── */}
+                      <span
+                        ref={(node) => {
+                          charRefs.current[uniqueCharId] = node;
+                        }}
+                        className="relative inline-block"
+                      >
+                        {/* ── Crisp Extrusion Layers (Clean solid planes, zero blur) ── */}
+                        {!shouldReduceMotion &&
+                          LAYER_CONFIGS.map((layer, layerIndex) => {
+                            const effectiveDepth = layer.depth * influence;
+                            const layerOffsetX = isLetterActive ? magX + dirX * effectiveDepth : 0;
+                            const layerOffsetY = isLetterActive ? magY + dirY * effectiveDepth : 0;
+
+                            const springStiffness = isLetterActive ? (220 - layerIndex * 15) : (55 - layerIndex * 4);
+                            const springDamping = isLetterActive ? (20 + layerIndex * 1.0) : (14 + layerIndex * 0.8);
+                            const springMass = isLetterActive ? (0.55 + layerIndex * 0.08) : (0.95 + layerIndex * 0.12);
+
+                            return (
+                              <motion.span
+                                key={layerIndex}
+                                aria-hidden="true"
+                                className={`${className} absolute inset-0 pointer-events-none select-none`}
+                                style={{
+                                  color: layer.color,
+                                  zIndex: 20 - layerIndex,
+                                  WebkitFontSmoothing: "antialiased",
+                                  MozOsxFontSmoothing: "grayscale",
+                                }}
+                                initial={{ x: 0, y: 0, opacity: 0 }}
+                                animate={{
+                                  x: layerOffsetX,
+                                  y: layerOffsetY,
+                                  opacity: isLetterActive ? 1 : 0,
+                                }}
+                                transition={{
+                                  type: "spring",
+                                  stiffness: springStiffness,
+                                  damping: springDamping,
+                                  mass: springMass,
+                                }}
+                              >
+                                {char}
+                              </motion.span>
+                            );
+                          })}
+
+                        {/* ── Primary Front Letter (Sharp & Crisp) ── */}
+                        <motion.span
+                          className={`${className} relative z-30 inline-block`}
+                          style={{
+                            WebkitFontSmoothing: "antialiased",
+                            MozOsxFontSmoothing: "grayscale",
+                          }}
+                          animate={{
+                            x: isLetterActive ? magX : 0,
+                            y: isLetterActive ? magY : 0,
+                          }}
+                          transition={{
+                            type: "spring",
+                            stiffness: isLetterActive ? 260 : 65,
+                            damping: isLetterActive ? 20 : 15,
+                            mass: isLetterActive ? 0.5 : 0.9,
+                          }}
+                        >
+                          {char}
+                        </motion.span>
+                      </span>
                     </motion.span>
                   </span>
                 );

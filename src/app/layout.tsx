@@ -25,9 +25,38 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "PRANAV EDVANKAR — UI/UX Designer Scrapbook & Dossier",
-  description:
-    "Dark-themed research archive & scrapbook dossier of Pranav Edvankar. Product design, enterprise research, and Flutter/React development.",
+  metadataBase: new URL("https://edvankar.vercel.app"),
+  title: "Pranav Edvankar - Product Designer",
+  description: "Pranav Edvankar Portfolio",
+  openGraph: {
+    title: "Pranav Edvankar - Product Designer",
+    description: "Pranav Edvankar Portfolio",
+    url: "https://edvankar.vercel.app",
+    siteName: "Pranav Edvankar",
+    locale: "en_US",
+    type: "website",
+    images: [
+      {
+        url: "/images/pe-logo.png",
+        width: 600,
+        height: 600,
+        alt: "Pranav Edvankar - PE Logo",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary",
+    title: "Pranav Edvankar - Product Designer",
+    description: "Pranav Edvankar Portfolio",
+    images: ["/images/pe-logo.png"],
+  },
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/icon.png", type: "image/png", sizes: "512x512" },
+    ],
+    apple: [{ url: "/apple-icon.png", sizes: "180x180" }],
+  },
 };
 
 export default function RootLayout({
@@ -42,7 +71,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col bg-dark text-light font-serif selection:bg-white selection:text-dark">
         <ArchiveHeader />
-        <main className="flex-1 pt-20 md:pt-24">{children}</main>
+        <main className="flex-1 pt-16 md:pt-20">{children}</main>
         <ArchiveFooter />
       </body>
     </html>

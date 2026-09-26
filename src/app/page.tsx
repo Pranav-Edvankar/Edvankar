@@ -8,6 +8,7 @@ import { ArrowRight, ChevronDown, X } from "lucide-react";
 import { PROJECTS_DATA, CLUSTERS, CaseStudy } from "@/data/projects";
 import { ExtrudedHeroHeading } from "@/components/ExtrudedHeroHeading";
 import MosbyFolderStack from "@/components/MosbyFolderStack";
+import QwikampInformationArchitecture from "@/components/QwikampInformationArchitecture";
 
 /** Darkens a hex colour by a given factor (0–1). Zero-dependency, runs in JS. */
 function darkenHex(hex: string, amount = 0.18): string {
@@ -271,8 +272,18 @@ function VerticalTab({
           }}
         >
           <div
-            className="flex items-center justify-center font-serif text-xs sm:text-sm md:text-base font-bold text-dark tracking-tight whitespace-nowrap"
-            style={{ writingMode: "vertical-rl", transform: "rotate(180deg)" }}
+            className="flex items-center justify-center font-serif text-xs sm:text-sm md:text-base font-bold tracking-tight whitespace-nowrap"
+            style={{
+              writingMode: "vertical-rl",
+              transform: "rotate(180deg)",
+              color:
+                color.toLowerCase() === "#f4c430" ||
+                  color.toLowerCase() === "#e5a910" ||
+                  color.toLowerCase() === "#f59e0b" ||
+                  color.toLowerCase() === "#ffffff"
+                  ? "#0A0A0A"
+                  : "#FFFFFF",
+            }}
           >
             <span>{title}</span>
           </div>
@@ -534,6 +545,102 @@ function DrawerScreen({
   );
 }
 
+/* ─── Studio Video Playback Frame (Mosby Production Reel & Footage Monitor) ─── */
+function VideoScreen({
+  src,
+  poster,
+  caption,
+  title,
+  rotate = 0,
+  delay = 0.1,
+  className = "",
+  hasClip = false,
+  aspectRatio = "16/9",
+}: {
+  src: string;
+  poster?: string;
+  caption?: string;
+  title?: string;
+  rotate?: number;
+  delay?: number;
+  className?: string;
+  hasClip?: boolean;
+  aspectRatio?: "16/9" | "4/3" | "9/16";
+}) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 35, rotate: 0 }}
+      whileInView={{ opacity: 1, y: 0, rotate }}
+      viewport={{ once: true, margin: "-40px" }}
+      transition={{ duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] }}
+      className={`relative select-none ${className}`}
+    >
+      {hasClip && (
+        <div className="absolute -top-5 -right-3 z-30 pointer-events-none">
+          <Paperclip />
+        </div>
+      )}
+
+      {/* Production Studio Bezel & Video Player Monitor */}
+      <div className="rounded-xl md:rounded-2xl bg-[#141417] shadow-2xl border border-black/40 overflow-hidden group hover:border-black/60 transition-all">
+        {/* Studio Top Monitor Bar */}
+        <div className="bg-[#0C0C0E] px-4 py-2.5 flex items-center justify-between border-b border-white/10 gap-3">
+          {/* Status Indicators: REC dot & Resolution badge */}
+          <div className="flex items-center gap-2.5 shrink-0">
+            <span className="flex items-center gap-1.5 font-mono text-[0.65rem] tracking-wider text-red-500 font-bold uppercase">
+              <span className="w-2.5 h-2.5 rounded-full bg-red-600 animate-pulse inline-block" />
+              LIVE PLAYBACK
+            </span>
+            <span className="hidden sm:inline-block bg-white/10 text-white/80 text-[0.6rem] font-mono px-2 py-0.5 rounded border border-white/5 uppercase tracking-widest">
+              HD MASTER
+            </span>
+          </div>
+
+          {/* Center Title or Timecode */}
+          <div className="font-mono text-[0.65rem] sm:text-xs text-neutral-300 truncate tracking-wide font-medium">
+            {title || "STUDIO PLAYBACK REEL"}
+          </div>
+
+          {/* Right Frame Specs */}
+          <div className="flex items-center gap-2 font-mono text-[0.6rem] text-neutral-400 shrink-0">
+            <span className="bg-black/60 px-2 py-0.5 rounded text-neutral-300 border border-white/10">60 FPS</span>
+            <span className="hidden sm:inline text-neutral-500">MP4</span>
+          </div>
+        </div>
+
+        {/* Video Viewport Container */}
+        <div className={`relative w-full ${aspectRatio === "9/16" ? "aspect-[9/16] max-w-sm mx-auto" : "aspect-video"} bg-black overflow-hidden flex items-center justify-center`}>
+          <video
+            src={src}
+            poster={poster}
+            controls
+            playsInline
+            preload="metadata"
+            className="w-full h-full object-contain bg-black"
+          />
+        </div>
+
+        {/* Studio Bottom Bar with Meta */}
+        <div className="bg-[#0C0C0E] px-3.5 py-2 flex items-center justify-between border-t border-white/10 text-neutral-400 font-mono text-[0.65rem]">
+          <span className="flex items-center gap-1.5">
+            <span className="text-emerald-400">●</span>
+            <span>STEREO AUDIO</span>
+          </span>
+          <span className="text-neutral-500 text-[0.6rem] uppercase tracking-wider">
+            MASTER CAM // PRODUCTION ARCHIVE
+          </span>
+        </div>
+      </div>
+
+      {caption && (
+        <p className="font-mono text-[0.68rem] text-neutral-600 mt-2.5 text-center leading-relaxed px-2 pointer-events-none">
+          {caption}
+        </p>
+      )}
+    </motion.div>
+  );
+}
+
 /* ─── Colored Scrapbook Info Card (Mosby style) ─── */
 function ScrapbookInfoCard({
   title,
@@ -570,8 +677,9 @@ function ScrapbookInfoCard({
 
 /* ─── Project Detail Paper Card (Mosby Scrapbook Aesthetic with Lightbox) ─── */
 function ProjectPaperCard({ project }: { project: CaseStudy }) {
-  const isDesktopProject = project.slug === "aurelle" || project.flows.some((f) => f.imageAspect === "desktop");
-  const isAppProject = !isDesktopProject && project.flows.some((f) => f.imageAspect === "portrait");
+  const hasHeroVideo = Boolean(project.coverVideo);
+  const isDesktopProject = !hasHeroVideo && (project.slug === "aurelle" || project.flows.some((f) => f.imageAspect === "desktop"));
+  const isAppProject = !hasHeroVideo && !isDesktopProject && project.flows.some((f) => f.imageAspect === "portrait");
   const color = project.categoryColor;
   const [expandedImage, setExpandedImage] = useState<{ src: string; alt: string; caption?: string } | null>(null);
 
@@ -596,8 +704,39 @@ function ProjectPaperCard({ project }: { project: CaseStudy }) {
 
       <div className="p-2 sm:p-6 md:p-12 space-y-0">
 
-        {/* ═══ HERO COVER — Desktop PC Mockup Hero for web projects, phone collage for apps ═══ */}
-        {isDesktopProject ? (
+        {/* ═══ HERO COVER — Video Player for video projects, Desktop PC Mockup for web, phone collage for apps ═══ */}
+        {hasHeroVideo ? (
+          <div className="relative w-full mb-10">
+            <div className="absolute inset-x-0 top-6 bottom-16 -mx-4 sm:-mx-8 md:-mx-12 rounded-sm pointer-events-none" style={{ backgroundColor: color, opacity: 0.12 }} />
+
+            <div className="max-w-4xl mx-auto px-1 sm:px-2 pt-2 pb-6 relative z-10">
+              <VideoScreen
+                src={project.coverVideo!}
+                poster={project.coverImage}
+                title={`${project.title} // Master Film`}
+                caption={
+                  project.slug === "motion-graphic"
+                    ? "FIG 0.1 — EDVANKAR Motion Identity & Coca-Cola Kinetic Commercial Master (cokethem.mp4)"
+                    : "FIG 0.1 — AeroGesture IMU Glove & Quadcopter Live Flight Testing"
+                }
+                rotate={-0.5}
+                delay={0.1}
+                hasClip
+              />
+            </div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.5 }}
+              className="hidden sm:block absolute bottom-0 left-4 md:left-8 max-w-xs bg-white/95 backdrop-blur-sm p-4 shadow-lg border border-black/10 -rotate-1 select-none z-20"
+            >
+              <p className="font-mono text-[0.6rem] uppercase tracking-widest opacity-50 mb-1 pointer-events-none">{project.dossierNumber}</p>
+              <p className="font-serif text-sm text-neutral-800 leading-relaxed pointer-events-none">{project.subtitle}</p>
+            </motion.div>
+          </div>
+        ) : isDesktopProject ? (
           <div className="relative w-full mb-10">
             <div className="absolute inset-x-0 top-6 bottom-16 -mx-4 sm:-mx-8 md:-mx-12 rounded-sm pointer-events-none" style={{ backgroundColor: color, opacity: 0.12 }} />
 
@@ -605,28 +744,42 @@ function ProjectPaperCard({ project }: { project: CaseStudy }) {
               <DesktopScreen
                 src={project.coverImage || "/images/aurelle/web/Home.png"}
                 alt={`${project.title} Desktop Storefront`}
-                caption="FIG 0.1 — Flagship E-Commerce & Web Experience"
+                caption={
+                  project.slug === "mojito"
+                    ? "FIG 0.1 — Enterprise Workforce Operations Hub & People Analytics"
+                    : project.slug === "firmway"
+                      ? "FIG 0.1 — Financial Operations & Working Capital Command Center"
+                      : "FIG 0.1 — Flagship E-Commerce & Web Experience"
+                }
                 rotate={-0.5}
                 delay={0.1}
-                url="aurelle-luxury.com/storefront"
+                url={
+                  project.slug === "mojito"
+                    ? "mojito.app/admin/dashboard"
+                    : project.slug === "firmway"
+                      ? "app.firmway.com/treasury"
+                      : "aurelle-luxury.com/storefront"
+                }
                 onExpand={setExpandedImage}
               />
             </div>
 
-            <div className="absolute bottom-2 sm:bottom-4 right-1 sm:right-6 md:right-12 w-[100px] sm:w-[150px] md:w-[180px] z-20">
-              <div className="relative">
-                <div className="absolute -top-5 -right-2 z-30 pointer-events-none"><Paperclip /></div>
-                <PhoneScreen
-                  src="/images/aurelle/mobile/home.png"
-                  alt="AURELLE Mobile Parity"
-                  caption="Mobile Parity"
-                  rotate={4}
-                  delay={0.35}
-                  zIndex={25}
-                  onExpand={setExpandedImage}
-                />
+            {project.slug === "aurelle" && (
+              <div className="absolute bottom-2 sm:bottom-4 right-1 sm:right-6 md:right-12 w-[100px] sm:w-[150px] md:w-[180px] z-20">
+                <div className="relative">
+                  <div className="absolute -top-5 -right-2 z-30 pointer-events-none"><Paperclip /></div>
+                  <PhoneScreen
+                    src="/images/aurelle/mobile/home.png"
+                    alt="AURELLE Mobile Parity"
+                    caption="Mobile Parity"
+                    rotate={4}
+                    delay={0.35}
+                    zIndex={25}
+                    onExpand={setExpandedImage}
+                  />
+                </div>
               </div>
-            </div>
+            )}
 
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -775,15 +928,79 @@ function ProjectPaperCard({ project }: { project: CaseStudy }) {
             </span>
           </div>
 
+          {/* Dedicated Mosby-Style Information Architecture Blueprint for Qwikamp */}
+          {project.slug === "qwikamp" && <QwikampInformationArchitecture />}
+
           {project.flows.map((flow, idx) => {
-            const isDesktopFlow = flow.imageAspect === "desktop";
-            const isDrawerFlow = flow.imageAspect === "drawer";
-            const isPortrait = flow.imageAspect === "portrait";
+            const isVideoFlow = Boolean(flow.videoSrc) || flow.imageAspect === "video";
+            const isDesktopFlow = !isVideoFlow && flow.imageAspect === "desktop";
+            const isDrawerFlow = !isVideoFlow && flow.imageAspect === "drawer";
+            const isPortrait = !isVideoFlow && flow.imageAspect === "portrait";
             const imgs = flow.images;
             const pattern = idx % 5;
 
+            /* ─── VIDEO PLAYBACK FLOW ─── */
+            if (isVideoFlow) {
+              return (
+                <div key={idx} className="relative mt-10 mb-20">
+                  <ScrapbookInfoCard
+                    title={flow.title}
+                    caption={flow.caption}
+                    color={color}
+                    rotate={-1.5}
+                    delay={0.1}
+                    className="max-w-xl mb-8"
+                    hasClip={idx === 0}
+                  />
+                  {flow.videoSrc && (
+                    <div className="w-full max-w-4xl mb-6">
+                      <VideoScreen
+                        src={flow.videoSrc}
+                        poster={imgs[0]?.src}
+                        title={flow.title}
+                        caption={flow.caption}
+                        rotate={0.5}
+                        delay={0.2}
+                        hasClip
+                      />
+                    </div>
+                  )}
+                  {imgs.length > 0 && (!flow.videoSrc || imgs.length > 1) && (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
+                      {(flow.videoSrc ? imgs.slice(1) : imgs).map((img, i) => (
+                        <motion.div
+                          key={i}
+                          initial={{ opacity: 0, y: 20 }}
+                          whileInView={{ opacity: 1, y: 0 }}
+                          viewport={{ once: true }}
+                          transition={{ delay: 0.1 * i }}
+                          className="bg-white p-3 shadow-md border border-black/15 cursor-pointer select-none"
+                          onClick={() => setExpandedImage({ src: img.src, alt: img.alt, caption: img.caption })}
+                        >
+                          <div className="relative aspect-[4/3] w-full overflow-hidden border border-black/10">
+                            <Image src={img.src} alt={img.alt} fill className="object-cover" />
+                          </div>
+                          <p className="font-mono text-[0.65rem] text-neutral-600 mt-2 px-1">{img.caption}</p>
+                        </motion.div>
+                      ))}
+                    </div>
+                  )}
+                  <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.4 }} className="font-serif text-base text-neutral-800 leading-relaxed max-w-2xl mt-6">
+                    {flow.description}
+                  </motion.p>
+                </div>
+              );
+            }
+
             /* ─── DESKTOP PC STOREFRONT FLOW ─── */
             if (isDesktopFlow) {
+              const desktopUrl =
+                project.slug === "mojito"
+                  ? "mojito.app/admin"
+                  : project.slug === "firmway"
+                    ? "app.firmway.com"
+                    : "aurelle-luxury.com";
+
               return (
                 <div key={idx} className="relative mt-10 mb-20">
                   <ScrapbookInfoCard
@@ -804,7 +1021,7 @@ function ProjectPaperCard({ project }: { project: CaseStudy }) {
                         caption={img.caption}
                         rotate={0.5}
                         delay={0.2}
-                        url="aurelle-luxury.com"
+                        url={desktopUrl}
                         onExpand={setExpandedImage}
                       />
                     ))}
@@ -1053,9 +1270,45 @@ function ProjectPaperCard({ project }: { project: CaseStudy }) {
           {/* Information Architecture (IA) */}
           {(project.informationArchitecture || project.aiIntegration) && (
             <div className="p-6 bg-[#F4F1EA] border border-black/15 shadow-md mb-6">
-              <span className="font-mono text-[0.65rem] uppercase tracking-widest text-purple-700 font-bold block mb-1">08 // INFORMATION ARCHITECTURE (IA)</span>
-              <h4 className="font-display text-base uppercase tracking-tight text-dark mb-3">How did you structure the Information Architecture (IA)?</h4>
-              {Array.isArray(project.informationArchitecture) ? (
+              <div className="flex items-center justify-between mb-1">
+                <span className="font-mono text-[0.65rem] uppercase tracking-widest text-purple-700 font-bold block">
+                  08 // INFORMATION ARCHITECTURE (IA) & DESIGN SYSTEM TOKENS
+                </span>
+                {project.slug === "qwikamp" && (
+                  <span className="font-mono text-[0.6rem] bg-purple-100 text-purple-900 border border-purple-300 px-2 py-0.5 rounded font-bold">
+                    SPECIFICATION DOCUMENT
+                  </span>
+                )}
+              </div>
+              <h4 className="font-display text-base uppercase tracking-tight text-dark mb-3">
+                How did you structure the Information Architecture (IA)?
+              </h4>
+              {project.slug === "qwikamp" ? (
+                <div className="space-y-3 font-serif">
+                  <div className="p-3 bg-blue-50/70 border border-blue-200 rounded text-xs text-blue-950 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                    <span>Full 9-part specification from <code>UI_UX_INFORMATION_ARCHITECTURE.md</code> is rendered in Section 05 above.</span>
+                    <a
+                      href="#ia-spec"
+                      className="font-mono text-[0.65rem] font-bold text-blue-700 hover:text-blue-900 uppercase tracking-wider shrink-0 underline decoration-blue-400"
+                    >
+                      ↑ Jump to Section 05 Spec
+                    </a>
+                  </div>
+                  <div className="space-y-2 mt-2">
+                    {Array.isArray(project.informationArchitecture) &&
+                      project.informationArchitecture.map((item, idx) => (
+                        <div key={idx} className="flex items-start gap-3 p-3 bg-white border border-black/15 shadow-2xs rounded-sm">
+                          <span className="font-mono text-xs font-bold text-purple-800 bg-purple-100/80 border border-purple-300 px-2 py-0.5 rounded shrink-0">
+                            IA-{String(idx + 1).padStart(2, "0")}
+                          </span>
+                          <span className="font-sans text-xs leading-relaxed text-neutral-900 font-medium">
+                            {item}
+                          </span>
+                        </div>
+                      ))}
+                  </div>
+                </div>
+              ) : Array.isArray(project.informationArchitecture) ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 mt-3">
                   {project.informationArchitecture.map((item, idx) => (
                     <div key={idx} className="flex items-start gap-3 p-3.5 bg-white/90 border border-black/15 shadow-sm rounded-sm">
@@ -1181,38 +1434,48 @@ export default function HomePage() {
   }
 
   return (
-    <div className="relative min-h-screen bg-dark text-light overflow-x-hidden">
-      <div className="max-w-7xl mx-auto px-0 md:px-12">
+    <div className="relative min-h-screen bg-dark text-light">
+      <div className="max-w-[1550px] mx-auto px-0 sm:px-6 md:px-8 lg:px-10">
 
         {/* ═══════ HERO SECTION ═══════ */}
         <AnimatePresence>
           {!openProject && (
             <motion.section
               key="hero"
-              initial={{ opacity: 0 }}
+              initial={false}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0, y: -40 }}
-              transition={{ duration: 0.5 }}
-              className="pt-20 pb-16 md:pt-32 md:pb-24 px-4 sm:px-6 md:px-0"
+              transition={{ duration: 0.4 }}
+              className="pt-4 pb-4 md:pt-6 md:pb-6 lg:pt-8 lg:pb-8 px-4 sm:px-6 md:px-0"
             >
-              <div className="space-y-6 max-w-5xl">
+              <div className="space-y-4 max-w-6xl">
                 <ExtrudedHeroHeading />
-                <p className="font-serif text-lg md:text-2xl text-muted leading-relaxed max-w-3xl italic">
+                {/* ── Mosby Subheading Glide Entrance (t = 0.9s, power4.out) ── */}
+                <motion.p
+                  initial={{ y: "2rem", opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{
+                    duration: 0.65,
+                    delay: 0.9,
+                    ease: [0.165, 0.84, 0.44, 1],
+                  }}
+                  className="font-serif text-base md:text-xl text-muted leading-relaxed max-w-3xl italic"
+                >
                   Product designer with an IT background. I design mobile apps, brand identities, and design systems, grounded by how code actually works in Flutter and React.
-                </p>
+                </motion.p>
               </div>
             </motion.section>
           )}
         </AnimatePresence>
 
         {/* ═══════ CATEGORY RIBBONS + FOLDER TABS ═══════ */}
-        <section id="work" ref={folderRef} className="scroll-mt-24 md:scroll-mt-28 w-full pt-8 sm:pt-12 md:pt-14">
+        <section id="work" ref={folderRef} className="scroll-mt-24 md:scroll-mt-28 w-full pt-2 sm:pt-4 md:pt-6">
           <AnimatePresence mode="wait">
             {!openProject ? (
               /* ─── INDEX VIEW: Authentic Mosby 3D Folder Stack ─── */
               <motion.div
                 key="index"
-                initial={{ opacity: 0 }}
+                initial={false}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.3 }}

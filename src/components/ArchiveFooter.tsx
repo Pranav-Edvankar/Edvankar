@@ -3,8 +3,8 @@ import { ArrowUpRight } from "lucide-react";
 
 export function ArchiveFooter() {
   return (
-    <footer className="border-t border-neutral-800 bg-dark py-16 md:py-20 px-6 md:px-12 mt-32 text-light">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-12">
+    <footer className="border-t border-neutral-800 bg-dark py-16 md:py-20 px-4 md:px-8 lg:px-10 mt-32 text-light">
+      <div className="max-w-[1550px] mx-auto grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-12">
         
         {/* Left Column */}
         <div className="md:col-span-5 space-y-4">
@@ -80,7 +80,7 @@ export function ArchiveFooter() {
       </div>
 
       {/* Bottom Bar */}
-      <div className="max-w-7xl mx-auto border-t border-neutral-800 mt-12 pt-6 flex items-center justify-center text-xs text-muted font-mono text-center">
+      <div className="max-w-[1550px] mx-auto border-t border-neutral-800 mt-12 pt-6 flex items-center justify-center text-xs text-muted font-mono text-center">
         <p>© {new Date().getFullYear()} Pranav Edvankar</p>
       </div>
     </footer>

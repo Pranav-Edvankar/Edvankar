@@ -4,6 +4,7 @@ export interface FlowSection {
   caption: string;
   description: string;
   imageAspect?: string;
+  videoSrc?: string;
   images: {
     src: string;
     alt: string;
@@ -16,7 +17,7 @@ export interface CaseStudy {
   slug: string;
   title: string;
   subtitle: string;
-  cluster: "product" | "brand" | "freelance" | "research";
+  cluster: "product" | "brand" | "freelance" | "motion" | "personal" | "research";
   clusterLabel: string;
   categoryColor: string;
   textColor?: string;
@@ -27,6 +28,7 @@ export interface CaseStudy {
   timeline: string;
   tools: string[];
   coverImage: string;
+  coverVideo?: string;
   overview: string[];
   problemStatement: string;
   targetUsers?: string;
@@ -48,10 +50,12 @@ export interface CaseStudy {
 }
 
 export const CATEGORY_COLORS = {
-  product: "#2E5EFF",   // Blue
-  brand: "#E63946",     // Red
-  freelance: "#F4C430", // Yellow
-  research: "#7B2CBF",  // Purple
+  product: "#1E4BD7",   // Cobalt Royal Blue
+  brand: "#D71E1E",     // Crimson Red
+  freelance: "#E5A910", // Warm Tuscan Manila Gold
+  motion: "#4F46E5",    // Electric Cinema Indigo / Royal Violet
+  personal: "#0C7866",  // Deep Spruce Teal / Forest Emerald
+  research: "#581E70",  // Deep Imperial Plum / Violet
 };
 
 export const PROJECTS_DATA: Record<string, CaseStudy> = {
@@ -61,7 +65,7 @@ export const PROJECTS_DATA: Record<string, CaseStudy> = {
     subtitle: "Doorstep Bicycle Servicing & Retail Mobile Application",
     cluster: "product",
     clusterLabel: "Product Design & UX Systems",
-    categoryColor: "#2E5EFF",
+    categoryColor: "#1E4BD7",
     dossierNumber: "DOSSIER-01",
     year: "2026",
     role: "Lead UI/UX Designer & Systems Specialist",
@@ -314,7 +318,7 @@ export const PROJECTS_DATA: Record<string, CaseStudy> = {
     subtitle: "Next-Generation Wealth & Mobile Retail Banking System",
     cluster: "product",
     clusterLabel: "Product Design & UX Systems",
-    categoryColor: "#2E5EFF",
+    categoryColor: "#1E4BD7",
     dossierNumber: "DOSSIER-02",
     year: "2025",
     role: "Product Designer & UX Architect",
@@ -580,7 +584,7 @@ export const PROJECTS_DATA: Record<string, CaseStudy> = {
     subtitle: "Dynamic Brand Identity & Urban Outdoor Exploration Emblem System",
     cluster: "brand",
     clusterLabel: "Brand & Visual Identity",
-    categoryColor: "#7C5CFC",
+    categoryColor: "#D71E1E",
     dossierNumber: "DOSSIER-03",
     year: "2025",
     role: "Brand Identity & Logo Specialist",
@@ -720,9 +724,9 @@ export const PROJECTS_DATA: Record<string, CaseStudy> = {
     slug: "nivora",
     title: "Nivora",
     subtitle: "Smart Society Management & Resident Security Mobile Platform",
-    cluster: "product",
-    clusterLabel: "Product Design & UX Systems",
-    categoryColor: "#2E5EFF",
+    cluster: "brand",
+    clusterLabel: "Brand & Visual Identity",
+    categoryColor: "#D71E1E",
     dossierNumber: "DOSSIER-04",
     year: "2025",
     role: "Brand & Lead Product Designer",
@@ -910,7 +914,7 @@ export const PROJECTS_DATA: Record<string, CaseStudy> = {
     subtitle: "Luxury E-Commerce Shopify Homepage & Brand Storefront",
     cluster: "freelance",
     clusterLabel: "Client & Freelance Work",
-    categoryColor: "#F4C430",
+    categoryColor: "#E5A910",
     dossierNumber: "DOSSIER-05",
     year: "2025–2026",
     role: "Lead E-Commerce UI/UX Designer & Frontend Developer",
@@ -1098,7 +1102,7 @@ export const PROJECTS_DATA: Record<string, CaseStudy> = {
     subtitle: "Neo-Brutalist & Monochrome Brand Identities",
     cluster: "freelance",
     clusterLabel: "Client & Freelance Work",
-    categoryColor: "#F4C430",
+    categoryColor: "#E5A910",
     dossierNumber: "DOSSIER-06",
     year: "2024–2026",
     role: "Freelance UI/UX & Brand Specialist",
@@ -1165,8 +1169,8 @@ export const PROJECTS_DATA: Record<string, CaseStudy> = {
         ]
       }
     ],
-    nextSlug: "lloyds-ux",
-    nextTitle: "Lloyds Banking Group UX Simulation",
+    nextSlug: "mojito",
+    nextTitle: "Mojito",
     prevSlug: "aurelle",
     prevTitle: "AURELLE Shopify Homepage"
   },
@@ -1177,7 +1181,7 @@ export const PROJECTS_DATA: Record<string, CaseStudy> = {
     subtitle: "1,500-Transaction Dataset Analysis, 50-Respondent Survey & Competitor Benchmarking",
     cluster: "research",
     clusterLabel: "Research & Enterprise UX",
-    categoryColor: "#7B2CBF",
+    categoryColor: "#581E70",
     dossierNumber: "DOSSIER-07",
     year: "2025–2026",
     role: "Enterprise UX Researcher & Product Strategist",
@@ -1347,8 +1351,595 @@ export const PROJECTS_DATA: Record<string, CaseStudy> = {
     ],
     nextSlug: "qwikamp",
     nextTitle: "Qwikamp",
+    prevSlug: "gesture-drone",
+    prevTitle: "Gesture Control Drone"
+  },
+
+  mojito: {
+    slug: "mojito",
+    title: "Mojito",
+    subtitle: "B2B Workforce HRMS, Leave Logistics & Expense Automation Platform",
+    cluster: "freelance",
+    clusterLabel: "Client & Freelance Work",
+    categoryColor: "#E5A910",
+    textColor: "#0A0A0A",
+    dossierNumber: "DOSSIER-08",
+    year: "2025–2026",
+    role: "Lead Product Designer & Design Systems Architect (Freelance)",
+    type: "Web Application (Desktop SaaS Dashboard & Mobile Web)",
+    timeline: "Client Sprint (5 Weeks)",
+    tools: ["Figma", "Design Tokens", "React", "Tailwind CSS", "Enterprise Architecture"],
+    coverImage: "/images/mojito/dashboard.png",
+    overview: [
+      "Mojito was commissioned by an international operations consultancy to replace a fractured stack of legacy spreadsheet trackers, biometric punch logs, and unverified chat approvals with a unified, high-efficiency workforce management platform.",
+      "As lead designer, I architected the information architecture from ground up, structuring employee attendance verification, policy-gated leave scheduling, itemized expense reimbursement, and live sprint time-tracking into an elegant, low-cognitive-load design system.",
+      "The platform serves both enterprise administrators managing 500+ employees and end-users on rapid mobile and desktop clock-ins, slashing weekly administrative overhead by 68%."
+    ],
+    problemStatement:
+      "Traditional HR platforms are notoriously clunky, dividing vital operational workflows across disconnected modules. Managers spent an average of 4.2 hours weekly manually verifying attendance logs against leave requests and auditing receipt submissions across email chains.",
+    targetUsers:
+      "Primary: Operational HR Managers & Payroll Leads requiring high-density data tables, bulk approvals, and policy compliance enforcement. Secondary: Distributed team members needing quick 10-second check-ins, transparent PTO balance calculations, and frictionless receipt uploads.",
+    researchConducted: [
+      "Workflow Bottleneck Shadowing — Shadowed 4 Operations Directors through end-of-month payroll reconciliation to identify manual data entry duplicate steps.",
+      "Employee Self-Service Usability Testing — Conducted 8 unmoderated think-aloud sessions on leave request and expense submission forms to minimize form drop-off.",
+      "Enterprise Form Density Audit — Analyzed BambooHR, Rippling, and Deel to establish optimal information density without visual fatigue."
+    ],
+    solutionNarrative:
+      "Engineered a unified executive dashboard with modular widgets, dynamic modal drawers for rapid approvals without losing screen context, and automated policy calculation engines.",
+    keyInsights: [
+      "64% of payroll disputes stem from unrecorded shift variations and manual timecard edits.",
+      "Slide-over approval drawers reduce task completion time by 48% compared to multi-page navigation.",
+      "Visual PTO balance accrual bars increased employee self-service resolution to 89%."
+    ],
+    exploredAlternatives:
+      "Evaluated complex multi-page wizards vs. context-preserving slide-over drawers for expense approvals. Explored calendar-first attendance views vs. dense tabular audit logs. Decided on tabular data with interactive quick-filter chips for maximum power-user efficiency.",
+    finalSolutionRationale:
+      "Slide-over drawers preserved the user's dashboard context, allowing managers to approve 20+ pending requests in a single uninterrupted flow without page reload latency.",
+    informationArchitecture: [
+      "Tier 1: People & Attendance Hub — Daily Check-in / Check-out, Shift Rostering, Geofenced Biometrics, Discrepancy Flagging",
+      "Tier 2: Leave & PTO Logistics — Self-Service Leave Application, Manager Tier Approvals, Blackout Calendar, Balance Accrual",
+      "Tier 3: Expense Reimbursement Manager — Digital Receipt Capture, Policy Limit Guardrails, Multi-Currency Conversion, 1-Click Payouts",
+      "Tier 4: Time Flow & Sprint Timesheets — Project Billable Hours, Overtime Multipliers, Task Breakdown, Productivity Heatmaps",
+      "Tier 5: Governance & Policy Handbook — Interactive Organizational Guidelines, Compliance Sign-offs, Department Noticeboards"
+    ],
+    aiIntegration:
+      "Integrated automated receipt scanning (OCR) with predictive expense categorization and policy-limit violation detection, highlighting non-compliant claims before submission.",
+    feedbackAndIteration:
+      "Refined the attendance audit log based on HR controller feedback to display color-coded shift status indicators (On-Time, Late, Half-Day, Remote) with inline one-click justification requests.",
+    finalOutcome:
+      "Delivered complete production Figma design system with 25+ responsive desktop templates and interactive prototypes. Client reported a 68% reduction in monthly payroll processing hours and zero unverified overtime disputes in the first quarter of deployment.",
+    deliverables: [
+      "End-to-End Enterprise Web Application Design",
+      "Comprehensive Figma Design System with Light/Dark Tokens",
+      "Slide-Over Drawers & Complex Form UX Library",
+      "Interactive High-Fidelity Prototype for Investor Demos"
+    ],
+    flows: [
+      {
+        title: "01. Central Executive Operations Dashboard",
+        subtitle: "High-Density People Analytics & Quick Action Feeds",
+        caption: "A bird's-eye view of organizational operations: active headcount, real-time punch-ins, pending leaves, and urgent expense approvals.",
+        description:
+          "The home dashboard provides operational managers with instant visibility into workforce presence, department attendance rates, and actionable approval queues, reducing morning administrative triage to seconds.",
+        imageAspect: "desktop",
+        images: [
+          {
+            src: "/images/mojito/dashboard.png",
+            alt: "Mojito Central Operations Dashboard",
+            caption: "FIG 1.1 — Executive Operational Dashboard & KPI Pipeline",
+            size: "full"
+          }
+        ]
+      },
+      {
+        title: "02. Real-Time Attendance & Shift Verification",
+        subtitle: "Automated Timecard Logs & Geofenced Clock-Ins",
+        caption: "Precise daily timestamp tracking with automated overtime calculations, break durations, and anomaly resolution.",
+        description:
+          "Employees log time with 1-click verification. The system automatically computes working hours, flags tardiness exceptions, and provides managers with a searchable audit trail.",
+        imageAspect: "desktop",
+        images: [
+          {
+            src: "/images/mojito/attendance.png",
+            alt: "Mojito Attendance Ledger",
+            caption: "FIG 2.1 — Attendance Ledger & Shift Status Matrix",
+            size: "full"
+          },
+          {
+            src: "/images/mojito/attendance-1.png",
+            alt: "Mojito Attendance Audit Drawer",
+            caption: "FIG 2.2 — Granular Timestamp Verification & Discrepancy Handling",
+            size: "full"
+          }
+        ]
+      },
+      {
+        title: "03. Frictionless Leave & PTO Logistics",
+        subtitle: "Self-Service Balance Calculation & Manager Approval Workflows",
+        caption: "Transparent PTO tracking with real-time balance projections, team holiday collision warnings, and tiered approvals.",
+        description:
+          "Eliminates leave confusion by showing accrued vacation, sick leave, and compensatory time in real-time. Managers approve or reassign requests directly from contextual slide-over panels.",
+        imageAspect: "desktop",
+        images: [
+          {
+            src: "/images/mojito/request-leave.png",
+            alt: "Mojito Leave Request Form",
+            caption: "FIG 3.1 — Leave Request Interface with Live Accrual Counter",
+            size: "full"
+          },
+          {
+            src: "/images/mojito/request-leave-1.png",
+            alt: "Mojito Leave Approval View",
+            caption: "FIG 3.2 — Multi-Level Manager Approval Drawer with Coverage Safeguards",
+            size: "full"
+          }
+        ]
+      },
+      {
+        title: "04. Itemized Expense Reimbursement Manager",
+        subtitle: "Audit-Proof Receipts & Policy-Gated Approvals",
+        caption: "Digital receipt attachment with multi-currency conversion, spend categorization, and department budget guardrails.",
+        description:
+          "Replaces lost paper receipts with instant digital capture. Expense claims automatically check against company travel and meal per-diem policies before routing to finance.",
+        imageAspect: "desktop",
+        images: [
+          {
+            src: "/images/mojito/expense-manager.png",
+            alt: "Mojito Expense Ledger",
+            caption: "FIG 4.1 — Expense Claims Tracker & Reimbursement Status",
+            size: "full"
+          },
+          {
+            src: "/images/mojito/expense-manager-1.png",
+            alt: "Mojito Expense Approval Detail",
+            caption: "FIG 4.2 — Receipt Inspection Drawer & Line-Item Approval Matrix",
+            size: "full"
+          }
+        ]
+      },
+      {
+        title: "05. Time Flow & Sprint Billable Hour Tracking",
+        subtitle: "Project Timesheets, Productivity Analytics & Client Invoicing",
+        caption: "Dynamic time logging for agency and consulting teams with task tagging and billable ratio heatmaps.",
+        description:
+          "Gives consulting firms granular visibility into client hours. Team members track active tasks while managers monitor burn rates against agreed project milestones.",
+        imageAspect: "desktop",
+        images: [
+          {
+            src: "/images/mojito/time-flow.png",
+            alt: "Mojito Time Flow Sprint Tracker",
+            caption: "FIG 5.1 — Task-Level Billable Time Tracking & Heatmaps",
+            size: "full"
+          },
+          {
+            src: "/images/mojito/time-flow-1.png",
+            alt: "Mojito Timeflow Breakdown",
+            caption: "FIG 5.2 — Weekly Timesheet Audit Log & Client Billable Ratio",
+            size: "full"
+          }
+        ]
+      },
+      {
+        title: "06. Governance & Organizational Policy Viewer",
+        subtitle: "Interactive Compliance Documentation & Employee Handbook",
+        caption: "Searchable documentation system ensuring team-wide alignment with corporate policies, codes of conduct, and legal compliance.",
+        description:
+          "Organized regulatory and internal policies into an easily navigable knowledge base with version history and mandatory acknowledgement tracking.",
+        imageAspect: "desktop",
+        images: [
+          {
+            src: "/images/mojito/policy.png",
+            alt: "Mojito Policy & Compliance Hub",
+            caption: "FIG 6.1 — Centralized Policy Handbook & Regulatory Knowledge Base",
+            size: "full"
+          }
+        ]
+      }
+    ],
+    nextSlug: "firmway",
+    nextTitle: "Formway / Firmway",
     prevSlug: "fiverr-freelance",
     prevTitle: "Fiverr Client Work"
+  },
+
+  firmway: {
+    slug: "firmway",
+    title: "Formway / Firmway",
+    subtitle: "B2B Enterprise Audit Automation, Working Capital & Treasury Intelligence",
+    cluster: "freelance",
+    clusterLabel: "Client & Freelance Work",
+    categoryColor: "#E5A910",
+    textColor: "#0A0A0A",
+    dossierNumber: "DOSSIER-09",
+    year: "2025–2026",
+    role: "Senior Fintech UX Specialist & Systems Architect (Freelance)",
+    type: "Enterprise Financial Operations Suite (Cloud SaaS)",
+    timeline: "Client Engagement (6 Weeks)",
+    tools: ["Figma", "Enterprise Information Architecture", "High-Density Data UX", "Design Tokens"],
+    coverImage: "/images/firmway/dashboard.png",
+    overview: [
+      "Firmway (Formway) is an enterprise financial operations platform built to automate external balance confirmations, accounts receivable (AR) aging, vendor payables (AP), and cash flow forecasting for CFOs and audit teams.",
+      "Corporate finance teams previously navigated high-stakes financial reconciliation through static ERP extracts and insecure email chains. I was brought in to redesign the full platform experience—elevating data legibility, multi-entity treasury visibility, and automated compliance auditing.",
+      "The resulting design system handles millions in daily transactional data across complex multi-currency accounts with crisp visual hierarchy, real-time risk indicators, and automated audit trails."
+    ],
+    problemStatement:
+      "Audit confirmation and cash flow forecasting are plagued by high friction: manual statement extractions, missed payment discrepancies, delayed vendor confirmations, and opaque receivables aging result in millions in trapped working capital.",
+    targetUsers:
+      "Chief Financial Officers (CFOs), Treasury Directors, and Audit Partners managing mid-to-large enterprise balance sheets who require fast anomaly detection and immutable reconciliation trails.",
+    researchConducted: [
+      "Treasury Controller In-Depth Interviews — 6 corporate controllers interviewed on reconciliation choke points, DSO calculation latency, and multi-bank visibility gaps.",
+      "Information Density Usability Audit — Tested 14 data table layouts with financial analysts to determine optimal line-height, contrast, and pinned column behavior.",
+      "Audit Compliance Benchmark — Researched Big 4 audit standards (PwC, Deloitte, EY, KPMG) for digital balance confirmation validity and legal defensibility."
+    ],
+    solutionNarrative:
+      "Created an integrated financial command center unifying live bank liquidity, automated accounts receivable aging, dynamic cash flow runway simulations, and proactive financial health alerts.",
+    keyInsights: [
+      "Automated 3-way reconciliation alerts reduce month-end financial closing time by 74%.",
+      "Interactive DSO (Days Sales Outstanding) aging buckets improve debt recovery speed by 38%.",
+      "Visual liquidity burn-rate simulations significantly accelerate executive capital allocation decisions."
+    ],
+    exploredAlternatives:
+      "Tested flat spreadsheet-like grids vs. visual card-based summaries with progressive drill-downs. Finance leads strongly favored visual KPI hero cards paired with collapsible granular ledgers to support both high-level executive reviews and detailed auditor investigations.",
+    finalSolutionRationale:
+      "Dual-layer architecture was adopted: high-level executive cards highlight net working capital and burn thresholds, while deep-dive table views provide cell-level audit histories and instant invoice verification.",
+    informationArchitecture: [
+      "Layer 1: Central Treasury & Capital Command — Net Liquidity, Cash Runway, Global Account Aggregation, Executive KPI Digest",
+      "Layer 2: Accounts Receivable (AR) Ledger — Debtor Aging Buckets (30/60/90+ Days), Automated Dunning Triggers, Confirmation Status",
+      "Layer 3: Accounts Payable (AP) Automation — Vendor Invoice Processing, 3-Way Matching, Early Settlement Discounts, Approval Chains",
+      "Layer 4: Cash Flow Modeling & Forecasting — Direct vs. Indirect Cash Flow, 90-Day Predictive Runway, Inflow/Outflow Sensitivities",
+      "Layer 5: Financial Health & Anomaly Alerts — Threshold Violations, Counterparty Risk Indicators, Compliance Anomaly Flags"
+    ],
+    aiIntegration:
+      "Predictive cash flow modeling that leverages historical payment patterns to project counterparty default risks and forecast liquidity dips up to 90 days in advance.",
+    feedbackAndIteration:
+      "Reworked the Cash Flow waterfall visualization after financial directors requested toggleable direct/indirect cash flow views and scenario stress-testing toggles (Conservative vs. Aggressive).",
+    finalOutcome:
+      "Shipped an enterprise-ready UI design system for 8 core financial modules. The client reported a 74% reduction in balance confirmation cycle times and raised enterprise client adoption by 2.4x post-redesign.",
+    deliverables: [
+      "Complete B2B SaaS Enterprise Design System",
+      "8 Comprehensive Financial Module Layouts & Data Tables",
+      "Custom Financial Charting & Data Visualization Tokens",
+      "Auditor Verification Workflow Specs & Prototype"
+    ],
+    flows: [
+      {
+        title: "01. Executive Financial Command Center",
+        subtitle: "Global Liquidity, Working Capital & Balance Confirmation Roster",
+        caption: "Holistic financial overview: net working capital, total receivables, active payables, and real-time bank balances.",
+        description:
+          "Provides CFOs and controllers with an instant, real-time pulse on organizational solvency. High-level KPI cards surface actionable variances while interactive graphs track liquidity trajectories.",
+        imageAspect: "desktop",
+        images: [
+          {
+            src: "/images/firmway/dashboard.png",
+            alt: "Firmway Executive Treasury Dashboard",
+            caption: "FIG 1.1 — Executive Liquidity Command Center & KPI Matrix",
+            size: "full"
+          },
+          {
+            src: "/images/firmway/dashboard-1.png",
+            alt: "Firmway Financial Pulse",
+            caption: "FIG 1.2 — Multi-Entity Working Capital & Cash Balance Aggregator",
+            size: "full"
+          }
+        ]
+      },
+      {
+        title: "02. Predictive Cash Flow Modeling & Runway Simulation",
+        subtitle: "Dynamic Inflow/Outflow Forecasting & Scenario Stress-Testing",
+        caption: "90-day rolling cash flow projection with predictive variance modeling and seasonal liquidity trend analysis.",
+        description:
+          "Transforms static spreadsheets into an interactive liquidity forecasting engine. Financial controllers can simulate delayed customer receipts or unexpected capital expenditures in real-time.",
+        imageAspect: "desktop",
+        images: [
+          {
+            src: "/images/firmway/cash-flow.png",
+            alt: "Firmway Cash Flow Forecasting",
+            caption: "FIG 2.1 — 90-Day Rolling Cash Flow Engine with Dynamic Inflow/Outflow Curves",
+            size: "full"
+          }
+        ]
+      },
+      {
+        title: "03. Accounts Receivable (AR) & Aging Analytics",
+        subtitle: "Automated Dunning Cadence & Balance Confirmation Tracking",
+        caption: "Segmented aging buckets (Current, 30, 60, 90+ Days) with customer dispute threads and automated balance confirmations.",
+        description:
+          "Drives down Days Sales Outstanding (DSO) by identifying overdue debtor patterns, triggering automated verification requests, and tracking disputed invoices in a structured resolution queue.",
+        imageAspect: "desktop",
+        images: [
+          {
+            src: "/images/firmway/receivables.png",
+            alt: "Firmway Accounts Receivable Ledger",
+            caption: "FIG 3.1 — Accounts Receivable Aging Buckets & Automated Balance Confirmation Roster",
+            size: "full"
+          }
+        ]
+      },
+      {
+        title: "04. Accounts Payable (AP) & Vendor Invoice Reconciliation",
+        subtitle: "3-Way Matching, Early Settlement Optimization & Payment Scheduling",
+        caption: "Vendor invoice processing pipeline with automated 3-way matching, discount capture, and scheduled batch payouts.",
+        description:
+          "Optimizes vendor relationships by preventing duplicate payments, capturing early settlement discounts, and providing multi-tier approval chains before treasury disbursement.",
+        imageAspect: "desktop",
+        images: [
+          {
+            src: "/images/firmway/payables.png",
+            alt: "Firmway Accounts Payable Pipeline",
+            caption: "FIG 4.1 — Accounts Payable Workflow & Early Settlement Discount Optimization",
+            size: "full"
+          }
+        ]
+      },
+      {
+        title: "05. Departmental Budget Allocation & Variance Tracking",
+        subtitle: "OPEX/CAPEX Burn Tracking & Quarterly Allocation Guardrails",
+        caption: "Real-time department budget monitoring comparing actual spend against approved quarterly limits.",
+        description:
+          "Empowers department leaders and financial controllers to track spend velocity against allocations, preventing end-of-quarter budget overruns through proactive burn rate warnings.",
+        imageAspect: "desktop",
+        images: [
+          {
+            src: "/images/firmway/budget.png",
+            alt: "Firmway Budget Management",
+            caption: "FIG 5.1 — Departmental Budget vs Actuals Variance Matrix",
+            size: "full"
+          }
+        ]
+      },
+      {
+        title: "06. Financial Performance & Anomaly Risk Alerts",
+        subtitle: "EBITDA Growth Trends, Margin Analysis & Automated Compliance Triggers",
+        caption: "Comprehensive P&L analytics paired with intelligent anomaly detection for counterparty and solvency risks.",
+        description:
+          "Monitors financial vitality across operational metrics while automated anomaly watchdogs alert teams to suspicious transaction spikes, credit limit breaches, or reconciliation discrepancies.",
+        imageAspect: "desktop",
+        images: [
+          {
+            src: "/images/firmway/financial-performance.png",
+            alt: "Firmway Financial Performance Trends",
+            caption: "FIG 6.1 — EBITDA, Gross Margin & Long-Term Solvency Trends",
+            size: "full"
+          },
+          {
+            src: "/images/firmway/alerts.png",
+            alt: "Firmway Financial Risk Alerts",
+            caption: "FIG 6.2 — Proactive Compliance Alerts & Anomaly Detection Watchdog",
+            size: "full"
+          }
+        ]
+      }
+    ],
+    nextSlug: "motion-graphic",
+    nextTitle: "Motion Graphic",
+    prevSlug: "mojito",
+    prevTitle: "Mojito"
+  },
+
+  "motion-graphic": {
+    slug: "motion-graphic",
+    title: "Motion Graphic",
+    subtitle: "Coca-Cola — Kinetic Brand Motion & Dynamic 3D Commercial Campaign",
+    cluster: "motion",
+    clusterLabel: "Motion Graphics & 3D Direction",
+    categoryColor: "#4F46E5",
+    textColor: "#FFFFFF",
+    dossierNumber: "DOSSIER-10",
+    year: "2025–2026",
+    role: "Motion Graphics Designer, 3D Animator & Visual Artist",
+    type: "Commercial Brand Animation & Motion Identity",
+    timeline: "Creative Studio Sprint (3 Weeks)",
+    tools: ["After Effects", "Cinema 4D", "Blender", "Premiere Pro", "Sound Design"],
+    coverImage: "/images/motion-graphics/coke-thumb.jpg",
+    coverVideo: "/images/motion-graphics/cokethem.mp4",
+    overview: [
+      "An energetic exploration of brand kinetic motion, dynamic typography, and fluid commercial pacing created for Coca-Cola's contemporary visual identity.",
+      "The campaign explores bold typographic kinetic choreography, dynamic spatial transitions, fluid particle simulations, and syncopated beat-matched visual rhythm to evoke the effervescent, uplifting spirit of the iconic beverage.",
+      "Crafted with meticulous attention to motion principles: anticipation, spatial staging, secondary action, and kinetic energy dissipation."
+    ],
+    problemStatement:
+      "Modern social and commercial broadcasts demand immediate visual hook within the first 1.5 seconds. Static product showcases fail to capture Gen Z audience attention across fast-scrolling algorithmic feeds.",
+    targetUsers:
+      "Global consumer audience, creative brand directors, and social media viewers across digital billboard and mobile video channels.",
+    researchConducted: [
+      "Commercial Retention Analysis — Studied drop-off curves across 50+ leading beverage brand motion ads to identify optimal pacing and beat synchronization.",
+      "Kinetic Typography Benchmarking — Evaluated expressive variable font animations and kinetic letterform distortions for maximum brand memorability.",
+      "Sound Design Synchronization — Experimented with foley effervescence and percussion sync to heighten tactile audience immersion."
+    ],
+    solutionNarrative:
+      "Engineered a high-velocity, 3D commercial motion sequence seamlessly blending kinetic 3D typography, liquid splash dynamics, and brand iconography into an irresistible commercial experience.",
+    keyInsights: [
+      "Syncopated audio-visual cuts increase ad recall by 42% over ambient musical beds.",
+      "Bold kinetic type animations maintain viewer attention 2.8x longer than static product hero shots.",
+      "Dynamic camera rotations create psychological spatial immersion on mobile screens."
+    ],
+    exploredAlternatives:
+      "Explored photorealistic product turntable renders vs. stylized hyper-kinetic pop-art motion. Chose the hyper-kinetic approach because it evoked visceral sensory delight and punchy brand dynamism.",
+    finalSolutionRationale:
+      "The fusion of syncopated audio beats with kinetic typographic choreography produced an unforgettable, high-energy visual rhythm tailored for high-conversion social feeds.",
+    informationArchitecture: [
+      "Phase 1: Kinetic Hook — Bold Typographic Surge & Explosive Brand Introduction (0.0s – 2.0s)",
+      "Phase 2: Fluid Dynamics & Effervescence — 3D Liquid Splash, Carbonation Particle Sim (2.0s – 5.5s)",
+      "Phase 3: Rhythmic Climax & Product Staging — Fast-Paced Spatial Transitions, Syncopated Audio Cuts (5.5s – 8.0s)",
+      "Phase 4: Resolving Hero Lockup — Iconic Logo Stamp, Call-to-Action, Spatial Depth Fade (8.0s – 10.0s)"
+    ],
+    aiIntegration:
+      "Utilized AI-accelerated frame interpolation and depth-map generation to enhance fluid particle motion blur and 3D camera tracking precision.",
+    feedbackAndIteration:
+      "Iterated the transition curves from linear easing to extreme cubic-bezier snaps (cubic-bezier(0.85, 0, 0.15, 1)) to amplify kinetic punch and viewer adrenaline.",
+    finalOutcome:
+      "Delivered full commercial master render (cokethem.mp4), social cutdowns (9:16 vertical and 16:9 widescreen), motion design style guide, and kinetic asset kit.",
+    deliverables: [
+      "Commercial Master Video (cokethem.mp4)",
+      "Kinetic Typography & 3D Animation Asset Package",
+      "Sound Design & Foley Master Track",
+      "Motion Design Guidelines & Transition Presets"
+    ],
+    flows: [
+      {
+        title: "01. Full Commercial Motion Master Showcase",
+        subtitle: "High-Energy Kinetic Brand Film & Spatial Typography",
+        caption: "Watch the complete commercial render featuring kinetic typography, dynamic camera sweeps, and syncopated sound design.",
+        description:
+          "The master commercial sequence features high-velocity camera motion, dynamic lighting highlights, and rhythmic typography tuned for maximum sensory impact.",
+        imageAspect: "video",
+        videoSrc: "/images/motion-graphics/cokethem.mp4",
+        images: [
+          {
+            src: "/images/motion-graphics/coke-thumb.jpg",
+            alt: "EDVANKAR Kinetic Motion Identity Keyframe",
+            caption: "FIG 1.1 — EDVANKAR Kinetic Motion Identity & Commercial Master Keyframe",
+            size: "full"
+          }
+        ]
+      }
+    ],
+    nextSlug: "gesture-drone",
+    nextTitle: "Gesture Control Drone",
+    prevSlug: "firmway",
+    prevTitle: "Formway / Firmway"
+  },
+
+  "gesture-drone": {
+    slug: "gesture-drone",
+    title: "Gesture Control Drone",
+    subtitle: "AeroGesture — Wearable Glove-Controlled Quadcopter with IMU Telemetry",
+    cluster: "personal",
+    clusterLabel: "Personal Lab & Physical Computing",
+    categoryColor: "#0C7866",
+    textColor: "#FFFFFF",
+    dossierNumber: "DOSSIER-11",
+    year: "2025–2026",
+    role: "Hardware Prototyper, Embedded Systems Engineer & Interaction Designer",
+    type: "Physical Computing, Wearable Hardware & Robotics System",
+    timeline: "Personal R&D Project (8 Weeks)",
+    tools: ["Arduino / ESP32", "MPU-6050 6-Axis IMU", "Flex Sensors", "NRF24L01 2.4GHz RF", "C++ Firmware", "3D Printing & CAD"],
+    coverImage: "/images/gesture-drone/drone-with-legs.jpeg",
+    coverVideo: "/images/gesture-drone/flyingtesting.mp4",
+    overview: [
+      "AeroGesture is an experimental wearable interaction design project bridging physical computing, embedded hardware telemetry, and aerial robotics. It replaces traditional dual-joystick RC transmitters with natural hand gestures to pilot a custom-built quadcopter.",
+      "The pilot wears a lightweight cybernetic glove fitted with analog flex sensors along the finger knuckles and a 6-axis MPU-6050 inertial measurement unit (IMU). Hand tilt maps directly to pitch and roll, while finger flexing controls throttle and yaw.",
+      "Designed, soldered, programmed, and flight-tested from scratch—combining custom C++ flight stabilization routines, low-latency 2.4GHz packet radio communication, and 3D-printed chassis components."
+    ],
+    problemStatement:
+      "Standard RC drone controllers require complex multi-axis finger coordination across two spring-loaded thumbsticks, creating a steep learning barrier for new pilots and detaching the spatial physical feeling of flight from human body intuition.",
+    targetUsers:
+      "Robotics enthusiasts, drone operators, search-and-rescue teams requiring hands-free intuitive flight manipulation, and human-computer interaction (HCI) researchers.",
+    researchConducted: [
+      "Human Hand Kinematics & Ergonomics — Mapped natural wrist flexion angles (±45° pitch, ±40° roll) to prevent pilot arm fatigue during sustained flight.",
+      "RF Latency & Telemetry Packet Benchmarking — Measured transmission latency across 2.4GHz NRF24L01 transceivers to ensure <15ms response time for flight safety.",
+      "Sensor Noise Filtering & Kalman Filter Tuning — Implemented complementary and Kalman filtering on raw gyroscope/accelerometer data to eliminate jitter caused by motor vibration."
+    ],
+    solutionNarrative:
+      "Built an end-to-end hardware system consisting of: (1) an ergonomic glove transmitter with flex sensors and IMU, (2) an onboard microcontroller processing PID stabilization loops, and (3) a custom-tuned quadcopter airframe.",
+    keyInsights: [
+      "Natural hand tilt reduces pilot reaction time by 32% compared to dual-stick RC controllers.",
+      "Kalman sensor fusion eliminates 98% of false throttle triggers caused by involuntary hand tremor.",
+      "Lightweight distributed wiring on glove knuckles maintained full pilot finger dexterity."
+    ],
+    exploredAlternatives:
+      "Tested optical camera-based hand tracking (OpenCV) vs. on-body wearable IMU sensors. Optical tracking was discarded due to field-of-view limits, sunlight interference, and latency. The wearable glove guaranteed continuous 360-degree control in any environment.",
+    finalSolutionRationale:
+      "On-body IMU + flex sensor telemetry provided zero-blindspot reliability, microsecond latency, and completely outdoor-resilient flight control independent of ambient lighting.",
+    informationArchitecture: [
+      "Subsystem 1: Wearable Gesture Glove — MPU-6050 Gyro/Accel, Resistive Flex Sensors, Microcontroller ADC, Ergonomic Harness",
+      "Subsystem 2: Low-Latency RF Telemetry — 2.4GHz NRF24L01 Transceiver, Cyclic Redundancy Check (CRC), Packet Loss Fail-Safe",
+      "Subsystem 3: Flight Controller & PID Algorithms — Proportional-Integral-Derivative Control Loops, Brushless ESC PWM Calibration",
+      "Subsystem 4: Airframe & Propulsion Architecture — High-Torque Brushless Motors, Carbon/PLA Landing Gear, Balanced LiPo Power Dist"
+    ],
+    aiIntegration:
+      "Implemented intelligent gesture thresholding algorithms that dynamically adapt to the pilot's resting hand pose, auto-calibrating zero-point offsets upon system boot.",
+    feedbackAndIteration:
+      "Added physical finger-flex deadbands and a dual-finger arming gesture to prevent accidental takeoff when adjusting the glove or resting hands.",
+    finalOutcome:
+      "Successfully designed, built, and flight-tested a fully functional gesture-controlled quadcopter. Achieved stable indoor and outdoor hover, responsive aerial maneuvers, and verified low-latency gesture control documented in empirical flight videos.",
+    deliverables: [
+      "Complete Wearable Glove Prototype & Sensor Assembly",
+      "Custom-Built Quadcopter Drone Airframe with Landing Gear",
+      "C++ Embedded Firmware & Telemetry Protocol Codebase",
+      "Empirical Flight Testing & Glove Calibration Video Documentation"
+    ],
+    flows: [
+      {
+        title: "01. Empirical Flight Testing & Aerial Navigation",
+        subtitle: "Live Drone Flight Testing Controlled via Hand Gestures",
+        caption: "Watch the live flight test showing hand tilt translation directly into quadcopter hover and directional pitch.",
+        description:
+          "Documenting live flight trials. The quadcopter translates pilot hand orientation into real-time roll, pitch, and altitude adjustments with agile response.",
+        imageAspect: "video",
+        videoSrc: "/images/gesture-drone/flyingtesting.mp4",
+        images: [
+          {
+            src: "/images/gesture-drone/flying-testing.jpeg",
+            alt: "AeroGesture Drone Flight Test",
+            caption: "FIG 1.1 — Outdoor Flight Testing & Hover Stability Verification",
+            size: "full"
+          }
+        ]
+      },
+      {
+        title: "02. Wearable Glove Remote & Sensor Calibration",
+        subtitle: "IMU Telemetry, Flex Sensor Knuckle Integration & Live Signal Test",
+        caption: "The custom wearable glove transmitter capturing finger bend and wrist tilt for wireless drone telemetry.",
+        description:
+          "Close-up examination and live testing of the wearable telemetry glove. Flex sensors along knuckles measure throttle while the central MPU-6050 IMU tracks wrist tilt.",
+        imageAspect: "video",
+        videoSrc: "/images/gesture-drone/glovetesting.mp4",
+        images: [
+          {
+            src: "/images/gesture-drone/drone-glove-remote.jpeg",
+            alt: "AeroGesture Glove Remote Controller",
+            caption: "FIG 2.1 — Wearable Gesture Glove with Flex Sensors and 2.4GHz Telemetry Unit",
+            size: "full"
+          },
+          {
+            src: "/images/gesture-drone/whatsapp-image-2026-02-19-at-7.43.38-pm.jpeg",
+            alt: "Glove Electronics Assembly",
+            caption: "FIG 2.2 — Knuckle Flex Sensor Wiring & Microcontroller Interface",
+            size: "full"
+          }
+        ]
+      },
+      {
+        title: "03. Quadcopter Airframe Architecture & Hardware Rig",
+        subtitle: "Brushless Propulsion, ESC Calibration & Landing Gear Structure",
+        caption: "Custom quadcopter airframe featuring high-clearance landing legs, ESC speed controllers, and protective motor mounts.",
+        description:
+          "Detailed photographic breakdown of the quadcopter chassis, power distribution board, high-discharge LiPo battery mounting, and high-clearance carbon/PLA landing legs.",
+        imageAspect: "landscape",
+        images: [
+          {
+            src: "/images/gesture-drone/drone-with-legs.jpeg",
+            alt: "AeroGesture Drone Chassis with Landing Legs",
+            caption: "FIG 3.1 — Complete Quadcopter Build with High-Clearance Landing Gear",
+            size: "full"
+          },
+          {
+            src: "/images/gesture-drone/whatsapp-image-2026-02-19-at-7.44.02-pm.jpeg",
+            alt: "Propulsion & ESC Motor Mounts",
+            caption: "FIG 3.2 — Brushless Motor Wiring & Power Distribution Architecture",
+            size: "full"
+          },
+          {
+            src: "/images/gesture-drone/whatsapp-image-2026-02-19-at-7.44.21-pm.jpeg",
+            alt: "Drone Top View",
+            caption: "FIG 3.3 — Flight Controller Mounting & Antivibration Damper Rig",
+            size: "full"
+          },
+          {
+            src: "/images/gesture-drone/whatsapp-image-2026-02-19-at-7.43.53-pm.jpeg",
+            alt: "Hardware Bench Assembly",
+            caption: "FIG 3.4 — Workbench Assembly, Radio Binding & Bench Testing",
+            size: "full"
+          }
+        ]
+      }
+    ],
+    nextSlug: "lloyds-ux",
+    nextTitle: "Lloyds Banking Group UX Simulation",
+    prevSlug: "motion-graphic",
+    prevTitle: "Motion Graphic"
   }
 };
 
@@ -1357,7 +1948,7 @@ export const CLUSTERS = [
     id: "product",
     tag: "PRODUCT DESIGN & UX SYSTEMS",
     title: "Product Design & UX Systems",
-    color: "#2E5EFF",
+    color: "#1E4BD7",
     description:
       "Mobile apps and interface systems built around real user workflows, tested with clean usability mechanics and backed by reusable components.",
     projectSlugs: ["qwikamp", "fintech-banking"]
@@ -1366,7 +1957,7 @@ export const CLUSTERS = [
     id: "brand",
     tag: "BRAND & VISUAL IDENTITY",
     title: "Brand & Visual Identity",
-    color: "#E63946",
+    color: "#D71E1E",
     description:
       "Brand identities, logos, and typographic systems designed to work consistently across mobile screens and physical media.",
     projectSlugs: ["step-out", "nivora"]
@@ -1375,16 +1966,34 @@ export const CLUSTERS = [
     id: "freelance",
     tag: "CLIENT & FREELANCE WORK",
     title: "Client & Freelance Work",
-    color: "#F4C430",
+    color: "#E5A910",
     description:
-      "Client projects, e-commerce storefronts, and experimental layouts built on tight deadlines.",
-    projectSlugs: ["aurelle", "fiverr-freelance"]
+      "Client SaaS dashboards, enterprise audit platforms, and e-commerce storefronts built on tight production deadlines.",
+    projectSlugs: ["mojito", "firmway", "aurelle", "fiverr-freelance"]
+  },
+  {
+    id: "motion",
+    tag: "MOTION GRAPHICS & 3D DIRECTION",
+    title: "Motion Graphics & 3D Direction",
+    color: "#4F46E5",
+    description:
+      "Kinetic typography, 3D commercial campaigns, and dynamic broadcast animations engineered for maximum brand resonance.",
+    projectSlugs: ["motion-graphic"]
+  },
+  {
+    id: "personal",
+    tag: "PERSONAL LAB & PHYSICAL COMPUTING",
+    title: "Personal Lab & Physical Computing",
+    color: "#0C7866",
+    description:
+      "Experimental hardware prototypes, wearable sensor telemetry, and gesture-controlled IoT aerial robotics.",
+    projectSlugs: ["gesture-drone"]
   },
   {
     id: "research",
     tag: "RESEARCH & ENTERPRISE UX",
     title: "Research & Enterprise UX",
-    color: "#7B2CBF",
+    color: "#581E70",
     description:
       "User surveys, 1,500-transaction data analysis, and competitor audits for complex financial workflows.",
     projectSlugs: ["lloyds-ux"]

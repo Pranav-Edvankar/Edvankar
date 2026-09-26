@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { CaseStudy } from "@/data/projects";
+// import { DinoGame } from "./DinoGame";
 
 interface ClusterData {
   id: string;
@@ -23,8 +24,9 @@ const MOSBY_TAB_SVG_PATH =
   "M1.1449 -2.54901e-05L-521.145 -2.66006e-06C-531.065 -2.22644e-06 -540.343 4.90374 -545.932 13.0999L-558.55 31.6066C-563.837 39.3607 -572.615 44 -582 44L62 44C52.6151 44 43.8369 39.3607 38.5499 31.6066L25.9318 13.0999C20.3434 4.90373 11.0649 -2.59237e-05 1.1449 -2.54901e-05Z";
 
 function getFolderTextColor(hexColor: string): string {
-  // Use dark text for light/yellow tones for 10/10 contrast
-  if (hexColor.toLowerCase() === "#f4c430" || hexColor.toLowerCase() === "#ffffff") {
+  // Use dark text for light/yellow/gold tones for 10/10 contrast
+  const c = hexColor.toLowerCase();
+  if (c === "#f4c430" || c === "#e5a910" || c === "#ffffff" || c === "#f59e0b") {
     return "#0A0A0A";
   }
   return "#FFFFFF";
@@ -38,13 +40,22 @@ export default function MosbyFolderStack({
   const [hoverGroupId, setHoverGroupId] = useState<number>(-1);
   const [hoverPageId, setHoverPageId] = useState<number>(-1);
   const [unfoldedGroupId, setUnfoldedGroupId] = useState<number>(-1);
+  const [isEntering, setIsEntering] = useState(true);
+
+  useEffect(() => {
+    // 850ms matches the master timeline completion, then releases to full 3D interactive kinematics
+    const timer = setTimeout(() => {
+      setIsEntering(false);
+    }, 850);
+    return () => clearTimeout(timer);
+  }, []);
 
   const stackLength = clusters.length;
   const isHovered = hoverGroupId !== -1;
 
   return (
     <div
-      className="mosby-stack"
+      className={`mosby-stack ${isEntering ? "is-entering" : ""}`}
       style={{
         height: `calc(var(--stack-group-height-lg) + var(--stack-group-offset) * ${stackLength - 1})`,
       }}
@@ -179,13 +190,21 @@ export default function MosbyFolderStack({
 
                             {/* Middle Label */}
                             <div className="mosby-tag__middle">
-                              <span className="hidden sm:inline">{siblingProj.title}</span>
+                              <span className="hidden sm:inline">
+                                {siblingProj.slug === "firmway" ? "Firmway" : siblingProj.title}
+                              </span>
                               <span className="inline sm:hidden">
                                 {siblingProj.slug === "fintech-banking"
-                                  ? "FinTech Banking App"
+                                  ? "FinTech"
                                   : siblingProj.slug === "lloyds-ux"
-                                    ? "Lloyds Banking Group UX"
-                                    : siblingProj.title}
+                                    ? "Lloyds UX"
+                                    : siblingProj.slug === "firmway"
+                                      ? "Firmway"
+                                      : siblingProj.slug === "motion-graphic"
+                                        ? "Motion"
+                                        : siblingProj.slug === "gesture-drone"
+                                          ? "Drone"
+                                          : siblingProj.title}
                               </span>
                             </div>
 
@@ -252,6 +271,22 @@ export default function MosbyFolderStack({
                     {cluster.description}
                   </p>
                 </div>
+
+                {/* 100% Full-Width Dino Game at the Bottom of Lloyds Group Banking Simulation folder (Commented out)
+                {isLastGroup && (
+                  <div
+                    className="absolute bottom-2 sm:bottom-4 left-0 right-0 w-full px-3 sm:px-6 md:px-10 pointer-events-auto z-30 transition-all duration-300"
+                    style={{
+                      opacity: isCoverUnfolded ? 1 : 0,
+                      pointerEvents: isCoverUnfolded ? "auto" : "none",
+                      transform: isCoverUnfolded ? "translateY(0)" : "translateY(12px)",
+                    }}
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <DinoGame themeColor="#FFFFFF" textColor="#FFFFFF" className="w-full" />
+                  </div>
+                )}
+                */}
 
                 {/* Right Category Label & Chevron Arrow (Desktop only) */}
                 <div

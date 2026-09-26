@@ -117,8 +117,8 @@
 :root {
   --stack-border-radius: 4px;
   --stack-group-height-sm: 20vw;
-  --stack-group-height-lg: 540px;
-  --stack-group-offset: 3.75rem;
+  --stack-group-height-lg: 560px;
+  --stack-group-offset: 3.5rem;
   --stack-perspective: 3000px;
   --stack-rotation-angle: -3deg;
   --stack-rotation-offset: 1rem;
@@ -129,10 +129,17 @@
   --tag-aspect-ratio: 1.409;
 }
 
+@media only screen and (max-height: 900px) and (min-width: 769px) {
+  :root {
+    --stack-group-height-lg: 520px;
+    --stack-group-offset: 3.25rem;
+  }
+}
+
 @media only screen and (max-width: 1024px) {
   :root {
-    --stack-group-height-lg: 480px;
-    --stack-group-offset: 3.25rem;
+    --stack-group-height-lg: 500px;
+    --stack-group-offset: 3rem;
   }
 }
 
@@ -140,8 +147,8 @@
   :root {
     --tag-height: 2.1rem;
     --tag-aspect-ratio: 1.1;
-    --stack-group-height-lg: 420px;
-    --stack-group-offset: 2.75rem;
+    --stack-group-height-lg: 450px;
+    --stack-group-offset: 2.5rem;
   }
 }
 
@@ -149,7 +156,43 @@
   :root {
     --tag-height: 1.85rem;
     --tag-aspect-ratio: 0.95;
-    --stack-group-offset: 2.5rem;
+    --stack-group-offset: 2.25rem;
+    --stack-border-radius: 0px;
+  }
+}
+
+@media only screen and (max-width: 640px) {
+  :root {
+    --stack-border-radius: 0px;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   MOSBY OPENING DECK-DEAL ENTRANCE ANIMATION (GSAP POWER4.OUT TIMELINE)
+   ═══════════════════════════════════════════════════════════════════ */
+@keyframes mosbyStackContainerEntrance {
+  0% {
+    transform: translateY(-30%);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes mosbyFolderGroupEntrance {
+  0% {
+    transform: translateY(180%) scale(1.65);
+    opacity: 0;
+  }
+
+  15% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
   }
 }
 
@@ -159,11 +202,21 @@
   flex-direction: column;
   position: relative;
   width: 100%;
-  margin-top: calc(var(--tag-height) + 1.5rem);
+  margin-top: calc(var(--tag-height) + 0.5rem);
   margin-bottom: 3rem;
   perspective: var(--stack-perspective);
   transform-style: preserve-3d;
   isolation: isolate;
+}
+
+/* Initial choreographed entrance for the folders */
+.mosby-stack.is-entering {
+  animation: mosbyStackContainerEntrance 0.65s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+}
+
+.mosby-stack.is-entering .mosby-stack-group {
+  animation: mosbyFolderGroupEntrance 0.65s cubic-bezier(0.165, 0.84, 0.44, 1) both;
+  animation-delay: calc(var(--group-idx) * 0.02s);
 }
 
 /* Stack Group (Each Dossier Cluster) */
@@ -443,12 +496,14 @@
   /* points down v when unfolded */
 }
 
-/* Category Description */
+/* Category Description & Dino Track Area */
 .mosby-cover__desc {
-  max-width: 750px;
+  max-width: calc(100% - 260px);
+  width: calc(100% - 3rem);
   top: var(--stack-group-offset);
   position: absolute;
   left: 1.5rem;
+  right: 1.5rem;
   pointer-events: auto;
   transition: opacity 0.45s ease, transform 0.45s ease;
   z-index: 6;
@@ -457,5 +512,14 @@
 @media only screen and (min-width: 768px) {
   .mosby-cover__desc {
     left: 2.5rem;
+    right: 2.5rem;
+    width: calc(100% - 5rem);
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .mosby-cover__desc {
+    max-width: 100%;
+    width: calc(100% - 3rem);
   }
 }

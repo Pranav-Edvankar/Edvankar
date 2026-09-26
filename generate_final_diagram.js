@@ -1,0 +1,420 @@
+const fs = require('fs');
+const path = require('path');
+const { execSync } = require('child_process');
+
+function buildFinalBlueprintHTML() {
+  const bgPath = path.resolve('e:\\USER\\Downloads\\Edvankar\\qwikamp\\rustic_paper_full.jpg');
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Qwikamp — System Overview & Core Information Architecture</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      width: 2560px;
+      height: 1140px;
+      position: relative;
+      overflow: hidden;
+      font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Edge-to-edge rustic paper background with NO black borders */
+    .bg-image {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 1;
+    }
+
+    /* Inked SVG overlay blending naturally with the rustic paper */
+    svg.blueprint-svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 10;
+      mix-blend-mode: multiply;
+    }
+
+    .font-mono { font-family: 'JetBrains Mono', Consolas, monospace; }
+    .font-sans { font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif; }
+  </style>
+</head>
+<body>
+
+  <!-- Edge-to-Edge Rustic Paper (Nano Banana) -->
+  <img class="bg-image" src="file:///${bgPath.replace(/\\/g, '/')}" />
+
+  <!-- Diagram Overlay -->
+  <svg class="blueprint-svg" viewBox="0 0 2560 1140" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <!-- Crisp Graphite Arrowhead Marker -->
+      <marker id="arrow" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+        <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#221C16"/>
+      </marker>
+    </defs>
+
+    <!-- ══════════════════════════════════════════════════════════════════
+         1. TOP HEADER (Simple Architectural Title)
+         ══════════════════════════════════════════════════════════════════ -->
+    <g transform="translate(80, 50)">
+      <text x="0" y="0" class="font-sans" font-size="24" font-weight="700" fill="#221C16" letter-spacing="-0.3">
+        QWIKAMP — SYSTEM OVERVIEW &amp; CORE INFORMATION ARCHITECTURE
+      </text>
+      <text x="0" y="24" class="font-mono" font-size="12" font-weight="600" fill="#5C4D39">
+        Spec: UI_UX_INFORMATION_ARCHITECTURE.md (§ 1.0) • Flowchart Topology (Mermaid Graph TD)
+      </text>
+      <line x1="0" y1="36" x2="2400" y2="36" stroke="#6E5A42" stroke-width="1.3" opacity="0.6"/>
+    </g>
+
+    <!-- ══════════════════════════════════════════════════════════════════
+         2. AUTH & ONBOARDING STREAM (Top Row Flow)
+         All cards have the exact same color and styling
+         ══════════════════════════════════════════════════════════════════ -->
+
+    <!-- Node A: Onboarding Screen Carousel -->
+    <g transform="translate(515, 125)">
+      <rect x="0" y="0" width="320" height="54" rx="4" fill="#FAF6EB" stroke="#241E18" stroke-width="1.8"/>
+      <text x="160" y="34" class="font-sans" font-size="15" font-weight="600" fill="#1C1813" text-anchor="middle">
+        Onboarding Screen Carousel
+      </text>
+    </g>
+
+    <!-- Arrow A -> B -->
+    <line x1="835" y1="152" x2="925" y2="152" stroke="#241E18" stroke-width="1.8" marker-end="url(#arrow)"/>
+
+    <!-- Node B: Login Screen -->
+    <g transform="translate(925, 125)">
+      <rect x="0" y="0" width="260" height="54" rx="4" fill="#FAF6EB" stroke="#241E18" stroke-width="1.8"/>
+      <text x="130" y="34" class="font-sans" font-size="15" font-weight="600" fill="#1C1813" text-anchor="middle">
+        Login Screen
+      </text>
+    </g>
+
+    <!-- Arrow B -> C -->
+    <line x1="1185" y1="152" x2="1275" y2="152" stroke="#241E18" stroke-width="1.8" marker-end="url(#arrow)"/>
+
+    <!-- Node C: Verification / OTP Screen -->
+    <g transform="translate(1275, 125)">
+      <rect x="0" y="0" width="300" height="54" rx="4" fill="#FAF6EB" stroke="#241E18" stroke-width="1.8"/>
+      <text x="150" y="34" class="font-sans" font-size="15" font-weight="600" fill="#1C1813" text-anchor="middle">
+        Verification / OTP Screen
+      </text>
+    </g>
+
+    <!-- Arrow C -> D -->
+    <line x1="1575" y1="152" x2="1665" y2="152" stroke="#241E18" stroke-width="1.8" marker-end="url(#arrow)"/>
+
+    <!-- Node D: Home Page - Light & Dark Modes (SAME COLOR AS THE OTHERS) -->
+    <g transform="translate(1665, 125)">
+      <rect x="0" y="0" width="380" height="54" rx="4" fill="#FAF6EB" stroke="#241E18" stroke-width="1.8"/>
+      <text x="190" y="34" class="font-sans" font-size="15" font-weight="600" fill="#1C1813" text-anchor="middle">
+        Home Page - Light &amp; Dark Modes
+      </text>
+    </g>
+
+    <!-- ══════════════════════════════════════════════════════════════════
+         3. SUBGRAPH 1: Nav_Entry ["Home Navigation & Entry Points"]
+         ══════════════════════════════════════════════════════════════════ -->
+    <g transform="translate(80, 235)">
+      <!-- Subgraph Container Box -->
+      <rect x="0" y="0" width="2400" height="230" rx="6" fill="rgba(60,45,25,0.02)" stroke="#524534" stroke-width="1.8" stroke-dasharray="7 5"/>
+      
+      <!-- Subgraph Title Tag -->
+      <g transform="translate(24, 0)">
+        <rect x="0" y="-12" width="310" height="24" rx="3" fill="#E2D7BD" stroke="#8C795E" stroke-width="1"/>
+        <text x="155" y="4.5" class="font-mono" font-size="11.5" font-weight="700" fill="#2B2319" text-anchor="middle" letter-spacing="0.5">
+          HOME NAVIGATION &amp; ENTRY POINTS
+        </text>
+      </g>
+
+      <!-- 6 Navigation Nodes -->
+      <!-- Node E: Shop Page -->
+      <g id="node-E" transform="translate(40, 130)">
+        <rect x="0" y="0" width="340" height="60" rx="4" fill="#FAF6EB" stroke="#241E18" stroke-width="1.8"/>
+        <text x="170" y="36" class="font-sans" font-size="15" font-weight="600" fill="#1C1813" text-anchor="middle">
+          Shop Page
+        </text>
+      </g>
+
+      <!-- Node F: Repair Page - Service Center Map -->
+      <g id="node-F" transform="translate(436, 130)">
+        <rect x="0" y="0" width="340" height="60" rx="4" fill="#FAF6EB" stroke="#241E18" stroke-width="1.8"/>
+        <text x="170" y="36" class="font-sans" font-size="15" font-weight="600" fill="#1C1813" text-anchor="middle">
+          Repair Page - Service Center Map
+        </text>
+      </g>
+
+      <!-- Node G: Service Your Cycle Page -->
+      <g id="node-G" transform="translate(832, 130)">
+        <rect x="0" y="0" width="340" height="60" rx="4" fill="#FAF6EB" stroke="#241E18" stroke-width="1.8"/>
+        <text x="170" y="36" class="font-sans" font-size="15" font-weight="600" fill="#1C1813" text-anchor="middle">
+          Service Your Cycle Page
+        </text>
+      </g>
+
+      <!-- Node H: Doorstep Repair Page -->
+      <g id="node-H" transform="translate(1228, 130)">
+        <rect x="0" y="0" width="340" height="60" rx="4" fill="#FAF6EB" stroke="#241E18" stroke-width="1.8"/>
+        <text x="170" y="36" class="font-sans" font-size="15" font-weight="600" fill="#1C1813" text-anchor="middle">
+          Doorstep Repair Page
+        </text>
+      </g>
+
+      <!-- Node I: Cart Page -->
+      <g id="node-I" transform="translate(1624, 130)">
+        <rect x="0" y="0" width="340" height="60" rx="4" fill="#FAF6EB" stroke="#241E18" stroke-width="1.8"/>
+        <text x="170" y="36" class="font-sans" font-size="15" font-weight="600" fill="#1C1813" text-anchor="middle">
+          Cart Page
+        </text>
+      </g>
+
+      <!-- Node J: Profile Page -->
+      <g id="node-J" transform="translate(2020, 130)">
+        <rect x="0" y="0" width="340" height="60" rx="4" fill="#FAF6EB" stroke="#241E18" stroke-width="1.8"/>
+        <text x="170" y="36" class="font-sans" font-size="15" font-weight="600" fill="#1C1813" text-anchor="middle">
+          Profile Page
+        </text>
+      </g>
+    </g>
+
+    <!-- ══════════════════════════════════════════════════════════════════
+         CONNECTORS: D -> E, F, G, H, I, J (with edge labels)
+         ══════════════════════════════════════════════════════════════════ -->
+    <!-- Trunk down from D: (1855, 179) -->
+    <path d="M 1855 179 L 1855 210 L 1280 210 L 1280 235" stroke="#241E18" stroke-width="1.8" fill="none"/>
+    
+    <!-- Distribution Bus Line at Y = 315 -->
+    <path d="M 290 315 L 2270 315" stroke="#241E18" stroke-width="1.8" fill="none"/>
+    <line x1="1280" y1="235" x2="1280" y2="315" stroke="#241E18" stroke-width="1.8"/>
+
+    <!-- Drops into the 6 Nodes -->
+    <!-- Drop to E -->
+    <line x1="290" y1="315" x2="290" y2="365" stroke="#241E18" stroke-width="1.8" marker-end="url(#arrow)"/>
+    <g transform="translate(290, 340)">
+      <rect x="-85" y="-10" width="170" height="20" rx="3" fill="#F8F3E5" stroke="#8C795E" stroke-width="1"/>
+      <text x="0" y="4" class="font-mono" font-size="10" font-weight="600" fill="#352B1E" text-anchor="middle">Navbar / Hero / 2x2 Grid</text>
+    </g>
+
+    <!-- Drop to F -->
+    <line x1="686" y1="315" x2="686" y2="365" stroke="#241E18" stroke-width="1.8" marker-end="url(#arrow)"/>
+    <g transform="translate(686, 340)">
+      <rect x="-85" y="-10" width="170" height="20" rx="3" fill="#F8F3E5" stroke="#8C795E" stroke-width="1"/>
+      <text x="0" y="4" class="font-mono" font-size="10" font-weight="600" fill="#352B1E" text-anchor="middle">Navbar / Hero / 2x2 Grid</text>
+    </g>
+
+    <!-- Drop to G -->
+    <line x1="1082" y1="315" x2="1082" y2="365" stroke="#241E18" stroke-width="1.8" marker-end="url(#arrow)"/>
+    <g transform="translate(1082, 340)">
+      <rect x="-70" y="-10" width="140" height="20" rx="3" fill="#F8F3E5" stroke="#8C795E" stroke-width="1"/>
+      <text x="0" y="4" class="font-mono" font-size="10" font-weight="600" fill="#352B1E" text-anchor="middle">2x2 Grid / Services</text>
+    </g>
+
+    <!-- Drop to H -->
+    <line x1="1478" y1="315" x2="1478" y2="365" stroke="#241E18" stroke-width="1.8" marker-end="url(#arrow)"/>
+    <g transform="translate(1478, 340)">
+      <rect x="-70" y="-10" width="140" height="20" rx="3" fill="#F8F3E5" stroke="#8C795E" stroke-width="1"/>
+      <text x="0" y="4" class="font-mono" font-size="10" font-weight="600" fill="#352B1E" text-anchor="middle">2x2 Grid / Services</text>
+    </g>
+
+    <!-- Drop to I -->
+    <line x1="1874" y1="315" x2="1874" y2="365" stroke="#241E18" stroke-width="1.8" marker-end="url(#arrow)"/>
+    <g transform="translate(1874, 340)">
+      <rect x="-85" y="-10" width="170" height="20" rx="3" fill="#F8F3E5" stroke="#8C795E" stroke-width="1"/>
+      <text x="0" y="4" class="font-mono" font-size="10" font-weight="600" fill="#352B1E" text-anchor="middle">Navbar Icon / Bottom Bar</text>
+    </g>
+
+    <!-- Drop to J -->
+    <line x1="2270" y1="315" x2="2270" y2="365" stroke="#241E18" stroke-width="1.8" marker-end="url(#arrow)"/>
+    <g transform="translate(2270, 340)">
+      <rect x="-85" y="-10" width="170" height="20" rx="3" fill="#F8F3E5" stroke="#8C795E" stroke-width="1"/>
+      <text x="0" y="4" class="font-mono" font-size="10" font-weight="600" fill="#352B1E" text-anchor="middle">Navbar Icon / Bottom Bar</text>
+    </g>
+
+    <!-- ══════════════════════════════════════════════════════════════════
+         4. SUBGRAPH 2: Cart_Panels ["Cart Page - Unified Management (4 Panels)"]
+         ══════════════════════════════════════════════════════════════════ -->
+    <g transform="translate(1160, 515)">
+      <!-- Subgraph Container Box -->
+      <rect x="0" y="0" width="1320" height="185" rx="6" fill="rgba(60,45,25,0.02)" stroke="#524534" stroke-width="1.8" stroke-dasharray="7 5"/>
+      
+      <!-- Subgraph Title Tag -->
+      <g transform="translate(24, 0)">
+        <rect x="0" y="-12" width="410" height="24" rx="3" fill="#E2D7BD" stroke="#8C795E" stroke-width="1"/>
+        <text x="205" y="4.5" class="font-mono" font-size="11.5" font-weight="700" fill="#2B2319" text-anchor="middle" letter-spacing="0.5">
+          CART PAGE - UNIFIED MANAGEMENT (4 PANELS)
+        </text>
+      </g>
+
+      <!-- 4 Cart Panels -->
+      <!-- Node I1: Purchases Panel -->
+      <g id="node-I1" transform="translate(30, 85)">
+        <rect x="0" y="0" width="290" height="58" rx="4" fill="#FAF6EB" stroke="#241E18" stroke-width="1.8"/>
+        <text x="145" y="35" class="font-sans" font-size="14.5" font-weight="600" fill="#1C1813" text-anchor="middle">
+          Purchases Panel
+        </text>
+      </g>
+
+      <!-- Node I2: Repair Panel -->
+      <g id="node-I2" transform="translate(353, 85)">
+        <rect x="0" y="0" width="290" height="58" rx="4" fill="#FAF6EB" stroke="#241E18" stroke-width="1.8"/>
+        <text x="145" y="35" class="font-sans" font-size="14.5" font-weight="600" fill="#1C1813" text-anchor="middle">
+          Repair Panel
+        </text>
+      </g>
+
+      <!-- Node I3: Service Panel -->
+      <g id="node-I3" transform="translate(676, 85)">
+        <rect x="0" y="0" width="290" height="58" rx="4" fill="#FAF6EB" stroke="#241E18" stroke-width="1.8"/>
+        <text x="145" y="35" class="font-sans" font-size="14.5" font-weight="600" fill="#1C1813" text-anchor="middle">
+          Service Panel
+        </text>
+      </g>
+
+      <!-- Node I4: Doorstep Panel -->
+      <g id="node-I4" transform="translate(1000, 85)">
+        <rect x="0" y="0" width="290" height="58" rx="4" fill="#FAF6EB" stroke="#241E18" stroke-width="1.8"/>
+        <text x="145" y="35" class="font-sans" font-size="14.5" font-weight="600" fill="#1C1813" text-anchor="middle">
+          Doorstep Panel
+        </text>
+      </g>
+    </g>
+
+    <!-- Connection from I (Cart Page) to Cart Panels: I -> I1, I2, I3, I4 -->
+    <!-- I bottom: (1874, 425) -->
+    <path d="M 1874 425 L 1874 475 L 1820 475 L 1820 555" stroke="#241E18" stroke-width="1.8" fill="none"/>
+    
+    <!-- Bus for Cart Panels at Y = 555 -->
+    <path d="M 1335 555 L 2305 555" stroke="#241E18" stroke-width="1.8" fill="none"/>
+    
+    <!-- Drops into I1, I2, I3, I4 -->
+    <line x1="1335" y1="555" x2="1335" y2="600" stroke="#241E18" stroke-width="1.8" marker-end="url(#arrow)"/>
+    <line x1="1658" y1="555" x2="1658" y2="600" stroke="#241E18" stroke-width="1.8" marker-end="url(#arrow)"/>
+    <line x1="1981" y1="555" x2="1981" y2="600" stroke="#241E18" stroke-width="1.8" marker-end="url(#arrow)"/>
+    <line x1="2305" y1="555" x2="2305" y2="600" stroke="#241E18" stroke-width="1.8" marker-end="url(#arrow)"/>
+
+    <!-- ══════════════════════════════════════════════════════════════════
+         5. SUBGRAPH 3: Secondary_Screens ["Detailed Views & Modal Overlays"]
+         ══════════════════════════════════════════════════════════════════ -->
+    <g transform="translate(80, 750)">
+      <!-- Subgraph Container Box (Tightened to 310px height for harmonic proportions) -->
+      <rect x="0" y="0" width="2400" height="310" rx="6" fill="rgba(60,45,25,0.02)" stroke="#524534" stroke-width="1.8" stroke-dasharray="7 5"/>
+      
+      <!-- Subgraph Title Tag -->
+      <g transform="translate(24, 0)">
+        <rect x="0" y="-12" width="340" height="24" rx="3" fill="#E2D7BD" stroke="#8C795E" stroke-width="1"/>
+        <text x="170" y="4.5" class="font-mono" font-size="11.5" font-weight="700" fill="#2B2319" text-anchor="middle" letter-spacing="0.5">
+          DETAILED VIEWS &amp; MODAL OVERLAYS
+        </text>
+      </g>
+
+      <!-- Node E1: Product Details Page -->
+      <g id="node-E1" transform="translate(40, 65)">
+        <rect x="0" y="0" width="340" height="60" rx="4" fill="#FAF6EB" stroke="#241E18" stroke-width="1.8"/>
+        <text x="170" y="36" class="font-sans" font-size="15" font-weight="600" fill="#1C1813" text-anchor="middle">
+          Product Details Page
+        </text>
+      </g>
+
+      <!-- Arrow E1 -> E2 -->
+      <line x1="210" y1="125" x2="210" y2="195" stroke="#241E18" stroke-width="1.8" marker-end="url(#arrow)"/>
+
+      <!-- Node E2: Payment Success Screen -->
+      <g id="node-E2" transform="translate(40, 195)">
+        <rect x="0" y="0" width="340" height="60" rx="4" fill="#FAF6EB" stroke="#241E18" stroke-width="1.8"/>
+        <text x="170" y="36" class="font-sans" font-size="15" font-weight="600" fill="#1C1813" text-anchor="middle">
+          Payment Success Screen
+        </text>
+      </g>
+
+      <!-- Node F1: Extended Service Center Page -->
+      <g id="node-F1" transform="translate(436, 65)">
+        <rect x="0" y="0" width="340" height="60" rx="4" fill="#FAF6EB" stroke="#241E18" stroke-width="1.8"/>
+        <text x="170" y="36" class="font-sans" font-size="15" font-weight="600" fill="#1C1813" text-anchor="middle">
+          Extended Service Center Page
+        </text>
+      </g>
+
+      <!-- Node K: Bill View / Invoice Sheet (Modal Overlay, centered under cart panels at x=1820) -->
+      <g id="node-K" transform="translate(1290, 145)">
+        <rect x="0" y="0" width="900" height="76" rx="4" fill="#FAF6EB" stroke="#241E18" stroke-width="2"/>
+        <text x="450" y="45" class="font-sans" font-size="16.5" font-weight="700" fill="#1C1813" text-anchor="middle">
+          Bill View / Invoice Sheet
+        </text>
+      </g>
+    </g>
+
+    <!-- ══════════════════════════════════════════════════════════════════
+         CONNECTORS INTO SECONDARY SCREENS
+         ══════════════════════════════════════════════════════════════════ -->
+    <!-- Arrow E -> E1: from E bottom (290, 425) down to E1 top (290, 815) -->
+    <line x1="290" y1="425" x2="290" y2="815" stroke="#241E18" stroke-width="1.8" marker-end="url(#arrow)"/>
+
+    <!-- Arrow F -> F1: from F bottom (686, 425) down to F1 top (686, 815) -->
+    <line x1="686" y1="425" x2="686" y2="815" stroke="#241E18" stroke-width="1.8" marker-end="url(#arrow)"/>
+
+    <!-- Connections from I1, I2, I3, I4 -> K -->
+    <!-- I1 bottom (1335, 658) -->
+    <!-- I2 bottom (1658, 658) -->
+    <!-- I3 bottom (1981, 658) -->
+    <!-- I4 bottom (2305, 658) -->
+    <!-- Collector bus at Y = 815 -->
+    <path d="M 1335 658 L 1335 815" stroke="#241E18" stroke-width="1.6" fill="none"/>
+    <path d="M 1658 658 L 1658 815" stroke="#241E18" stroke-width="1.6" fill="none"/>
+    <path d="M 1981 658 L 1981 815" stroke="#241E18" stroke-width="1.6" fill="none"/>
+    <path d="M 2305 658 L 2305 815" stroke="#241E18" stroke-width="1.6" fill="none"/>
+    
+    <!-- Bus horizontal line at Y = 815 -->
+    <path d="M 1335 815 L 2305 815" stroke="#241E18" stroke-width="1.6" fill="none"/>
+
+    <!-- Drop into K (center 1740 + 80 = 1820, drop from 815 to 895) -->
+    <line x1="1820" y1="815" x2="1820" y2="895" stroke="#241E18" stroke-width="1.8" marker-end="url(#arrow)"/>
+
+  </svg>
+
+</body>
+</html>`;
+}
+
+async function run() {
+  const htmlContent = buildFinalBlueprintHTML();
+  const htmlPath = path.resolve('e:\\USER\\Downloads\\Edvankar\\qwikamp\\diagram_1_final_blueprint.html');
+  fs.writeFileSync(htmlPath, htmlContent, 'utf-8');
+  console.log('Saved final blueprint HTML to:', htmlPath);
+
+  const outPng1 = path.resolve('e:\\USER\\Downloads\\Edvankar\\qwikamp\\diagram_1_system_overview_blueprint.png');
+  const outPng2 = path.resolve('e:\\USER\\Downloads\\Edvankar\\public\\images\\qwikamp\\diagram_1_system_overview_blueprint.png');
+  const artifactPng = 'C:\\Users\\USER\\.gemini\\antigravity-ide\\brain\\ef2fb206-3666-42f6-b9f4-231cc94dc87e\\diagram_1_system_overview_blueprint.png';
+
+  const chromePath = 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
+
+  console.log('Rendering 2560x1140 PNG using headless Chrome...');
+  const cmd = `"${chromePath}" --headless=new --screenshot="${outPng1}" --window-size=2560,1140 "file:///${htmlPath.replace(/\\/g, '/')}"`;
+
+  execSync(cmd, { stdio: 'inherit' });
+
+  if (fs.existsSync(outPng1)) {
+    const size = fs.statSync(outPng1).size;
+    console.log(`Successfully generated final blueprint PNG at: ${outPng1} (${(size / 1024).toFixed(1)} KB)`);
+    fs.copyFileSync(outPng1, outPng2);
+    fs.copyFileSync(outPng1, artifactPng);
+    console.log(`Copied to public and artifact directories.`);
+  }
+}
+
+run().catch(err => {
+  console.error(err);
+  process.exit(1);
+});

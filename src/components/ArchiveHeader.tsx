@@ -97,8 +97,17 @@ export function ArchiveHeader() {
   ];
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-dark/95 backdrop-blur-md border-b border-neutral-800 py-4">
-      <div className="max-w-7xl mx-auto px-6 md:px-12 flex items-center justify-between">
+    <motion.header
+      initial={{ y: "-100%" }}
+      animate={{ y: 0 }}
+      transition={{
+        duration: 0.65,
+        delay: 0.1,
+        ease: [0.33, 1, 0.68, 1],
+      }}
+      className="fixed top-0 left-0 right-0 z-50 bg-dark/95 backdrop-blur-md border-b border-neutral-800 py-4"
+    >
+      <div className="max-w-[1550px] mx-auto px-4 md:px-8 lg:px-10 flex items-center justify-between">
         {/* Left: Wordmark / Name */}
         <Link
           href="/"
@@ -128,6 +137,6 @@ export function ArchiveHeader() {
           })}
         </nav>
       </div>
-    </header>
+    </motion.header>
   );
 }
