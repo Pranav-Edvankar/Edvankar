@@ -65,7 +65,7 @@ function ScrambleNavLink({ name, href, isActive }: NavItemProps) {
       href={href}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      className={`font-display text-base md:text-lg uppercase tracking-wider transition-colors inline-flex items-center select-none ${
+      className={`font-display text-sm sm:text-base md:text-lg uppercase tracking-wider transition-colors inline-flex items-center select-none ${
         isActive ? "text-white" : "text-neutral-400 hover:text-white"
       }`}
     >
@@ -105,13 +105,13 @@ export function ArchiveHeader() {
         delay: 0.1,
         ease: [0.33, 1, 0.68, 1],
       }}
-      className="fixed top-0 left-0 right-0 z-50 bg-dark/95 backdrop-blur-md border-b border-neutral-800 py-4"
+      className="fixed top-0 left-0 right-0 z-50 bg-dark/95 backdrop-blur-md border-b border-neutral-800 py-3 sm:py-3.5 md:py-4"
     >
       <div className="max-w-[1550px] mx-auto px-4 md:px-8 lg:px-10 flex items-center justify-between">
         {/* Left: Wordmark / Name */}
         <Link
           href="/"
-          className="flex items-center gap-3 font-display text-2xl md:text-3xl uppercase tracking-tight text-light hover:text-white transition-colors"
+          className="flex items-center gap-2 sm:gap-3 font-display text-xl sm:text-2xl md:text-3xl uppercase tracking-tight text-light hover:text-white transition-colors shrink-0 whitespace-nowrap"
         >
           <span>PRANAV EDVANKAR</span>
           <span className="font-mono text-[0.65rem] uppercase tracking-widest text-muted border-l border-neutral-700 pl-3 hidden sm:inline-block font-normal">
@@ -120,7 +120,7 @@ export function ArchiveHeader() {
         </Link>
 
         {/* Right: Text links */}
-        <nav className="flex items-center gap-6 md:gap-8">
+        <nav className="flex items-center gap-3.5 sm:gap-6 md:gap-8">
           {navItems.map((item) => {
             const isActive =
               item.href === "/"

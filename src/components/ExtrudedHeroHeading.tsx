@@ -53,7 +53,7 @@ export function ExtrudedHeroHeading({
   return (
     <div
       ref={containerRef}
-      className="relative inline-block cursor-pointer select-none group focus:outline-none p-6 -m-6"
+      className="relative inline-block cursor-pointer select-none group focus:outline-none p-0 m-0 md:p-6 md:-m-6"
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       tabIndex={0}

@@ -1446,7 +1446,7 @@ export default function HomePage() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0, y: -40 }}
               transition={{ duration: 0.4 }}
-              className="pt-4 pb-4 md:pt-6 md:pb-6 lg:pt-8 lg:pb-8 px-4 sm:px-6 md:px-0"
+              className="pt-6 pb-4 sm:pt-8 sm:pb-6 md:pt-6 md:pb-6 lg:pt-8 lg:pb-8 px-4 sm:px-6 md:px-0"
             >
               <div className="space-y-4 max-w-6xl">
                 <ExtrudedHeroHeading />
