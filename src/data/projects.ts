@@ -1090,89 +1090,10 @@ export const PROJECTS_DATA: Record<string, CaseStudy> = {
         ]
       }
     ],
-    nextSlug: "fiverr-freelance",
-    nextTitle: "Fiverr Client Work",
-    prevSlug: "nivora",
-    prevTitle: "Nivora"
-  },
-
-  "fiverr-freelance": {
-    slug: "fiverr-freelance",
-    title: "Fiverr Client Work",
-    subtitle: "Neo-Brutalist & Monochrome Brand Identities",
-    cluster: "freelance",
-    clusterLabel: "Client & Freelance Work",
-    categoryColor: "#E5A910",
-    dossierNumber: "DOSSIER-06",
-    year: "2024–2026",
-    role: "Freelance UI/UX & Brand Specialist",
-    type: "Client Design Suite (15+ Global Projects)",
-    timeline: "2024–2026 (Ongoing)",
-    tools: ["Figma", "Adobe Creative Suite", "Webflow", "HTML/CSS"],
-    coverImage: "/images/fiverr.png",
-    overview: [
-      "Over two years of active freelance engagement on Fiverr, I delivered 15+ custom web design and brand identity projects for international founders, creative agencies, and indie software developers.",
-      "My portfolio highlights neo-brutalist digital design, monochrome portfolio architectures, and conversion-focused web layouts engineered to stand out in saturated markets.",
-      "Maintaining a 5-star seller rating, I managed end-to-end client communication, requirements scoping, wireframing, and final developer handoff."
-    ],
-    problemStatement:
-      "Indie founders and agencies struggle to differentiate their digital identity from generic SaaS templates on tight timelines and budgets.",
-    targetUsers:
-      "Indie tech founders, SaaS startups, e-commerce brands, and digital agencies requiring rapid high-impact UI/UX execution on tight timelines and budgets. Clients span North America, Europe, and Southeast Asia across B2B SaaS, DTC e-commerce, and creative portfolio verticals.",
-    researchConducted: [
-      "Client Requirement Synthesis — Developed a structured intake questionnaire covering brand positioning, target audience, competitive references, and conversion goals to reduce scope ambiguity and revision cycles.",
-      "Design Sprint Velocity Audit — Benchmarked personal delivery timelines against top Fiverr sellers to optimize a 24–48 hour turnaround workflow without sacrificing design quality.",
-      "Neo-Brutalist & Conversion Landing Page Benchmarking — Analyzed 20+ high-performing indie tech landing pages to identify visual patterns (bold typography, raw grid systems, high-contrast CTAs) that drive higher brand recall and conversion."
-    ],
-    solutionNarrative:
-      "High-impact, custom visual direction leveraging monochrome contrast, sharp geometric borders, bold typography, and rapid prototyping workflows.",
-    keyInsights: [
-      "High-contrast neo-brutalist layouts deliver 28% higher brand recall for indie tech platforms.",
-      "Structured client intake questionnaires reduce project revision cycles from 4 down to 1."
-    ],
-    exploredAlternatives:
-      "Explored conventional corporate SaaS templates (clean, minimal, safe) vs. neo-brutalist custom landing pages with raw line indicators, stark monochrome themes, and bold experimental typography. Tested polished illustration-heavy approaches vs. type-first, content-driven layouts.",
-    finalSolutionRationale:
-      "Neo-brutalist visual style was selected for the majority of indie tech clients because benchmarking data showed 28% higher brand recall compared to conventional templates. The structured intake questionnaire was chosen over free-form briefs because it reduced revision cycles from an average of 4 rounds down to 1.",
-    informationArchitecture: [
-      "Block 01: High-Impact Hero — Stark Neo-Brutalist Value Proposition, Animated Product Headline, Primary Conversion CTA",
-      "Block 02: Feature Matrix — Core Capabilities Grid, Interactive Workflow Teaser, Technical Product Specifications",
-      "Block 03: Social Proof & Validation — Client Testimonial Carousel, Live Metric Counters, Case Study Highlights",
-      "Block 04: Conversion Footer — Sticky Action Bar, Pricing Tiers, Direct Discovery Call Booking Calendar"
-    ],
-    aiIntegration:
-      "Used AI copy generation tools to accelerate headline and microcopy variations during sprint turnarounds. Leveraged AI layout variation engines to rapidly prototype 3–4 alternative compositions per client before final direction selection.",
-    feedbackAndIteration:
-      "Established a rapid 24-hour feedback loop window with each client, incorporating revision requests within the same sprint cycle. Iterated the intake questionnaire itself 3 times based on patterns in client confusion — added visual reference mood board uploads and competitor URL fields after the first 5 projects.",
-    finalOutcome:
-      "Completed 15+ commercial client projects with a sustained 5-star seller rating, 100% on-time delivery rate, and documented conversion lifts across client portfolios. Delivered custom neo-brutalist and monochrome brand toolkits, Figma handoff files, and interactive prototypes.",
-    deliverables: [
-      "15+ Completed Web & Mobile UI Projects",
-      "Custom Neo-Brutalist & Monochrome Brand Toolkits",
-      "Figma Handoff Files & Interactive Prototypes",
-      "Client Testimonials & 5-Star Delivery Archive"
-    ],
-    flows: [
-      {
-        title: "01. Neo-Brutalist Web Layout Suite",
-        subtitle: "High-Contrast Visual Experimentation",
-        caption: "Sharp grid systems, raw line art, and high-impact typography for digital agency landing pages.",
-        description:
-          "Exploration of stark monochrome themes paired with high-contrast accent buttons and raw archival line indicators.",
-        images: [
-          {
-            src: "/images/fiverr.png",
-            alt: "Fiverr Neo-Brutalist Portfolio Interface Examples",
-            caption: "FIG 1.1 — Neo-brutalist landing page design layout for indie tech clients.",
-            size: "full"
-          }
-        ]
-      }
-    ],
     nextSlug: "mojito",
     nextTitle: "Mojito",
-    prevSlug: "aurelle",
-    prevTitle: "AURELLE Shopify Homepage"
+    prevSlug: "nivora",
+    prevTitle: "Nivora"
   },
 
   "lloyds-ux": {
@@ -1182,7 +1103,7 @@ export const PROJECTS_DATA: Record<string, CaseStudy> = {
     cluster: "research",
     clusterLabel: "Research & Enterprise UX",
     categoryColor: "#581E70",
-    dossierNumber: "DOSSIER-07",
+    dossierNumber: "DOSSIER-06",
     year: "2025–2026",
     role: "Enterprise UX Researcher & Product Strategist",
     type: "UX Research Dossier & Competitor Analysis",
@@ -1363,7 +1284,7 @@ export const PROJECTS_DATA: Record<string, CaseStudy> = {
     clusterLabel: "Client & Freelance Work",
     categoryColor: "#E5A910",
     textColor: "#0A0A0A",
-    dossierNumber: "DOSSIER-08",
+    dossierNumber: "DOSSIER-07",
     year: "2025–2026",
     role: "Lead Product Designer & Design Systems Architect (Freelance)",
     type: "Web Application (Desktop SaaS Dashboard & Mobile Web)",
@@ -1538,8 +1459,8 @@ export const PROJECTS_DATA: Record<string, CaseStudy> = {
     ],
     nextSlug: "firmway",
     nextTitle: "Formway / Firmway",
-    prevSlug: "fiverr-freelance",
-    prevTitle: "Fiverr Client Work"
+    prevSlug: "aurelle",
+    prevTitle: "AURELLE Shopify Homepage"
   },
 
   firmway: {
@@ -1550,7 +1471,7 @@ export const PROJECTS_DATA: Record<string, CaseStudy> = {
     clusterLabel: "Client & Freelance Work",
     categoryColor: "#E5A910",
     textColor: "#0A0A0A",
-    dossierNumber: "DOSSIER-09",
+    dossierNumber: "DOSSIER-08",
     year: "2025–2026",
     role: "Senior Fintech UX Specialist & Systems Architect (Freelance)",
     type: "Enterprise Financial Operations Suite (Cloud SaaS)",
@@ -1725,7 +1646,7 @@ export const PROJECTS_DATA: Record<string, CaseStudy> = {
     clusterLabel: "Motion Graphics & 3D Direction",
     categoryColor: "#4F46E5",
     textColor: "#FFFFFF",
-    dossierNumber: "DOSSIER-10",
+    dossierNumber: "DOSSIER-09",
     year: "2025–2026",
     role: "Motion Graphics Designer, 3D Animator & Visual Artist",
     type: "Commercial Brand Animation & Motion Identity",
@@ -1809,7 +1730,7 @@ export const PROJECTS_DATA: Record<string, CaseStudy> = {
     clusterLabel: "Personal Lab & Physical Computing",
     categoryColor: "#0C7866",
     textColor: "#FFFFFF",
-    dossierNumber: "DOSSIER-11",
+    dossierNumber: "DOSSIER-10",
     year: "2025–2026",
     role: "Hardware Prototyper, Embedded Systems Engineer & Interaction Designer",
     type: "Physical Computing, Wearable Hardware & Robotics System",
@@ -1969,7 +1890,7 @@ export const CLUSTERS = [
     color: "#E5A910",
     description:
       "Client SaaS dashboards, enterprise audit platforms, and e-commerce storefronts built on tight production deadlines.",
-    projectSlugs: ["mojito", "firmway", "aurelle", "fiverr-freelance"]
+    projectSlugs: ["mojito", "firmway", "aurelle"]
   },
   {
     id: "motion",
