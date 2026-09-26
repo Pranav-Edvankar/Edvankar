@@ -1,14 +1,33 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { ArrowUpRight } from "lucide-react";
 
 export function ArchiveFooter() {
+  const pathname = usePathname();
+
+  const handleLogoClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (pathname === "/") {
+      e.preventDefault();
+      window.dispatchEvent(new CustomEvent("close-dossier-to-home"));
+    }
+  };
+
+  const handleWorkClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (pathname === "/") {
+      e.preventDefault();
+      window.dispatchEvent(new CustomEvent("close-dossier-to-work"));
+    }
+  };
+
   return (
     <footer className="border-t border-neutral-800 bg-dark py-16 md:py-20 px-4 md:px-8 lg:px-10 mt-32 text-light">
       <div className="max-w-[1550px] mx-auto grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-12">
         
         {/* Left Column */}
         <div className="md:col-span-5 space-y-4">
-          <Link href="/" className="group inline-block">
+          <Link href="/" onClick={handleLogoClick} className="group inline-block">
             <h3 className="font-display text-4xl md:text-5xl uppercase text-light tracking-tight group-hover:text-white transition-colors">
               PRANAV EDVANKAR
             </h3>
@@ -28,7 +47,7 @@ export function ArchiveFooter() {
           </h4>
           <ul className="font-serif space-y-2.5 text-sm text-muted">
             <li>
-              <Link href="/" className="hover:text-white transition-colors">
+              <Link href="/#work" onClick={handleWorkClick} className="hover:text-white transition-colors">
                 Work / Projects
               </Link>
             </li>

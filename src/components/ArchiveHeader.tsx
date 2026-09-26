@@ -9,9 +9,10 @@ interface NavItemProps {
   name: string;
   href: string;
   isActive: boolean;
+  onClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void;
 }
 
-function ScrambleNavLink({ name, href, isActive }: NavItemProps) {
+function ScrambleNavLink({ name, href, isActive, onClick }: NavItemProps) {
   const [displayText, setDisplayText] = useState(name);
   const [isHovered, setIsHovered] = useState(false);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
@@ -63,6 +64,7 @@ function ScrambleNavLink({ name, href, isActive }: NavItemProps) {
   return (
     <Link
       href={href}
+      onClick={onClick}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       className={`font-display text-sm sm:text-base md:text-lg uppercase tracking-wider transition-colors inline-flex items-center select-none ${
@@ -90,6 +92,25 @@ function ScrambleNavLink({ name, href, isActive }: NavItemProps) {
 export function ArchiveHeader() {
   const pathname = usePathname();
 
+  const handleLogoClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (pathname === "/") {
+      e.preventDefault();
+      window.dispatchEvent(new CustomEvent("close-dossier-to-home"));
+    }
+  };
+
+  const handleNavClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    href: string
+  ) => {
+    if (href === "/#work") {
+      if (pathname === "/") {
+        e.preventDefault();
+        window.dispatchEvent(new CustomEvent("close-dossier-to-work"));
+      }
+    }
+  };
+
   const navItems = [
     { name: "WORK", href: "/#work" },
     { name: "ABOUT", href: "/about" },
@@ -111,6 +132,7 @@ export function ArchiveHeader() {
         {/* Left: Wordmark / Name */}
         <Link
           href="/"
+          onClick={handleLogoClick}
           className="flex items-center gap-2 sm:gap-3 font-display text-xl sm:text-2xl md:text-3xl uppercase tracking-tight text-light hover:text-white transition-colors shrink-0 whitespace-nowrap"
         >
           <span>PRANAV EDVANKAR</span>
@@ -132,6 +154,7 @@ export function ArchiveHeader() {
                 name={item.name}
                 href={item.href}
                 isActive={isActive}
+                onClick={(e) => handleNavClick(e, item.href)}
               />
             );
           })}

@@ -1421,6 +1421,58 @@ export default function HomePage() {
     }
   }
 
+  // Listen for navigation events from header/footer to return to folders
+  useEffect(() => {
+    const handleGoHome = () => {
+      setOpenProject(null);
+      setHoveredCluster(null);
+      setHoveredProjectSlug(null);
+      setHoveredOverviewCluster(null);
+      if (typeof window !== "undefined") {
+        window.history.replaceState(null, "", "/");
+        window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+      }
+    };
+
+    const handleGoWork = () => {
+      setOpenProject(null);
+      setHoveredCluster(null);
+      setHoveredProjectSlug(null);
+      setHoveredOverviewCluster(null);
+      if (typeof window !== "undefined") {
+        window.history.replaceState(null, "", "/#work");
+        setTimeout(() => {
+          const el = folderRef.current || document.getElementById("work");
+          el?.scrollIntoView({ behavior: "smooth" });
+        }, 80);
+      }
+    };
+
+    const handleHashChange = () => {
+      if (window.location.hash === "#work") {
+        handleGoWork();
+      }
+    };
+
+    // If page is loaded or navigated to directly with /#work hash
+    if (typeof window !== "undefined" && window.location.hash === "#work") {
+      setTimeout(() => {
+        const el = folderRef.current || document.getElementById("work");
+        el?.scrollIntoView({ behavior: "smooth" });
+      }, 150);
+    }
+
+    window.addEventListener("close-dossier-to-home", handleGoHome);
+    window.addEventListener("close-dossier-to-work", handleGoWork);
+    window.addEventListener("hashchange", handleHashChange);
+
+    return () => {
+      window.removeEventListener("close-dossier-to-home", handleGoHome);
+      window.removeEventListener("close-dossier-to-work", handleGoWork);
+      window.removeEventListener("hashchange", handleHashChange);
+    };
+  }, []);
+
   // Get sibling projects in the same cluster
   function getSiblingTabs() {
     if (!activeCluster) return [];
